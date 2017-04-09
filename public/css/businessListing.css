@@ -1,0 +1,52 @@
+
+/* Membership Business Listings add to main style */
+	#Details{
+		width:395px;
+		height:50px;
+		resize: none;
+	}
+
+	.businessContainer {
+		min-height:650px;
+		width: 420px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.businessContainer_1 {
+		float: left;
+		width: 400px;
+	}
+	
+	.businessContainer_2 {
+		float: right;
+		width: 325px;
+	}
+	
+    .tableLine {
+		background-color: #ffcc99;
+		font-size: 10pt;
+		text-align: left;
+	}
+
+	.businessDiv {
+		width: 400px;
+		text-align: left;
+	}
+
+	.businessForm {
+		width: 125px;
+	}
+	
+	.businessDiv a:link, a:visited {
+		text-decoration:none;
+		color:red;
+	}
+
+	.businessDiv a:hover {
+		text-decoration:none;
+		font-weight: bold;
+		background-color: red;
+		color:white;
+	}	
+	

@@ -1,0 +1,249 @@
+/*uploadJS Javascript NJLEPOB March 2016 */
+/* Evelio Velez Jr. 03-23-2016  */
+
+	
+	function _(el){
+		return document.getElementById(el);
+	}
+
+	function showImgName( imgName, elementID, folder, path ){
+		//alert(imgName+" | "+elementID+" | "+folder+" | "+path );	
+		
+		var newImg = imgName ? path+folder+"/"+imgName : "http://placehold.it/100x100";
+		var edit_save = document.getElementById('Img-'+elementID);
+		fieldID[elementID] = imgName;
+
+		edit_save.src = newImg;
+		toggleUploadDiv( elementID, fieldID[elementID] );				
+		
+		_('File-'+elementID).innerHTML = fieldID[elementID];
+		_('file-'+elementID).value = '';
+		
+		//var percent=0;
+		//_( "progressBar-"+elementID).value = Math.round(percent);
+		//_("status-"+elementID).innerHTML = "";		
+	}
+	
+	/* Adam Khoury Uplaod with progess bar */
+		function doneHandler(event){
+			var data = event.target.responseText;
+			//0-Status | 1-Key | 2-FileName | 3-Response
+			var mess = [];
+			var mess =data.split("|");
+			//showArray(mess);
+			
+			switch(mess[0]) {
+				case 'fileUpload':
+					showImgName( mess[2], mess[1], mess[4], mess[5]);
+					_("progressBar-"+mess[1]).value = 0;
+					_( 'Btn-'+mess[1] ).value = 'Remove';
+					_("actionStatus-"+mess[1] ).innerHTML = "upload was successful..............";
+					break;
+				
+				case 'fileRemove':
+					showImgName( mess[2], mess[1], mess[4], mess[5] );
+					_("progressBar-"+mess[1]).value = 0;					
+					_( 'Btn-'+mess[1] ).value = 'Pending';					
+					_('actionStatus-'+mess[1]).innerHTML = "File was removed ..............";					
+					break;
+
+				default:
+					// failed
+					_('actionStatus-'+mess[1]).innerHTML =  'System Error.. call webmaster<br />'+mess[3];
+					
+			}
+		}		
+	
+		function progressHandler(event, params){
+			var percent = (event.loaded / event.total) * 100;			
+			_("progressBar-"+params).value = Math.round(percent);
+			_("actionStatus-"+params).innerHTML = Math.round(percent)+"% uploaded... please wait";
+		}
+
+		function completeHandler(event, params){
+			var percent = 100;
+			_("progressBar-"+params).value = Math.round(percent);
+			_("actionStatus-"+params).innerHTML = Math.round(percent)+"% upload Complete....";
+			
+		}
+
+		function errorHandler(event){
+			_('show_error').display = block;
+			_("status").innerHTML = event.target.responseText; // use this to error div on screen bottom
+		}
+		
+		function abortHandler(event){
+			_('show_error').display = block;			
+			_("status").innerHTML = "Upload Aborted";
+		}
+	/* Adam Khoury Uplaod with progess bar */
+	function uploadFile(path, fn, sel_key){
+		var file = _(fn.name).files[0];
+		//alert(file.name+" | "+file.size+" | "+file.type+" | "+fldsReads[sel_key]+" | "+flds[sel_key] );
+	
+		if( udateFileView( file.name, false, fn ) === false ){
+			_('file-'+flds[sel_key]).value = '';			
+			return false;
+		}				
+		
+		var fileName = "/members/file_upload.php?ID="+(new Date()).getTime()+"&Cat="+(new Date()).getTime()+312 ;		
+		var formdata = new FormData();
+		formdata.append(fn.name, file);
+		formdata.append("path", path);			
+		formdata.append("Sel_document", fn.id);
+		formdata.append("Sel_text", flds[sel_key] );
+		formdata.append("Orderid", _('Orderid').value);
+		formdata.append("DBF", _('DBF').value);		
+		formdata.append("Active_flds", _('Active_flds').value);			
+		runAjax(formdata, fileName, flds[sel_key] );	
+	
+	}	
+	
+	function removeUpload( path, sel_key ) {
+		var removeFile = fieldID[flds[sel_key]];
+		
+		if ( confirm( 'You are about to remove '+removeFile ) ) {
+			// http://foo.com/bar.html?foobar=baz&12345
+			var fileName = "/members/file_upload_remove.php?ID="+(new Date()).getTime()+"&Cat="+(new Date()).getTime()+312 ; // added to avoid cache
+			var formdata = new FormData();
+			formdata.append("Sel_document", flds[sel_key]);
+			formdata.append("path", path);				
+			formdata.append("Sel_text", fldsReads[sel_key]);
+			formdata.append("Orderid", _('Orderid').value);
+			formdata.append("DBF", _('DBF').value);		
+			formdata.append("RemoveFile", removeFile);		
+			
+			runAjax(formdata, fileName, flds[sel_key]);	
+		}		
+    }/* End removeUpload */
+	
+	function runAjax(formdata, fileName, divTarget ){
+		var ajax = new XMLHttpRequest();
+		ajax.upload.addEventListener("progress", function (event){ progressHandler( event, divTarget );}, false);
+		ajax.addEventListener("load", function (event){ completeHandler( event, divTarget );}, false);
+		ajax.addEventListener("load", doneHandler, true);		
+		ajax.addEventListener("error", errorHandler, false);
+		ajax.addEventListener("abort", abortHandler, false);
+		ajax.open("POST", fileName);
+		ajax.send(formdata);	
+	}
+
+	function udateFileView( isImgSent, isToggleOn, fn ){
+		var isFileAvailable = isImgSent;
+		
+		for ( var key in fieldID ) {
+		    if( isFileAvailable && isFileAvailable == fieldID[key]){
+				//This will run if image is already being used.
+				previewImg(fn);
+                return false;
+			}
+			if( isToggleOn )
+				toggleUploadDiv( key, fieldID[key] );
+		}
+	}	
+	
+	function imageEnlarge(fn) {
+		// View image from online
+		toggle_visibility( 'page-wrapper' );		
+		_('fileDisplayArea').innerHTML = '';
+		_('imgHeader').innerHTML = '';		
+		console.log(fn);
+		var img = document.createElement("IMG");
+		img.setAttribute("src", fn.src );
+		img.setAttribute("height", fn.height*4);
+		img.setAttribute("width", fn.width*4);
+		img.setAttribute("alt", fn.alt );
+		document.getElementById('imgHeader').innerHTML = fn.alt;
+		document.getElementById('fileDisplayArea').appendChild(img);
+
+		toggle_visibility('main_box');			
+	}	
+	
+    function previewImg(fn){
+		// View image on client computer
+		toggle_visibility( 'page-wrapper' );
+		var file = _(fn.name).files[0];		
+		var e =  _(fn.id);
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			fileDisplayArea.innerHTML = "";
+
+			var newimg = new Image(350, 350);
+			newimg.src = reader.result;
+
+			fileDisplayArea.appendChild(newimg);
+		}
+		reader.readAsDataURL(file);
+		toggle_visibility('main_box');	
+		_('imgHeader').innerHTML = "This Document has already been uploaded.<br />"+fn.value;		
+	}	
+	
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+	
+	
+	function toggleUploadDiv( fld, val ){
+		// toggle div on page for on delete button option
+		if( val !== '' ){ 
+			document.getElementById('input-'+fld).style.display = 'none'; 
+			document.getElementById('remove-'+fld).style.display = 'block';		
+		}else{
+			document.getElementById('input-'+fld).style.display = 'block';
+			document.getElementById('remove-'+fld).style.display = 'none';		
+		}	
+		
+	}	
+
+	
+	function showFname( fn ){
+		// This is here for browsers that get field names starting with c:		
+		var newName = [];
+		var baseName = _(fn.id).value;
+
+		if( baseName.slice(0,3) == 'C:\\' ){
+			newName = baseName.split("\\");
+			baseName = newName[newName.length -1];
+		}
+		return baseName;
+	}
+
+
+	// Timer function section 	
+/*		window.onload = function () {
+			var fiveMinutes = 60 * 5,
+			display = document.querySelector('#time');
+			startTimer(fiveMinutes, display);
+		};		
+*/
+		
+	
+	function startTimer(duration, display) {
+		var timer = duration, minutes, seconds;
+		setInterval(function () {
+			minutes = parseInt(timer / 60, 10);
+			seconds = parseInt(timer % 60, 10);
+
+			minutes = minutes < 10 ? "0" + minutes : minutes;
+			seconds = seconds < 10 ? "0" + seconds : seconds;
+
+			display.textContent = minutes + ":" + seconds;
+
+			if (--timer < 0) {
+				alert('times up');
+				timer = duration;
+			}
+		}, 1000);
+	}
+
+
+	function clearHours() {
+		document.getElementById('Bus_open').value = '';
+		document.getElementById('Bus_close').value = '';
+		document.getElementById('Open_am-pm').value = 'am';
+		document.getElementById('Close_am-pm').value = 'am';
+	}	
