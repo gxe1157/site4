@@ -1047,6 +1047,24 @@ a.upLoadLinks:hover
   color: red; 		
 }
 
+
+#selected_page{ 
+  font-size: 18px;
+  color: red;
+}   
+
+#page{
+  font-size: 16px;
+  color: #000;
+}     
+
+#subscribe_signup {
+    height: 50px;
+    padding: 10px;
+    text-align: center;
+}  
+
+
 .adlinks{
  color: #174098;
  font-weight: bold;
@@ -1056,9 +1074,3 @@ a.adlinks:link, a.adlinks:visited
 { color: #174098; font-size: 14px; font-weight: bold; text-decoration: none }
 a.adlinks:hover
 { color: red; font-size: 14px; font-weight: bold; text-decoration: none }
-
-#subscribe_signup {
-    height: 50px;
-    padding: 10px;
-    text-align: center;
-}

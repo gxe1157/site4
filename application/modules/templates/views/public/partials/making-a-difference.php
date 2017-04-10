@@ -1,4 +1,3 @@
-<div class='div-menu-message'>
 	<div class="div-menu-inner-2Col">
 		<p>On Friday October 24, 2003 at the Essex County PBA Conference Dinner, Chairman William Brennan called up, President Michael Sica, Sr. of the Police Brotherhood to presented a check to <span style="text-decoration: underline;">Bloomfield PBA Local #32</span> President Michael Ruggiero in the amount of <strong>$1,000.00</strong> for their legal defense fund, to help the 4 officers who were indicted while responding to a medical assistance call of an individual who was having a violent seizure.</p>
 		<p>At said dinner/dance President Sica also praised Bloomfield Police Chief Jack McNiff for his decision not to suspend the 4 officers who were indicted despite outside political influences and pressure. President Sica commended Chief McNiff and stated that more police chiefs should have your veracity and stand behind the men and women in uniform who serve and protect the citizens of the state of New Jersey.</p>
@@ -10,4 +9,3 @@
 		<p><img class="pics-type1" src="<?= base_url(); ?>public/images/gallery/donation1.jpg" alt="" width="302" height="250" /></p>
 		<p><img class="pics-type1" src="<?= base_url(); ?>public/images/gallery/donation2.jpg" alt="" width="302" height="250" /></p>
 	</div>
-</div>

@@ -1,9 +1,7 @@
 <?php
   $href_target = base_url().'templates/public_blueMass/bluemass_pages.php/blue-mass';
-
 ?>
 
-<div class='div-menu-message'>
 <div  class="div-wide" >
 	<img src="<?= base_url(); ?>public/images/blue-mass/BlueMassHeading.jpg" width="600" height="230" border="2" />
     <div class="div-blue-mass-2">Click below to veiw articles these past Blue Mass events
@@ -44,5 +42,4 @@
 	</table></center>
 	<p>&nbsp;</p>
 	</div>
-</div>
 </div>

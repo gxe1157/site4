@@ -1,4 +1,3 @@
-<div class='div-menu-message'>
 <div  class="div-wide" style="text-align:justify;" >
 	<p >All Members<br /><br />
 	Below please find <span style="color:red;">Meeting Schedule & Special Events for 2017.</span><br /><br />
@@ -178,5 +177,4 @@
 	</table>
 	<p>If you should have any questions or need membership applications, Ads and tickets please feel free to call the office ASAP.  THANK YOU!</P>
 
-</div>
 </div>

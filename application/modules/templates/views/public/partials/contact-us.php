@@ -1,4 +1,4 @@
-<div class='div-menu-message'>
+
         <div  class="div-wide" >
 			 <b>The NJ Law Enforcement Police Officers Brotherhood<br />
 			  195 Paterson Ave, Little Falls NJ 07424<br /><br />
@@ -70,7 +70,6 @@
   		    </form>
 			</center>
         </div>
-</div>
 
     <script language="Javascript">
 		 var req_flds =  { 'First_name':'First Name', 'Last_name':'Last Name', 'Email':'Email', 'Emailconfirm':'Confirm Email', 'Comments':'Comments' };

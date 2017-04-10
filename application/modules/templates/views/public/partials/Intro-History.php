@@ -1,4 +1,4 @@
-<div class='div-menu-message'>
+
 <div class="div-menu-inner-2Col">
 	<p>My name is Jacqueline Molina, I am a veteran officer of the Newark Police Department and My Name is George Scott Pearson, recently retired and served 29 years with the Somerset County Sheriff’s department. We had the distinct honor of knowing the founding fathers of the NJLE Police Brotherhood Association and commend them for starting a Law Enforcement Organization that <span style='color:red'>helps officers and their families during their time of need or crisis.</p></p>
 	<p>Unfortunately, that organization had taken a different direction then Mr. Michael Sica Sr. had intended and has been dissolved. Therefore, Mrs., Joanna Sica, his widow, her daughter Kathy DeFranza Somerset County Sheriff's Officer George Scott Pearson and I, along with several other law enforcement officers throughout the state, decided to start the <span style='color:red'>Police Officers Brotherhood.</span> We want to preserve Mr. Sica’s views, values, programs and goals for which the brotherhood was originally intended by keeping the brother/sisterhood alive within the Law Enforcement Community.</p>
@@ -23,7 +23,6 @@
 		<strong> George Scott Pearson</strong><br />Chairman, NJLEPOB</strong>
 	</div>
 	
-</div>
 
 <p><img style="display: block; margin-left: auto; margin-right: auto;" src="<?= base_url(); ?>public/images/gallery/njlepob_03.jpg" alt="" width="682" height="449" /></p>
 </div>

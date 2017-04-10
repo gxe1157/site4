@@ -1,4 +1,4 @@
-<div class='div-menu-message'>
+
 <div class="div-menu-inner-2Col">
 	<p class="blue_box"><strong>This page is displayed in memory of Michael Sica, Sr., President &amp; founding father to the organizational brotherhood concept and programs.</strong></p>
 	<h3>Dear Friend and Supporter,</h3>
@@ -18,5 +18,4 @@
 	<p>Most of the time these charges and accusations are made before a thorough investigation can be completed. This does a disservice to the officer and you the public. Once you take into consideration all of the Law Enforcement agencies with approximately 55,000 officers taking police action and arrests throughout New Jersey on a daily basis these few complaints should not tarnish the entire law enforcement community.</p>
 	<p>The Brotherhood was formed with the front line law enforcement officers and victims of crimes in mind. <b>Our organization&#8217;s main goals and objectives are to assist law enforcement officers, their families and victims of crimes during their time of need or crisis.</b> We stands up for the rights of all law enforcement officers, NJ Citizens and the victims of crimes by supporting tough anti-crime legislation and policies that protect law enforcement officers and the victims of crimes. Take your time and browse through our website to learn more about our organization. We welcome any assistance that you may be able to provide. Thank you and God Bless.</p>
 	<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
-</div>
 </div>

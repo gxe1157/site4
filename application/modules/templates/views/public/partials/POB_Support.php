@@ -1,43 +1,14 @@
-<?php
-	// get images from directory`
-    $this->load->module('templates');
-    $show_page = !isset($param1) ? 1 : $param1 ;
-    $imgDir	   = 'public/images/POB_Supports';    	
-	$bm_pages = $this->templates->image_pagination( $imgDir );
-?>
-
-<div class='div-menu-message'>
-<style>
-  #selected_page{ 
-	  font-size: 18px;
-	  color: red;
-  }	  
-  
-  #page{
-	  font-size: 16px;
-	  color: #000;
-  }		
-  
-</style>
 
 
 <div  class="div-wide" style="text-align: left;" >
-		<?php
-			$x = 0;
-			$get_link = 'Page: ';
-			foreach( $bm_pages as $key => $value)
-			{   
-				$x++;
-				if( $key == $show_page-1 ){
-					echo '<img src="'.base_url().$bm_pages[$key].'" width="722" height="1100"/>';
-					$get_link .= '<a id="selected_page" href="'.base_url().'templates/public_main/POB_Support.php/'.$x.'" >&nbsp;&nbsp;'.$x.' </a> ';					
-				}else{
-					$get_link .= '<a id="page" href="'.base_url().'templates/public_main/POB_Support.php/'.$x.'" >&nbsp;&nbsp;'.$x.' </a> ';
-				}
-			}
-			echo $get_link;
-		?>
-		
-</div>
+      <?php 
+        // echo '<img src="'.base_url().$bm_pages[$key].'" width="740" height="1200"/>';      
+        $img_hgt   = 1000;
+        $img_width = 700;
+        $this->load->module('lib');
+		$get_link = $this->lib->show_partial( $bm_pages, $page, $img_dir, $show_page, $img_hgt, $img_width  );
+		echo $get_link;
+	?>	
+
 </div>
 

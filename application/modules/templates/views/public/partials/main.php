@@ -1,6 +1,5 @@
 
 
-	<div class='div-menu-message'>
 		<div class="div-2col" >
 			<h2 class="adlinks">Dear Friends and Colleagues,</h2>
 		    <p>My name is <strong>Wayne Blanchard</strong> and I am a <u>veteran NJ State Trooper</u>. I started my law enforcement career in 2001 as a Middlesex County Corrections Officer. I know what it means to rely on our fellow brothers and sister officers to watch each other&rsquo;s back while being outnumbered 50 to 1, without a gun, behind the walls of a correctional facility. The bounds and camaraderie to one another can&rsquo;t be described, but is something I treasure dearly. To try and sum it up in one word would be <strong>&ldquo;family&rdquo;</strong> or <strong>&ldquo;Brotherhood.&rdquo; </strong>On September 28, 2008, I suffered the tragic loss of my friend and fellow <strong>Elizabeth Police Officer Jason Samaritano</strong> in an off duty automobile accident. In an effort to provide comfort and relief to his family, a group of Jason&rsquo;s friends organized a benefit event for the Samaritano family in December. While organizing that benefit, I contacted <strong>the New Jersey Law Enforcement Police Officer&rsquo;s Brotherhood (POB)</strong> and met with representatives from that organization at the annual <u><strong><a class="adlinks" href="/nav-to-page.php?subNav=3&outputMess=Blue Mass&content=bluemass.php">Blue Mass in Newark</a></strong></u>. Without hesitation, the POB responded by attending the benefit event and providing a very generous donation to Jason&rsquo;s family, <strong>even though Jason or <u>I were not members</u> of the POB.</strong><br />
@@ -18,4 +17,3 @@
 			<br />Director &amp; New Jersey State Trooper </p>
 			<img src="<?= base_url(); ?>public/images/blanchard_podium.jpg" width="100" height="120" />
 		</div>
-	</div>

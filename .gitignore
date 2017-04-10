@@ -41,8 +41,13 @@ Temporary Items
 Thumbs.db
 ehthumbs.db
 
+
 # Folder config file
 Desktop.ini
+*.pdf
+*.csv
+*.zip
+\images
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
