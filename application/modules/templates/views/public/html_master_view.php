@@ -19,14 +19,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="KeyWords" content="New Jersey Law Enforcement Police Brotherhood">
 
     <link rel="stylesheet" href="<?= base_url(); ?>public/css/main.css" type="text/css">
-    
+
     <script language="JavaScript1.2" type="text/javascript" src="<?= base_url(); ?>public/js/html5shiv.js"></script>
     <script language="JavaScript1.2" type="text/javascript" src="<?= base_url(); ?>public/js/myLib.js"></script>
 
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
-    <![endif]-->  
+    <![endif]-->
 </head>
 
 <body>
@@ -34,21 +34,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <img class="header_image" src="<?= base_url(); ?>public/images/sec_hdr.jpg" >
     	<?php
     		$this->load->view('html_nav_main.php');
-    	?>   	
+    	?>
     </header>
- 
+
     <div id="container">
         <?php  $this->load->view('html_aside.php'); ?>
 
         <!-- Main Content -->
         <div class="div-menu-message">
-            <div id="menu-mess-header"><?php echo  'bread crumb' ?>
+            <div id="menu-mess-header"><?= $bread_crumb ?>
             <span style="float: right; align-text: right; margin-top: 6px; font-size: 14px; ">
                 <a href="/members/membership.php">Become A Member</a> &nbsp;|&nbsp;
                 <a href="/members/login.php">Login</a>&nbsp;
             </span>
             </div>
-            <?php $this->load->view('partials/'.$contents); ?>              
+            <?php $this->load->view('partials/'.$contents); ?>
         </div> <!-- End Main Content -->
     </div> <!-- end container -->
 

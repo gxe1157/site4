@@ -5,7 +5,7 @@
 <nav>
 	<ol id="drop-nav">
 		<li ><a class="nav_menu" href="<?= base_url(); ?>templates/public_main" >Home</a></li>
-		
+
  		<li ><a class="nav_menu" href="<?= base_url(); ?>templates/public_main/mission-statement.php" >About Us</a>
 		   <ol>
 				<li><a href="<?= base_url(); ?>templates/public_main/mission-statement.php">Mission Statement</a></li>
@@ -32,7 +32,7 @@
 
 		<li ><a class="nav_menu" href="<?= base_url(); ?>templates/public_main/meeting-schedule.php">Meetings &#038; Events</a>
 		   <ol>
-				<li><a href="<?= base_url(); ?>templates/public_main/meeting-schedule.php">Meeting Schedule</a></li>	
+				<li><a href="<?= base_url(); ?>templates/public_main/meeting-schedule.php">Meeting Schedule</a></li>
 				<li><a href="<?= base_url(); ?>templates/public_main/hold-page.php">Bulletin Board</a></li>
 				<li><a href="<?= base_url(); ?>templates/public_main/hold-page.php">Monthly Calender</a></li>
 				<li><a href="<?= base_url(); ?>templates/public_main/CigarEvents.php/Cigar_Events">Cigar Events</a></li>
@@ -43,14 +43,14 @@
 		<li ><a class="nav_menu" href="<?= base_url(); ?>templates/public_main/hold-page.php">Political Action</a></li>
 
 		<li ><a class="nav_menu" href="<?= base_url(); ?>templates/public_main/hold-page.php">Cop Shop</a></li>
-		
+
 		<li ><a class="nav_menu" href="<?= base_url(); ?>templates/public_main/POB_In_Action.php">Brotherhood in Action</a>
 			<ol>
 				<li><a href="<?= base_url(); ?>templates/public_main/move_over.php/Move_Over_Law">Move Over Law</a></li>
 				<li><a href="<?= base_url(); ?>templates/public_main/national_blue.php/blue_alert">National Blue Alert</a></li>
 				<li><a href="<?= base_url(); ?>templates/public_main/POB_Support.php/POB_Supports">POB Support</a></li>
 				<li><a href="<?= base_url(); ?>templates/public_main/POB_Pays_Tribute.php/POB_Pays_Tribute_AW">POB Pays Tribute</a></li>
-	        </ol>	
+	        </ol>
 		</li>
-	</ol> 
+	</ol>
 </nav>

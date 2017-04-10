@@ -11,18 +11,15 @@
 	<p>For that same reason, we have formed the <b>“Police Officers Brotherhood”</b> and proudly accept the passing of the torch, which Mr. Sica carried and we will continue to keep the flame burning for those officers and their families who will need our help in the future.</p>
 	<p>Our organization picks up where the Police Brotherhood left off. We stand up for the rights of all law enforcement officers and victims of crimes through planned fundraising events throughout the year. The NJLEPOB and its supporters have helped enrich the lives of many individuals throughout the state by donating thousands of dollars in the course of our fundraising events. This is accomplished through our law enforcement AD journal, honorary/associate membership programs and by having fundraisers that are supported by law enforcement officers, civilians and members of the business community. With your help, we will bring back the true meaning of brotherhood/sisterhood to the law enforcement community. Mr. Sica Sr. passed away several years ago and our organization proudly displays his name and president's message in his memory in order to keep his dream alive. We are working with the same vision, principles, ideas and goals that he started. The fruits of the brotherhoods labor can be seen by their actions as depicted throughout this website. </p>
 	<p>We welcome you to browse our website to learn more about us. We urge officers, Family members, civilians and friends to come together and join us by becoming a member to form an alliance to help protect the pension system, health benefits and officers constitutional rights against the politicians who use them as a punch line for their own personal gain and political agenda. Thank you for your support and any help that you may be able to provide. Make a donation or become a member now to help us, help those officers who place their lives on the line everyday while serving and protect you the public! </p>
-
-	<div style="float: left; width: 150px; height: 280px;">
-		<img alt="Jaqueline Molina Chairwoman NJLEPOB" src="<?= base_url(); ?>public/images/gallery/JaquelineMolinaChairwomanNJLEPOB.jpg" width="137" height="181" />
-		<br /><br /><strong>Sincerely,</strong><br />
-		<strong> Jaqueline Molina</strong><br />Chairwoman, NJLEPOB</strong>
-	</div>
-	<div style="float: right; width: 150px; height: 280px;">
-		<img alt="George Scott Pearson Chairman NJLEPOB" src="<?= base_url(); ?>public/images/gallery/pearson036.jpg" width="137" height="181" />
-		<br /><br /><strong>Sincerely,</strong><br />
-		<strong> George Scott Pearson</strong><br />Chairman, NJLEPOB</strong>
-	</div>
-	
-
-<p><img style="display: block; margin-left: auto; margin-right: auto;" src="<?= base_url(); ?>public/images/gallery/njlepob_03.jpg" alt="" width="682" height="449" /></p>
-</div>
+  	<div style="float: left; width: 150px; height: 280px;">
+  		<img alt="Jaqueline Molina Chairwoman NJLEPOB" src="<?= base_url(); ?>public/images/gallery/JaquelineMolinaChairwomanNJLEPOB.jpg" width="137" height="181" />
+  		<br /><br /><strong>Sincerely,</strong><br />
+  		<strong> Jaqueline Molina</strong><br />Chairwoman, NJLEPOB</strong>
+  	</div>
+  	<div style="float: right; width: 150px; height: 280px;">
+  		<img alt="George Scott Pearson Chairman NJLEPOB" src="<?= base_url(); ?>public/images/gallery/pearson036.jpg" width="137" height="181" />
+  		<br /><br /><strong>Sincerely,</strong><br />
+  		<strong> George Scott Pearson</strong><br />Chairman, NJLEPOB</strong>
+  	</div>
+ </div>
+ <p><img style="display: block; margin-left: auto; margin-right: auto;" src="<?= base_url(); ?>public/images/gallery/njlepob_03.jpg" alt="" width="682" height="449" /></p>
