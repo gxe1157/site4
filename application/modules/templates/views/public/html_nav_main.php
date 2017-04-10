@@ -1,6 +1,15 @@
 <? /*  Main Navigation Colapse
     *  Evelio Velez Jr.  April 2017
    */
+	 $nav = array(            // controller, function, url
+	    				'About Us' => array( 'templates', 'public_main', 'Mission Statement' ),
+				        						array( 'Introduction and History','Intro-History.php' )
+					     );
+
+
+   );
+	 	//echo $current_file." : ".$siteNav[$current_file][0].'<br />';
+
 ?>
 <nav>
 	<ol id="drop-nav">

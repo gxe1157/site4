@@ -10,8 +10,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- <title><?= $title ?></title> -->
-
     <title><?= $title ?></title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -43,10 +41,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- Main Content -->
         <div class="div-menu-message">
             <div id="menu-mess-header"><?= $bread_crumb ?>
-            <span style="float: right; align-text: right; margin-top: 6px; font-size: 14px; ">
-                <a href="/members/membership.php">Become A Member</a> &nbsp;|&nbsp;
-                <a href="/members/login.php">Login</a>&nbsp;
-            </span>
+              <span style="float: right; align-text: right; margin-top: 6px; font-size: 14px; ">
+                  <a href="/members/membership.php">Become A Member</a> &nbsp;|&nbsp;
+                  <a href="/members/login.php">Login</a>&nbsp;
+              </span>
             </div>
             <?php $this->load->view('partials/'.$contents); ?>
         </div> <!-- End Main Content -->
