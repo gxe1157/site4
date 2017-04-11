@@ -1,29 +1,62 @@
-<? /*  Main Navigation Colapse
+<?php
+	/*  Main Navigation Colapse
     *  Evelio Velez Jr.  April 2017
-   */
-	 $nav = array(            // controller, function, url
-	    				'About Us' => array( 'templates', 'public_main', 'Mission Statement' ),
-				        						array( 'Introduction and History','Intro-History.php' )
-					     );
+   	*/
+
+		  	  // array('menu_opt','text','templates/public_main/mission-statement.php' ),			  	
+	$nav =  array(
+			'Home' => array(
+				 array('Home','Home Page','/Home' )
+			),
+			'About Us' => array(
+				 array('About Us','Mission Statement','templates/public_main/mission-statement.php' ),
+				 array('Mission Statement','Mission Statement','templates/public_main/mission-statement.php' ),  
+				 array('Introduction and History','Introduction and History','templates/public_main/Intro-History.php' ),
+				 array('President Message','Presidents Message','templates/public_main/presidents-message.php' ),	  	
+				 array('Board Members', 'Board Members','templates/public_main/hold-page.php' ),	  		  	
+				 array('Financial Reports', 'Financial Reports','templates/public_main/hold-page.php' ),
+				 array('Contact Us', 'Contact Us','templates/public_main/contact-us.php' )	  		  	
+			),
+			'Making a Difference' => array(
+			  	 array('Making a Difference','Making a Difference','templates/public_main/making-a-difference.php' )
+			),
+			'Item4' => array(
+				 array('Item4','Item4 Page','/Item4' )
+			),				 
+			'Item5' => array(
+				 array('Item5','Item5 Page','/Item5' )
+			),				 
+	);	
+
+ 	// echo $nav['About Us'][0][0].'<br />';
+	// echo $nav['About Us'][0][1].'<br />';    
+	// echo $nav['About Us'][0][2].'<br />';
+    
+    foreach ($nav as $menu_title => $menu_item) {
+    	echo $menu_title.' | <br />';
+      	foreach ($menu_item as $lines => $value){
+    	 	echo $nav[$menu_title][$lines][0].'<br />';
+    	 	// echo $lines.' | ';
+    	}
+    }
 
 
-   );
-	 	//echo $current_file." : ".$siteNav[$current_file][0].'<br />';
 
 ?>
+
 <nav>
 	<ol id="drop-nav">
 		<li ><a class="nav_menu" href="<?= base_url(); ?>templates/public_main" >Home</a></li>
 
- 		<li ><a class="nav_menu" href="<?= base_url(); ?>templates/public_main/mission-statement.php" >About Us</a>
+ 		<li ><a class="nav_menu" href="<?= base_url(); ?><?= $nav['About Us'][0][2]; ?>" ><?= $nav['About Us'][0][0]; ?></a>
 		   <ol>
-				<li><a href="<?= base_url(); ?>templates/public_main/mission-statement.php">Mission Statement</a></li>
-				<li><a href="<?= base_url(); ?>templates/public_main/Intro-History.php">Introduction and History</a></li>
-				<li><a href="<?= base_url(); ?>templates/public_main/presidents-message.php">President's Message</a></li>
-				<li><a href="<?= base_url(); ?>templates/public_main/hold-page.php">Board Members</a></li>
-				<li><a href="<?= base_url(); ?>templates/public_main/hold-page.php">Staff</a></li>
-				<li><a href="<?= base_url(); ?>templates/public_main/hold-page">Financial Reports</a></li>
-				<li><a href="<?= base_url(); ?>templates/public_main/contact-us.php">Contact Us</a></li>
+				<li><a href="<?= base_url(); ?><?= $nav['About Us'][1][2]; ?>"><?= $nav['About Us'][1][1]; ?></a></li>	
+				<li><a href="<?= base_url(); ?><?= $nav['About Us'][2][2]; ?>"><?= $nav['About Us'][2][1]; ?></a></li>
+				<li><a href="<?= base_url(); ?><?= $nav['About Us'][3][2]; ?>"><?= $nav['About Us'][3][1]; ?></a></li>	
+				<li><a href="<?= base_url(); ?><?= $nav['About Us'][4][2]; ?>"><?= $nav['About Us'][4][1]; ?></a></li>	
+				<li><a href="<?= base_url(); ?><?= $nav['About Us'][5][2]; ?>"><?= $nav['About Us'][5][1]; ?></a></li>
+				<li><a href="<?= base_url(); ?><?= $nav['About Us'][6][2]; ?>"><?= $nav['About Us'][6][1]; ?></a></li>	
+
    		   </ol>
 		</li>
 
