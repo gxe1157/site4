@@ -1,5 +1,5 @@
 <?php
-  $href_target = base_url().'templates/public_blueMass/bluemass_pages.php/blue-mass';
+  $href_target = base_url('templates/public_blueMass/bluemass_pages.php/Blue-Mass');
 ?>
 
 <div  class="div-wide" >

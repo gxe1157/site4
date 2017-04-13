@@ -6,7 +6,7 @@
         $dir_function = 'public_blueMass';
 
         $this->load->module('lib');
-		$get_link = $this->lib->show_partial( $bm_pages, $page, $img_dir, $show_page, $img_hgt, $img_width, $dir_function );
+		$get_link = $this->lib->show_partial( $bm_pages, $page, $dir_name1, $img_dir, $show_page, $img_hgt, $img_width, $dir_function  );
 		echo $get_link;
 	?>	
 

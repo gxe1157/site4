@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- Main Content -->
         <div class="div-menu-message">
-            <div id="menu-mess-header"><?= $bread_crumb ?>
+            <div id="menu-mess-header"><?= urldecode($nav_to); ?>
               <span style="float: right; align-text: right; margin-top: 6px; font-size: 14px; ">
                   <a href="/members/membership.php">Become A Member</a> &nbsp;|&nbsp;
                   <a href="/members/login.php">Login</a>&nbsp;

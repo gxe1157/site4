@@ -43,7 +43,7 @@ function image_pagination( $imgDir ){
 }
 
 
-function show_partial( $bm_pages, $page, $img_dir, $show_page, $img_hgt, $img_width, $dir_function = null ) {
+function show_partial( $bm_pages, $page, $nav_to, $img_dir, $show_page, $img_hgt, $img_width, $dir_function = null ) {
     $x = 0;
     $get_link = 'Page: ';
     if( $dir_function == null ) $dir_function ='public_main';
@@ -53,9 +53,9 @@ function show_partial( $bm_pages, $page, $img_dir, $show_page, $img_hgt, $img_wi
         $x++;
         if( $key == $show_page-1 ){
             echo '<img src="'.base_url().$bm_pages[$key].'" width="'.$img_width.'" height="'.$img_hgt.'"/>';
-            $get_link .= '<a id="selected_page" href="'.base_url().'templates/'.$dir_function.'/'.$page.'/'.$img_dir.'/'.$x.'" >&nbsp;&nbsp;'.$x.' </a> ';                    
+            $get_link .= '<a id="selected_page" href="'.base_url().'templates/'.$dir_function.'/'.$page.'/'.$nav_to.'/'.$img_dir.'/'.$x.'" >&nbsp;&nbsp;'.$x.' </a> ';                    
         }else{
-            $get_link .= '<a id="page" href="'.base_url().'templates/'.$dir_function.'/'.$page.'/'.$img_dir.'/'.$x.'" >&nbsp;&nbsp;'.$x.' </a> ';
+            $get_link .= '<a id="page" href="'.base_url().'templates/'.$dir_function.'/'.$page.'/'.$nav_to.'/'.$img_dir.'/'.$x.'" >&nbsp;&nbsp;'.$x.' </a> ';
         }
     }
     return $get_link;
