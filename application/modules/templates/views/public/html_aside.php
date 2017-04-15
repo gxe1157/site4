@@ -1,28 +1,31 @@
-<?php /*  Main Navigation Colapse
+<?php 
+    /*  Main Navigation Colapse
     *  Evelio Velez Jr.  April 2017
-   */
-    $menu_title = urldecode($nav_to);
-    $menu_items = $nav[ $menu_title ];
+    */
+
+    $this->load->module('lib');
+    // $this->lib->checkArray($nav, 1);
+
+    // $menu_title = urldecode($nav_to);
+
+    // $menu_items = $nav[ $menu_title ];
 ?>
          <aside style="float: left;  border-right:1px dashed #aaa; padding: 05px;" >
 
             <div class="leftNavContainer">
 
-                <?php foreach ( $menu_items as $lines => $value ){ ?>
+<!--            <?php foreach ( $menu_items as $lines => $value ){ ?>
                   <div class="leftNavInner">
                     <a style="color: blue;" href="<?= $menu_items[$lines][1]; ?>" >
                         <?= $menu_items[$lines][0]; ?></a>
                   </div>
                 <?php } ?>
-
+ -->
                 <div class="leftNavInner">&nbsp;</div>
                 <div class="leftNavInner"><a  style="color: red;" href="/members/donor-page.php">Make a Donation</a></div>
                 <div class="leftNavInner"><a  style="color: red;" href="/members/ad-page.php">Advertise Your Business</a></div>
                 <div class="leftNavInner"><a  style="color: red;" href="/members/membership.php">Become A Member</a></div>
                 <div class="leftNavInner"><a  style="color: red;" href="/members/login.php">Login</a></div>
-
-                <div class="leftNavInner"><a  style="color: #000;" href="/members/formFix.php">Admin - Member Form</a></div>    
-                <div class="leftNavInner"><a  style="color: #000;" href="/members/reset_emails.php">Admin - Reset Emails</a></div>  
             </div>
 
             <div class="leftNavContainer2">

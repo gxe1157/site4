@@ -26,7 +26,8 @@ function index()
                  array('10-13 Officer Needs Assistence', 'templates/public_main/hold-page.php', null ),
                  array('Officer Shot and Down', 'templates/public_main/hold-page', null ),
                  array('Donations and Testimonials', 'templates/public_main/Testimonials.php','/Testimonials'),
-                 array('Protect Vest - Equipment', 'templates/public_main/hold-page.php', null )
+                 array('Protect Vest - Equipment', 'templates/public_main/hold-page.php', null ),
+                 array('Prgram', 'templates/public_main/hold-page.php', null )				 
              ),
             'Blue Mass' => array(
                  array('Blue Mass','templates/public_main/bluemass.php', null )
