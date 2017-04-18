@@ -3,7 +3,7 @@ class Nav_menu extends MX_Controller
 {
 
 function __construct() {
-parent::__construct();
+    parent::__construct();
 }
 
 
@@ -27,7 +27,7 @@ function index()
                  array('Officer Shot and Down', 'templates/public_main/hold-page', null ),
                  array('Donations and Testimonials', 'templates/public_main/Testimonials.php','/Testimonials'),
                  array('Protect Vest - Equipment', 'templates/public_main/hold-page.php', null ),
-                 array('Prgram', 'templates/public_main/hold-page.php', null )				 
+                 array('Program', 'templates/public_main/hold-page.php', null )				 
              ),
             'Blue Mass' => array(
                  array('Blue Mass','templates/public_main/bluemass.php', null )

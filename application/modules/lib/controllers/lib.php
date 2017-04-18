@@ -58,6 +58,11 @@ function show_partial( $bm_pages, $page, $nav_to, $img_dir, $show_page, $img_hgt
             $get_link .= '<a id="page" href="'.base_url().'templates/'.$dir_function.'/'.$page.'/'.$nav_to.'/'.$img_dir.'/'.$x.'" >&nbsp;&nbsp;'.$x.' </a> ';
         }
     }
+    // http://localhost/site4/templates/public_main/bluemass.php
+    // http://localhost/site4/templates/public_blueMass/bluemass_pages.php/Blue-Mass/bm2005/2    
+
+    $get_link .= '<a id="page" href="'.base_url().'/templates/public_main/bluemass.php ">&nbsp;&nbsp; Main Page</a>';
+
     return $get_link;
 }
 
