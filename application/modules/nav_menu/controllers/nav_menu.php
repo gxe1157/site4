@@ -4,6 +4,8 @@ class Nav_menu extends MX_Controller
 
 function __construct() {
     parent::__construct();
+
+    
 }
 
 
@@ -50,7 +52,7 @@ function index()
                  array('Move Over Law', 'templates/public_main/move_over.php', '/Move_Over_Law' ),
                  array('National Blue Alert', 'templates/public_main/national_blue.php', '/blue_alert' ),
                  array('POB Support', 'templates/public_main/POB_Support.php', '/POB_Supports' ),
-            array('POB Pays Tribute', 'templates/public_main/POB_Pays_Tribute.php','/POB_Pays_Tribute_AW' )
+                 array('POB Pays Tribute', 'templates/public_main/POB_Pays_Tribute.php','/POB_Pays_Tribute_AW' )
             )
     );
 

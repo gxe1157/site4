@@ -45,12 +45,12 @@ function public_main( $page = null, $nav_to = null, $img_dir = null, $page_no = 
 
     $data['nav']   = $this->nav_menu->index();
     $data['title'] = 'New Jersey Law Enforcement Police Brotherhood Home Page';
-    $data['show_page']= !isset($page_no) ? 1 : $page_no;
-    $data['bm_pages'] = $this->lib->image_pagination( $imgDir );
-    $data['img_dir']  = $img_dir;
-    $data['page']     = $this->uri->segment(2) === false ? 'main' : $page;
-    $data['nav_to']   = $nav_to ;
-    $data['contents'] = $page == null ? 'main' : $page;
+    $data['show_page'] = !isset($page_no) ? 1 : $page_no;
+    $data['bm_pages']  = $this->lib->image_pagination( $imgDir );
+    $data['img_dir']   = $img_dir;
+    $data['page']      = $this->uri->segment(2) === false ? 'main' : $page;
+    $data['nav_to']    = $nav_to ;
+    $data['contents']  = $page == null ? 'main' : $page;
 
     $this->load->view('public/html_master_view', $data);
 }
@@ -80,8 +80,8 @@ function public_jqm() {
 }
 
 function admin() {
-    echo "<h1>public admin page.............. </h1>";
-    // $load->load->view['admin', $data];
+    // echo "<h1>public admin page.............. </h1>";
+    $this->load->view('admin/index');
 }
 
 
