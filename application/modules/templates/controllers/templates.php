@@ -75,7 +75,8 @@ function public_blueMass( $page = null, $dir_name1 = null, $dir_name2 = null, $p
     $data['img_dir']  = $dir_name2;
     $data['nav_to']   = !isset($dir_name2) ? 'Blue Mass ' : 'Blue Mass '.substr( $dir_name2, 2);
     $data['contents'] = $page == null ? 'main' : $page;
-
+    
+    $data['view_module'] = $this->uri->segment(1);
     $this->load->view('public/html_master_view', $data);
 }
 
@@ -87,7 +88,8 @@ function public_jqm() {
 function admin( $data = array() ) {
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
-  
+
+    $data['view_module'] = $this->uri->segment(1);
     $this->load->view('admin/admin', $data);
 }
 

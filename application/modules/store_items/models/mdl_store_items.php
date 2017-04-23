@@ -3,7 +3,7 @@ class Mdl_store_items extends CI_Model
 {
 
 function __construct() {
-parent::__construct();
+    parent::__construct();
 }
 
 function get_table() {
@@ -17,7 +17,7 @@ function get($order_by){
     $query=$this->db->get($table);
     return $query;
 }
-
+  
 function get_with_limit($limit, $offset, $order_by) {
     $table = $this->get_table();
     $this->db->limit($limit, $offset);
