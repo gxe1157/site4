@@ -1,12 +1,6 @@
 <?php
-class Nav_menu extends MX_Controller
+class Nav_menu
 {
-
-function __construct() {
-    parent::__construct();
-
-    
-}
 
 
 function index()

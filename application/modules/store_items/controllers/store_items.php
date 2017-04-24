@@ -1,15 +1,104 @@
-<?php
-class Store_items extends MX_Controller
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+// Rename Perfectcontroller to [Name]
+class Store_items extends MY_Controller 
 {
 
-
 function __construct() {
-  parent::__construct();
+    parent::__construct();
 
-  $this->load->library('form_validation');
-  $this->form_validation->CI =& $this;
 }
 
+
+/* Add custom controller functions here */
+function _generate_thumbnail($file_name)
+{
+    $config['image_library'] = 'gd2';
+    $config['source_image']  = './public/big_pic/'.$file_name;
+    $config['new_image']     = './public/small_pic/'.$file_name;    
+    $config['create_thumb']  = TRUE;
+    $config['maintain_ratio']= TRUE;
+    $config['width']         = 200;
+    $config['height']        = 200;
+
+    $this->load->library('image_lib', $config);
+    $this->image_lib->resize();
+}
+
+
+function upload_image( $update_id )
+{
+    if( !is_numeric($update_id) ){
+        redirect('site_security/not_allowed');
+    }
+
+    $this->load->library('session');  
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $data['headline'] = "Upload Image";        
+    $data['update_id'] = $update_id;
+    $data['flash'] = $this->session->flashdata('item');    
+    $data['view_file']   = "upload_image";
+
+    $this->load->module('templates');
+    $this->templates->admin($data);
+
+}
+
+function do_upload( $update_id )
+{
+
+    $this->load->library('session');  
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    if( !is_numeric($update_id) ){
+        redirect('site_security/not_allowed');
+    }
+
+    $submit = $this->input->post('submit', TRUE);
+    if( $submit == "Cancel" ) {
+        redirect('store_items/create/'.$update_id);
+    } 
+
+    $data['update_id']       = $update_id;
+    $config['upload_path']   = './public/big_pic/';
+    $config['allowed_types'] = 'gif|jpg|png';
+    $config['max_size']      = 2500;  // kb
+    $config['max_width']     = 1024;
+    $config['max_height']    = 768;
+
+    $this->load->library('upload', $config);
+    if (!$this->upload->do_upload('userfile')) {
+       $data['error']= array('error' => $this->upload->display_errors( "<p style='color: red'>", "</p>") );
+        $data['headline']  = "Upload Error";        
+        $data['view_file'] = "upload_image";
+    } else {
+        $flash_msg = "Your file was successfully uploaded!";
+        $value     = '<div class="alert alert-success" 
+                       role="alert">'.$flash_msg.'</div>';
+        $this->session->set_flashdata('image', $value);
+
+        $data = array('upload_data' => $this->upload->data());        
+        $upload_data = $data['upload_data'];
+        $file_name   = $upload_data['file_name'];
+        $this->_generate_thumbnail($file_name);
+        /* Update the database */
+        $update_data['big_pic'] = $file_name;
+        $update_data['small_pic'] = $file_name;
+        $this->_update($update_id, $update_data);
+
+
+        $data['headline']  = "Upload Success";        
+        $data['view_file'] = "upload_success";
+    }
+
+    $data['update_id'] = $update_id;
+    $data['flash'] = $this->session->flashdata('image');    
+    $this->load->module('templates');
+    $this->templates->admin($data);
+}
 
 function create()
 {
@@ -120,6 +209,7 @@ function fetch_data_from_db($update_id) {
     return $data;    
 
 }
+/* End custom functions   */
 
 /* Call backs go here...  */
 function item_check($str) {
@@ -143,94 +233,11 @@ function item_check($str) {
     }
 
 }
-/* end callbacks */
+/* End callbacks */
 
 
+// David Connelly's work from perfectcontroller
+// is in applications/core/My_Controller.php which
+// is extened here.
 
-/* do not change below */
-function get($order_by)
-{
-    $this->load->model('mdl_store_items');
-    $query = $this->mdl_store_items->get($order_by);
-    return $query;
-}
-
-function get_with_limit($limit, $offset, $order_by)
-{
-    if ((!is_numeric($limit)) || (!is_numeric($offset))) {
-        die('Non-numeric variable!');
-    }
-
-    $this->load->model('mdl_store_items');
-    $query = $this->mdl_store_items->get_with_limit($limit, $offset, $order_by);
-    return $query;
-}
-
-function get_where($id)
-{
-    if (!is_numeric($id)) {
-        die('Non-numeric variable! '.$id);
-    }
-
-    $this->load->model('mdl_store_items');
-    $query = $this->mdl_store_items->get_where($id);
-    return $query;
-}
-
-function get_where_custom($col, $value)
-{
-    $this->load->model('mdl_store_items');
-    $query = $this->mdl_store_items->get_where_custom($col, $value);
-    return $query;
-}
-
-function _insert($data)
-{
-    $this->load->model('mdl_store_items');
-    $this->mdl_store_items->_insert($data);
-}
-
-function _update($id, $data)
-{
-    if (!is_numeric($id)) {
-        die('Non-numeric variable!');
-    }
-
-    $this->load->model('mdl_store_items');
-    $this->mdl_store_items->_update($id, $data);
-}
-
-function _delete($id)
-{
-    if (!is_numeric($id)) {
-        die('Non-numeric variable!');
-    }
-
-    $this->load->model('mdl_store_items');
-    $this->mdl_store_items->_delete($id);
-}
-
-function count_where($column, $value)
-{
-    $this->load->model('mdl_store_items');
-    $count = $this->mdl_store_items->count_where($column, $value);
-    return $count;
-}
-
-function get_max()
-{
-    $this->load->model('mdl_store_items');
-    $max_id = $this->mdl_store_items->get_max();
-    return $max_id;
-}
-
-function _custom_query($mysql_query)
-{
-    $this->load->model('mdl_store_items');
-    $query = $this->mdl_store_items->_custom_query($mysql_query);
-    return $query;
-}
-
-
-
-}
+} // End class Controller

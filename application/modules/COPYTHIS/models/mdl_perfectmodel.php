@@ -1,19 +1,27 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+// Rename Mdl_perfectmodel to Mdl_[Name]
 class Mdl_perfectmodel extends MY_Model
 {
 
-function __construct( $use_table ) {
+function __construct( ) {
     parent::__construct();
-
-    $this->table_name = $use_table;
 
 }
 
-// Add more model methods here
+function get_table() {
+	// table name goes here	
+    $table = "";
+    return $table;
+}
+
+// Add custom model functions here
+ 
 
 
-
+// David Connelly's work from mdl_perctmodel
+// is in applications/core/My_Model.php which
+// is extened here.
 
 
 

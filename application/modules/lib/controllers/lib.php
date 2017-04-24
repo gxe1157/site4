@@ -1,11 +1,11 @@
 <?php
-class Lib extends MX_Controller 
+class Lib // extends MX_Controller 
 {
 
 
-function __construct() {
-    parent::__construct();
-}
+// function __construct() {
+//     parent::__construct();
+// }
 
 // mylib
 function quit($output){

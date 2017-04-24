@@ -3,7 +3,8 @@ class Templates extends MX_Controller
 {
 
 
-function __construct() {
+function __construct()
+{
     parent::__construct();
     // $this->load->module('lib');
 
@@ -15,7 +16,8 @@ function __construct() {
     // echo $this->uri->segment(6); // 4ndsegment
 }
 
-function _inner_nav_options( $nav_to = null, $nav) {
+function _inner_nav_options( $nav_to = null, $nav)
+{
     $menu_title = urldecode($nav_to);
     $this->lib->checkField($menu_title,1);
     $this->lib->checkArray( $nav['About Us'], 0);
@@ -34,7 +36,8 @@ function _inner_nav_options( $nav_to = null, $nav) {
     die();
 }
 
-function public_main( $page = null, $nav_to = null, $img_dir = null, $page_no = null ) {
+function public_main( $page = null, $nav_to = null, $img_dir = null, $page_no = null )
+{
     $this->load->module('lib');
     $this->load->module('nav_menu');
 
@@ -57,7 +60,8 @@ function public_main( $page = null, $nav_to = null, $img_dir = null, $page_no = 
     $this->load->view('public/html_master_view', $data);
 }
 
-function public_blueMass( $page = null, $dir_name1 = null, $dir_name2 = null, $page_no = null ) {
+function public_blueMass( $page = null, $dir_name1 = null, $dir_name2 = null, $page_no = null )
+{
     $this->load->module('lib');
     $this->load->module('nav_menu');
 
@@ -76,21 +80,28 @@ function public_blueMass( $page = null, $dir_name1 = null, $dir_name2 = null, $p
     $data['nav_to']   = !isset($dir_name2) ? 'Blue Mass ' : 'Blue Mass '.substr( $dir_name2, 2);
     $data['contents'] = $page == null ? 'main' : $page;
     
-    $data['view_module'] = $this->uri->segment(1);
+    if( !isset( $data['view_module'] ) )
+        $data['view_module']= $this->uri->segment(1);
+
     $this->load->view('public/html_master_view', $data);
+
 }
 
-function public_jqm() {
+function public_jqm()
+{
     echo "<h1>public jqm page.............. </h1>";
    // $load->load->view('public_jqm', $data);
 }
 
-function admin( $data = array() ) {
+function admin( $data = array() )
+{
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
 
-    $data['view_module'] = $this->uri->segment(1);
+    if( !isset( $data['view_module'] ) )
+        $data['view_module']= $this->uri->segment(1);
     $this->load->view('admin/admin', $data);
+
 }
 
 

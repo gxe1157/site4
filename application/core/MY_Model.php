@@ -3,17 +3,15 @@
 class MY_Model extends CI_Model
 {
 
-public $table_name;
-
 
 function __construct() {
     parent::__construct();
 }
 
-function get_table() {
-    // $table = "tablename";
-    return $this->$table_name;
-}
+// function get_table() {
+//     $table = "tablename";
+//     return $table;
+// }
 
 function get($order_by){
     $table = $this->get_table();
