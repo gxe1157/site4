@@ -48,6 +48,9 @@ Desktop.ini
 *.csv
 *.zip
 \images
+\public\big_pic
+\public\small_pic
+
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
