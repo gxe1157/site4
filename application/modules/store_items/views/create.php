@@ -17,9 +17,16 @@
 				</div>
 			</div>
 			<div class="box-content">
-				<a href="<?= base_url() ?>store_items/upload_image/<?= $update_id ?> "><button type="button" class="btn btn-primary">Upload Item Image</button></a>
-				<a href="<?= base_url() ?>store_items/"><button type="button" class="btn btn-primary">Update Item Color</button></a>
-				<a href="<?= base_url() ?>store_items/"><button type="button" class="btn btn-primary">Update Item Size</button></a>
+			    <?php  if( empty($big_pic) ) { ?>
+					<a href="<?= base_url() ?>store_items/upload_image/<?= $update_id ?> ">
+					<button type="button" class="btn btn-primary">Upload Item Image</button></a>
+				<?php  } else { ?>	
+					<a href="<?= base_url() ?>store_items/delete_image/<?= $update_id ?> ">
+					<button type="button" class="btn btn-danger">Delete Item Image</button></a>				
+				<?php  } ?>	
+
+				<a href="<?= base_url() ?>store_items_colors/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Color</button></a>
+				<a href="<?= base_url() ?>store_items_sizes/update/<?= $update_id ?>/"><button type="button" class="btn btn-primary">Update Item Size</button></a>
 				<a href="<?= base_url() ?>store_items/"><button type="button" class="btn btn-primary">Update Item Categories</button></a>
 
 				<a href=""><button type="button" class="btn btn-danger">Delete Item</button></a>									
@@ -82,7 +89,7 @@
 				<div class="control-group hidden-phone">
 				  <label class="control-label" for="textarea2">Item Description</label>
 				  <div class="controls">
-					<textarea class="cleditor" id="textarea2" rows="3" name = "item_description">
+					<textarea class="cleditor" id="textarea2" rows="2" name = "item_description">
 						<?= $item_description ?>
 					</textarea>
 				  </div>
@@ -98,3 +105,24 @@
 	</div><!--/span-->
 
 </div><!--/row-->
+
+<!-- Image display and delete -->
+<?php
+if( $big_pic != "" ) { ?>
+	<div class="row-fluid sortable">
+		<div class="box span12">
+			<div class="box-header" data-original-title>
+				<h2><i class="halflings-icon white edit"></i><span class="break"></span>Item Image</h2>
+				<div class="box-icon">
+					<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+					<a href="<?= base_url() ?>store_items/manage" ><i class="halflings-icon white remove"></i></a>
+				</div>
+			</div>
+			<div class="box-content">
+				<img src="<?= base_url() ?>public/big_pic/<?= $big_pic ?>" >
+			</div> 
+		</div><!-- end 12 span -->
+	</div><!-- end row-fluid sortable -->
+<?php
+}
+?>

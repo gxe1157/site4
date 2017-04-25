@@ -16,10 +16,16 @@
 			</div>
 		</div>
 		<div class="box-content">
+			<!-- show image -->
+			<img src="<?= base_url() ?>public/small_pic/<?= $upload_data['file_name'] ?>" >
+			<h2>Item Title: <?= $item_title ?></h2>				
+	
 			<ul>
-			<?php foreach ($upload_data as $item => $value):?>
-			<li><?php echo $item;?>: <?php echo $value;?></li>
-			<?php endforeach; ?>
+				<li>File Name    : <?= $upload_data['file_name'] ?></li>
+				<li>File Type    : <?= $upload_data['file_type'] ?></li>
+				<li>File Size    : <?= $upload_data['file_size'] ?></li>
+				<li>Image height : <?= $upload_data['image_height'] ?></li>
+				<li>Image width  : <?= $upload_data['image_width'] ?></li>
 			</ul>
 
 			<p>

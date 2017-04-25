@@ -4,6 +4,9 @@
 class Store_items extends MY_Controller 
 {
 
+/* model name goes here */
+var $mdl_name   = 'mdl_store_items';
+
 function __construct() {
     parent::__construct();
 
@@ -16,7 +19,7 @@ function _generate_thumbnail($file_name)
     $config['image_library'] = 'gd2';
     $config['source_image']  = './public/big_pic/'.$file_name;
     $config['new_image']     = './public/small_pic/'.$file_name;    
-    $config['create_thumb']  = TRUE;
+    $config['create_thumb']  = FALSE;
     $config['maintain_ratio']= TRUE;
     $config['width']         = 200;
     $config['height']        = 200;
@@ -25,6 +28,45 @@ function _generate_thumbnail($file_name)
     $this->image_lib->resize();
 }
 
+
+function delete_image( $update_id ) {
+    if( !is_numeric($update_id) ){
+        redirect('site_security/not_allowed');
+    }
+
+    $this->load->library('session');  
+    $this->load->module('site_security');
+    $this->site_security->_make_sure_is_admin();
+
+    $data = $this->fetch_data_from_db($update_id);
+    $big_pic = $data['big_pic'];
+    $small_pic = $data['small_pic'];
+
+    $big_pic_path = './public/big_pic/'.$big_pic;
+    $small_pic_path = './public/small_pic/'.$small_pic;  
+
+    /* remove the images */
+    if(file_exists($big_pic_path)) {
+        unlink($big_pic_path);
+    } 
+
+    if(file_exists($small_pic_path)) {
+        unlink($small_pic_path);
+    }  
+
+    /* update the database */
+    unset($data);
+    $data['big_pic'] ='';
+    $data['small_pic'] ='';    
+    $this->_update($update_id, $data);
+
+    $flash_msg = "The item image was sucessfully deleted";          
+    $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
+    $this->session->set_flashdata('item', $value);
+
+    redirect('store_items/create/'.$update_id);
+
+}
 
 function upload_image( $update_id )
 {
@@ -35,6 +77,10 @@ function upload_image( $update_id )
     $this->load->library('session');  
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
+
+    /* get item title */
+    $row_data = $this->fetch_data_from_db($update_id);
+    $data['item_title'] = $row_data['item_title'];        
 
     $data['headline'] = "Upload Image";        
     $data['update_id'] = $update_id;
@@ -76,14 +122,16 @@ function do_upload( $update_id )
         $data['view_file'] = "upload_image";
     } else {
         $flash_msg = "Your file was successfully uploaded!";
-        $value     = '<div class="alert alert-success" 
-                       role="alert">'.$flash_msg.'</div>';
+        $value     = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
         $this->session->set_flashdata('image', $value);
 
         $data = array('upload_data' => $this->upload->data());        
         $upload_data = $data['upload_data'];
         $file_name   = $upload_data['file_name'];
+
+        /* Create thumbnail image */
         $this->_generate_thumbnail($file_name);
+
         /* Update the database */
         $update_data['big_pic'] = $file_name;
         $update_data['small_pic'] = $file_name;
@@ -93,6 +141,10 @@ function do_upload( $update_id )
         $data['headline']  = "Upload Success";        
         $data['view_file'] = "upload_success";
     }
+
+    /* get item title */
+    $row_data = $this->fetch_data_from_db($update_id);
+    $data['item_title'] = $row_data['item_title'];        
 
     $data['update_id'] = $update_id;
     $data['flash'] = $this->session->flashdata('image');    
@@ -188,8 +240,11 @@ function fetch_data_from_post() {
 
 function fetch_data_from_db($update_id) {
 
-    $query = $this->get_where($update_id);
+    if( !is_numeric($update_id) ){
+        redirect('site_security/not_allowed');
+    }    
 
+    $query = $this->get_where($update_id);
     foreach( $query->result() as $row ) {
         $data['item_title'] = $row->item_title;
         $data['item_url']   = $row->item_url;        

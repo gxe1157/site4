@@ -1,11 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Rename Perfectcontroller to [Name]
-class Perfectcontroller extends MY_Controller 
+class Store_item_sizes extends MY_Controller 
 {
-
-/* model name goes here */
-var $mdl_name   = '';
 
 function __construct() {
     parent::__construct();
