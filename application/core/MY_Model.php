@@ -8,6 +8,66 @@ function __construct() {
     parent::__construct();
 }
 
+
+
+/* ===============================================
+    Added By Evelio Velez 04-28-2017
+   =============================================== */
+
+function get_view_data_custom($col, $value, $table, $orderby) {
+    $this->db->where($col, $value);
+    $this->db->order_by($orderby);        
+    $query=$this->db->get($table);
+    return $query;
+}
+
+function _parse_db($query, $use_fields)
+{
+    $data  = array();        
+    foreach($query->result() as $row){
+        foreach( $row as $key => $value ){
+            if ( in_array($key, $use_fields) ) {
+                $data[$key] = $value;            
+            }    
+        }    
+    }
+    return $data;
+}
+
+function _fetch_data_from_db($update_id, $use_fields)
+{
+    $data  = array();    
+    $query = $this->get_where($update_id);
+    $data  = $this->_parse_db($query, $use_fields);
+    return $data;    
+}
+
+function _fetch_data_from_post($use_fields)
+{
+    $data  = array();
+    $table = $this->get_table();    
+    $mysql_query = "show columns FROM ".$table;
+    $query = $this->_custom_query($mysql_query);
+
+    foreach($query->result() as $row){
+        $column_name = $row->Field;
+        if($column_name != "id") {
+            if ( in_array($column_name, $use_fields) ) {
+                $data[$column_name] = $this->input->post( $column_name, TRUE);
+            }    
+        }
+    }
+    
+    return $data;
+}
+
+
+
+
+/* ===============================================
+    Below is Perfect Model From David Connelly
+   =============================================== */
+
 // function get_table() {
 //     $table = "tablename";
 //     return $table;
@@ -35,9 +95,10 @@ function get_where($id){
     return $query;
 }
 
-function get_where_custom($col, $value) {
+function get_where_custom($col, $value, $orderby) {
     $table = $this->get_table();
     $this->db->where($col, $value);
+    $this->db->order_by($orderby);        
     $query=$this->db->get($table);
     return $query;
 }

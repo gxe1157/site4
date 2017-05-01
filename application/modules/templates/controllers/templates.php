@@ -6,15 +6,32 @@ class Templates extends MX_Controller
 function __construct()
 {
     parent::__construct();
-    // $this->load->module('lib');
+    $this->load->module('lib');
 
     // echo $this->uri->segment(1).' | '; // controller
     // echo $this->uri->segment(2).' | '; // action
-    // echo $this->uri->segment(3).' | '; // 1stsegment
+    // echo $this->uri->segment(3).' |<br> '; // 1stsegment
     // echo $this->uri->segment(4).' | '; // 2ndsegment
     // echo $this->uri->segment(5).' | '; // 3ndsegment
     // echo $this->uri->segment(6); // 4ndsegment
 }
+
+
+function test()
+{
+    $data ='';
+    $this->public_bootstrap($data);
+}
+
+
+function public_bootstrap($data = null)
+{
+    if( !isset( $data['view_module'] ) )
+        $data['view_module']= $this->uri->segment(1);
+ 
+    $this->load->view('public_bootstrap/public_bootstrap', $data);
+}
+
 
 function _inner_nav_options( $nav_to = null, $nav)
 {
@@ -36,9 +53,9 @@ function _inner_nav_options( $nav_to = null, $nav)
     die();
 }
 
+
 function public_main( $page = null, $nav_to = null, $img_dir = null, $page_no = null )
 {
-    $this->load->module('lib');
     $this->load->module('nav_menu');
 
     // get images from directory`
@@ -100,8 +117,8 @@ function admin( $data = array() )
 
     if( !isset( $data['view_module'] ) )
         $data['view_module']= $this->uri->segment(1);
-    $this->load->view('admin/admin', $data);
 
+    $this->load->view('admin/admin', $data);
 }
 
 

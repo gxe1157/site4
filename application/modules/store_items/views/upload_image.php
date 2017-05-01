@@ -18,7 +18,7 @@
 			    } 
 			?>
 
-			<?php echo form_open_multipart('store_items/do_upload/'.$update_id, array('class' => '	form-horizontal') ); ?>
+			<?php echo form_open_multipart('store_items/do_upload/'.$update_id, array('class' => 'form-horizontal') ); ?>
 				<h2>Item Title: <?= $item_title ?></h2>
 
 				<p>Please choose a file from your computer then press 'Upload'.</p>

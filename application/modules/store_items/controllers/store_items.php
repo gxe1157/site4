@@ -5,15 +5,190 @@ class Store_items extends MY_Controller
 {
 
 /* model name goes here */
-var $mdl_name   = 'mdl_store_items';
+var $mdl_name = 'mdl_store_items';
+var $store_redirect = 'store_accounts/';
+
+var $column_rules = array(
+        array('field' => 'item_title', 'label' => 'Item Title', 'rules' => 'required'),
+        array('field' => 'item_url', 'label' => 'Item URL', 'rules' => ''),
+        array('field' => 'item_price', 'label' => 'Item Price', 'rules' => 'required'),
+        array('field' => 'item_description', 'label' => 'Item Description', 'rules' => 'required'),
+        array('field' => 'big_pic', 'label' => 'Image', 'rules' => ''),        
+        array('field' => 'small_pic', 'label' => 'Thumbnail Img', 'rules' => ''),        
+        array('field' => 'was_price', 'label' => 'Was Price', 'rules' => ''),        
+        array('field' => 'status', 'label' => 'Status', 'rules' => '')
+);
+
 
 function __construct() {
     parent::__construct();
-
+    $this->load->module('lib');
 }
 
 
-/* Add custom controller functions here */
+/* ===================================================
+    Controller functions goes here. Put all DRY
+    functions in applications/core/My_Controller.php
+   =================================================== */
+
+function manage()
+{
+    $this->_security_check();    
+
+    $data['columns']    = $this->get('item_title'); 
+    $data['add_button'] = "Add New Item";
+    $data['headtag']    = "Items Inventory";     
+
+    $data['headline']  = "Manage Items";        
+    $data['view_file'] = "manage";
+    $data['update_id'] = "";    
+
+    $this->_render_view('admin', $data);    
+}
+
+
+function create()
+{
+    $this->_security_check();    
+
+    $update_id = $this->uri->segment(3);
+    $submit = $this->input->post('submit', TRUE);
+    if( $submit == "Cancel" ) {
+        redirect('store_items/manage');
+    } 
+
+    if( $submit == "Submit" ) {
+        // process changes
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules( $this->column_rules );
+
+        if($this->form_validation->run() == TRUE) {
+            $data = $this->fetch_data_from_post();            
+            // make search friendly url
+            $data['item_url'] = url_title( $data['item_title'] );
+            if(is_numeric($update_id)){
+                //update the item details
+                $this->_update($update_id, $data);
+                $this->_set_flash_msg("The item details were sucessfully updated");
+            } else {
+                //insert a new item
+                $this->_insert($data);
+                $update_id = $this->get_max(); // get the ID of new item
+                // $flash_msg 
+                $this->_set_flash_msg("The item was sucessfully added");
+            }
+            redirect('store_items/create/'.$update_id);
+        }
+    }
+
+    if( ( is_numeric($update_id) ) && ($submit != "Submit") ) {
+        $data['columns'] = $this->fetch_data_from_db($update_id);
+    } else {
+        $data['columns'] = $this->fetch_data_from_post();
+    }
+
+    $data['labels']    = $this->_get_column_names('label');        
+    $data['button_options'] = "Update Customer Details";    
+
+    $data['headline']   = !is_numeric($update_id) ? "Add New Line" : "Update Item Details";        
+    $data['headtag']   = "Item Inventory";         
+    $data['view_file']  = "create";
+    $data['update_id']  = $update_id;
+
+    $this->_render_view('admin', $data);
+}
+
+function view_layout( $update_id ){
+    $this->_numeric_check( $update_id );
+    // fetch item details for pubic page
+    $data = $this->fetch_data_from_db( $update_id );
+
+    $data['headline'] = "Preview Item layout";            
+    $data['view_file'] = "view_layout";
+    $data['update_id'] = $update_id;
+
+    $this->_render_view('admin', $data);
+}
+
+function view( $update_id )
+{
+    $this->_numeric_check( $update_id );
+    // fetch item details for pubic page
+    $data = $this->fetch_data_from_db( $update_id );
+
+    $data['headline']  = "";        
+    $data['view_file'] = "view";
+    $data['update_id'] = $update_id;
+
+    $this->_render_view('public_bootstrap', $data);
+}
+
+
+function delete( $update_id )
+{
+    $this->_numeric_check($update_id);    
+    $this->_security_check();    
+
+    $submit = $this->input->post('submit', TRUE);
+    if( $submit =="Cancel" ){
+        redirect('store_items/create/'.$update_id);
+    } elseif( $submit=="Yes - Delete item" ){
+        /* get item title from store_items table */
+        $row_data = $this->fetch_data_from_db($update_id);
+        $data['item_title'] = $row_data['item_title'];            
+        $data['small_img']  = $row_data['small_pic'];
+
+        $this->_process_delete($update_id);
+        $this->_set_flash_msg("The item ".$data['item_title'].", was sucessfully deleted");
+
+        redirect('store_items/manage');
+    }
+
+}
+
+function _process_delete( $update_id )
+{
+    /* delete item colors */
+    $this->cntlr_name->_delete_for_item( $update_id, 'store_item_colors');
+    /* delete item sizes */
+    $this->cntlr_name->_delete_for_item( $update_id, 'store_item_sizes');
+
+    /* delete bic_pic and small_pic ( unlink ) */
+    $data = $this->fetch_data_from_db($update_id);
+    $big_pic = $data['big_pic'];
+    $small_pic = $data['small_pic'];
+    $big_pic_path = './public/big_pic/'.$big_pic;
+    $small_pic_path = './public/small_pic/'.$small_pic;  
+
+    /* remove the images */
+    if(file_exists($big_pic_path)) {
+        unlink($big_pic_path);
+    } 
+
+    if(file_exists($small_pic_path)) {
+        unlink($small_pic_path);
+    }  
+    /* delete item */
+     $this->_delete( $update_id );
+}
+
+function deleteconf( $update_id )
+{
+    $this->_numeric_check($update_id);    
+    $this->_security_check();    
+
+    /* get item title and small img from store_items table */
+    $row_data = $this->fetch_data_from_db($update_id);
+    $data['item_title'] = $row_data['item_title'];            
+    $data['small_img']  = $row_data['small_pic'];
+
+    $data['headline']  = "Delete Item";        
+    $data['view_file'] = "deleteconf";
+    $data['update_id']  = $update_id;
+
+    $this->_render_view('admin', $data);    
+}
+
 function _generate_thumbnail($file_name)
 {
     $config['image_library'] = 'gd2';
@@ -29,14 +204,10 @@ function _generate_thumbnail($file_name)
 }
 
 
-function delete_image( $update_id ) {
-    if( !is_numeric($update_id) ){
-        redirect('site_security/not_allowed');
-    }
-
-    $this->load->library('session');  
-    $this->load->module('site_security');
-    $this->site_security->_make_sure_is_admin();
+function delete_image( $update_id )
+{
+    $this->_numeric_check($update_id);    
+    $this->_security_check();    
 
     $data = $this->fetch_data_from_db($update_id);
     $big_pic = $data['big_pic'];
@@ -60,44 +231,31 @@ function delete_image( $update_id ) {
     $data['small_pic'] ='';    
     $this->_update($update_id, $data);
 
-    $flash_msg = "The item image was sucessfully deleted";          
-    $value = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
-    $this->session->set_flashdata('item', $value);
-
+    $this->_set_flash_msg("The item image was sucessfully deleted");
     redirect('store_items/create/'.$update_id);
-
 }
 
 function upload_image( $update_id )
 {
-    if( !is_numeric($update_id) ){
-        redirect('site_security/not_allowed');
-    }
-
-    $this->load->library('session');  
-    $this->load->module('site_security');
-    $this->site_security->_make_sure_is_admin();
+    $this->_numeric_check($update_id);    
+    $this->_security_check();    
 
     /* get item title */
     $row_data = $this->fetch_data_from_db($update_id);
     $data['item_title'] = $row_data['item_title'];        
 
-    $data['headline'] = "Upload Image";        
-    $data['update_id'] = $update_id;
-    $data['flash'] = $this->session->flashdata('item');    
-    $data['view_file']   = "upload_image";
+    $data['headline']  = "Upload Image";        
+    $data['view_file'] = "upload_image";
+    $data['update_id']  = $update_id;
 
-    $this->load->module('templates');
-    $this->templates->admin($data);
-
+    $this->_render_view('admin', $data);
 }
 
 function do_upload( $update_id )
 {
-
-    $this->load->library('session');  
-    $this->load->module('site_security');
-    $this->site_security->_make_sure_is_admin();
+    $is_uploaded = TRUE;
+    $this->_numeric_check($update_id);    
+    $this->_security_check();    
 
     if( !is_numeric($update_id) ){
         redirect('site_security/not_allowed');
@@ -117,14 +275,10 @@ function do_upload( $update_id )
 
     $this->load->library('upload', $config);
     if (!$this->upload->do_upload('userfile')) {
-       $data['error']= array('error' => $this->upload->display_errors( "<p style='color: red'>", "</p>") );
-        $data['headline']  = "Upload Error";        
-        $data['view_file'] = "upload_image";
+        $is_uploaded   = FALSE;
+        $data['error'] = array('error' => $this->upload->display_errors( "<p style='color: red'>", "</p>") );
     } else {
-        $flash_msg = "Your file was successfully uploaded!";
-        $value     = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
-        $this->session->set_flashdata('image', $value);
-
+        $this->_set_flash_msg("Your file was successfully uploaded!");
         $data = array('upload_data' => $this->upload->data());        
         $upload_data = $data['upload_data'];
         $file_name   = $upload_data['file_name'];
@@ -136,137 +290,51 @@ function do_upload( $update_id )
         $update_data['big_pic'] = $file_name;
         $update_data['small_pic'] = $file_name;
         $this->_update($update_id, $update_data);
-
-
-        $data['headline']  = "Upload Success";        
-        $data['view_file'] = "upload_success";
     }
 
     /* get item title */
     $row_data = $this->fetch_data_from_db($update_id);
     $data['item_title'] = $row_data['item_title'];        
 
-    $data['update_id'] = $update_id;
-    $data['flash'] = $this->session->flashdata('image');    
-    $this->load->module('templates');
-    $this->templates->admin($data);
+    $data['headline']  = $is_uploaded == TRUE ? "Upload Success" : "Upload Error";        
+    $data['view_file'] = $is_uploaded == TRUE ? "Upload_success" : "Upload_image";
+    $data['update_id']  = $update_id;
+
+    $this->_render_view('admin', $data);    
 }
 
-function create()
+
+/* ===============================================
+    DRY functions go here...
+  =============================================== */
+
+function _render_view(  $arg, $data )    
 {
-    $this->load->library('session');  
-    $this->load->module('site_security');
-    $this->site_security->_make_sure_is_admin();
+    $data['flash'] = $this->session->flashdata('item');                
+    $this->load->module('templates');
+    $arg == 'public_bootstrap' ? $this->templates->public_bootstrap($data) : $this->templates->admin($data);
+}  
 
-    $update_id = $this->uri->segment(3);
-    $submit = $this->input->post('submit', TRUE);
-
-    if( $submit == "Cancel" ) {
-        redirect('store_items/manage');
-    } 
-
-    if( $submit == "Submit" ) {
-        // process changes
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('item_title', 'Item Title', 'required|max_length[240]|callback_item_check');
-        $this->form_validation->set_rules('item_price', 'Item Price', 'required|numeric');
-        $this->form_validation->set_rules('was_price',  'Was Price',  'numeric');
-        $this->form_validation->set_rules('status',  'Status',  'required|numeric');        
-        $this->form_validation->set_rules('item_description',  'Item Description',  'required');
-
-        if($this->form_validation->run() == TRUE) {
-            $data = $this->fetch_data_from_post();
-            // make search friendly url
-            $data['item_url'] = url_title( $data['item_title'] );
-            if(is_numeric($update_id)){
-                //update the item details
-                $this->_update($update_id, $data);
-                $flash_msg = "The item details were sucessfully updated";
-            } else {
-                //insert a new item
-                $this->_insert($data);
-                $update_id = $this->get_max(); // get the ID of new item
-                $flash_msg = "The item was sucessfully added";
-            }
-            $value     = '<div class="alert alert-success" role="alert">'.$flash_msg.'</div>';
-            $this->session->set_flashdata('item', $value);
-            redirect('store_items/create/'.$update_id);
+function _get_column_names( $key_value )  // we will use for $key_value only "field" or "label"
+{
+    foreach ($this->column_rules as $key => $value) {
+        if( $key_value == 'field' ) {
+            $data[] = $this->column_rules[$key][$key_value];
+        } else {
+            $field  = $this->column_rules[$key]['field'];
+            $data[$field] = $this->column_rules[$key]['label'];
         }
     }
-
-    if( ( is_numeric($update_id) ) && ($submit != "Submit") ) {
-        $data = $this->fetch_data_from_db($update_id);
-    } else {
-        $data = $this->fetch_data_from_post();
-    }
-
-    if( !is_numeric($update_id) ) {
-        $data['headline'] = "Add New Line";
-    } else {
-        $data['headline'] = "Update Item Details";        
-    }
-
-    $data['flash'] = $this->session->item;
-    $data['update_id'] = $update_id;
-    $data['view_file']   = "create";
-
-    $this->load->module('templates');
-    $this->templates->admin($data);
-
-}
-
-
-function manage() {
-    $this->load->module('site_security');
-    $this->site_security->_make_sure_is_admin();
-
-    $data['query'] = $this->get('item_title'); 
-    $data['view_file'] = "manage";
-
-    $this->load->module('templates');
-    $this->templates->admin($data);
-}
-
-
-function fetch_data_from_post() {
-    $data['item_title'] = $this->input->post('item_title', TRUE);
-    $data['item_price'] = $this->input->post('item_price', TRUE);
-    $data['was_price']  = $this->input->post('was_price', TRUE);    
-    $data['item_description'] = $this->input->post('item_description', TRUE);
-    $data['status'] = $this->input->post('status', TRUE);    
+    // $this->lib->checkArray($data, 1);
     return $data;
 }
 
 
-function fetch_data_from_db($update_id) {
 
-    if( !is_numeric($update_id) ){
-        redirect('site_security/not_allowed');
-    }    
+/* ===============================================
+    Call backs go here...
+  =============================================== */
 
-    $query = $this->get_where($update_id);
-    foreach( $query->result() as $row ) {
-        $data['item_title'] = $row->item_title;
-        $data['item_url']   = $row->item_url;        
-        $data['item_price'] = $row->item_price;
-        $data['item_description'] = $row->item_description;
-        $data['big_pic']    = $row->big_pic;
-        $data['small_pic']  = $row->small_pic;                                        
-        $data['was_price']  = $row->was_price;
-        $data['status']  = $row->status;        
-    }
-
-    if( !isset($data) ) {
-        // No records found send to manage item page
-        redirect( 'store_items/manage');
-    }
-
-    return $data;    
-
-}
-/* End custom functions   */
-
-/* Call backs go here...  */
 function item_check($str) {
     $item_url = url_title($str);
     $mysql_query = "select * from store_items where item_title='$str' and item_url='$item_url'";
@@ -288,11 +356,12 @@ function item_check($str) {
     }
 
 }
-/* End callbacks */
 
+/* ===============================================
+    David Connelly's work from perfectcontroller
+    is in applications/core/My_Controller.php which
+    is extened here.
+  =============================================== */
 
-// David Connelly's work from perfectcontroller
-// is in applications/core/My_Controller.php which
-// is extened here.
 
 } // End class Controller
