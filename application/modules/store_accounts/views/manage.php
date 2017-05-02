@@ -33,24 +33,24 @@
 			  </thead>   
 			  <tbody>
 
-					<?php foreach( $columns->result() as $row ) {
-						$edit_item_url = $create_url."/".$row->id;	
-				
-						//$this->lib->checkArray($row, 0);
-
+					<?php
+						$this->load->module('timedates');					
+						foreach( $columns->result() as $row ) {
+						$edit_account_url = $create_url."/".$row->id;	
+						$create_date = $this->timedates->get_nice_date($row->create_date, 'cool')			
 					?>
 						<tr>
 							<td class="right"><?= $row->firstname ?></td>
 							<td class="right"><?= $row->lastname ?></td>
 							<td class="right"><?= $row->company ?></td>
-							<td class="right"><?= $row->create_date ?></td>
-							<td class="right"></td>
+							<td class="right"><?= $create_date ?></td>
+							<td class="right">&nbsp;</td>
 
 							<td class="center">
 								<a class="btn btn-success" href="#">
 									<i class="halflings-icon white zoom-in"></i>  
 								</a>
-								<a class="btn btn-info" href="<?= $edit_item_url ?>">
+								<a class="btn btn-info" href="<?= $edit_account_url ?>">
 									<i class="halflings-icon white edit"></i>  
 								</a>
 							</td>
