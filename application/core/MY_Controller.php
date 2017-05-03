@@ -21,7 +21,7 @@ function __construct() {
 
 
 /* ===============================================
-   Add DRY funtions
+   Add DRY funtions  // Added By Evelio Velez 04-2017
    =============================================== */
 
 function _security_check()
@@ -43,7 +43,30 @@ function _set_flash_msg($flash_msg)
     $this->session->set_flashdata('item', $value);
 }
 
-// Added By Evelio Velez 04-28-2017
+
+function _render_view(  $arg, $data )    
+{
+    $data['flash'] = $this->session->flashdata('item');                
+    $this->load->module('templates');
+    $arg == 'public_bootstrap' ? $this->templates->public_bootstrap($data) : $this->templates->admin($data);
+}  
+
+
+function _get_column_names( $key_value )  // we will use for $key_value only "field" or "label"
+{
+    foreach ($this->column_rules as $key => $value) {
+        if( $key_value == 'field' ) {
+            $data[] = $this->column_rules[$key][$key_value];
+        } else {
+            $field  = $this->column_rules[$key]['field'];
+            $data[$field] = $this->column_rules[$key]['label'];
+        }
+    }
+    // $this->lib->checkArray($data, 1);
+    return $data;
+}
+
+
 function fetch_data_from_post()
 {
     $field_names = $this->_get_column_names('field');
@@ -51,7 +74,6 @@ function fetch_data_from_post()
     return $data;    
 }
 
-// Added By Evelio Velez 04-28-2017
 function fetch_data_from_db($update_id)
 {
     $field_names = $this->_get_column_names('field');

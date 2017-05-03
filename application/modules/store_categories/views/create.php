@@ -6,26 +6,6 @@
 	$form_location = base_url().$this->uri->segment(1)."/create/".$update_id;
 ?>
 
-<?php if( is_numeric($update_id) ) { ?>
-	<div class="row-fluid sortable">
-		<div class="box span12">
-			<div class="box-header" data-original-title>
-				<h2><i class="<?= $class_icon ?>"></i><span class="break"></span><?= $button_options ?></h2>
-				<div class="box-icon">
-					<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-					<a href="<?= base_url().$this->uri->segment(1) ?>/manage" ><i class="halflings-icon white remove"></i></a>
-				</div>
-			</div>
-			<div class="box-content">
-				<a href="<?= base_url().$this->uri->segment(1) ?>/update_password/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Password</button></a>
-				<a href="<?= base_url().$this->uri->segment(1) ?>/deleteconf/<?= $update_id ?>"><button type="button" class="btn btn-danger">Delete Account</button></a>
-
-			</div>
-
-		</div><!-- end 12 span -->
-	</div><!-- end row-fluid sortable -->
-<?php } ?>
-
 
 <div class="row-fluid sortable">
 	<div class="box span12">

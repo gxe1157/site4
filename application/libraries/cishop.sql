@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2017 at 01:35 PM
+-- Generation Time: May 03, 2017 at 01:35 PM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -54,6 +54,25 @@ INSERT INTO `store_accounts` (`id`, `firstname`, `lastname`, `company`, `address
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `store_categories`
+--
+
+CREATE TABLE IF NOT EXISTS `store_categories` (
+  `id` int(11) NOT NULL,
+  `cat_title` varchar(255) NOT NULL,
+  `parent_cat_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `store_categories`
+--
+
+INSERT INTO `store_categories` (`id`, `cat_title`, `parent_cat_id`) VALUES
+(1, 'test catagory', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `store_items`
 --
 
@@ -75,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `store_items` (
 
 INSERT INTO `store_items` (`id`, `item_title`, `item_url`, `item_price`, `item_description`, `big_pic`, `small_pic`, `was_price`, `status`) VALUES
 (11, 'shirt', 'shirt', '50.00', '      aaaaaaaaaaaaaaaaaaaaaaaaaaaa<div>aaaaaaaaaaaaa</div><div><br></div><div>aaaaaaaaaaaaaaaaaaaa</div><div><br></div>     ', 'folded_slfmailer.jpg', 'folded_slfmailer.jpg', '60.00', 1),
-(13, 'Galaxy Phone III', 'Galaxy-Phone-III', '900.00', 'Galaxy III &nbsp;Phone<div><br></div>', 'Lighthouse.jpg', 'Lighthouse.jpg', '1200.00', 1),
+(13, 'Galaxy Phone III', 'Galaxy-Phone-III', '900.00', '      Galaxy III &nbsp;Phone<div><br></div>     ', NULL, NULL, '1200.00', 1),
 (14, 'Pen', 'Pen', '2.00', 'This a mighty pen.', 'Hydrangeas.jpg', 'Hydrangeas.jpg', '2.50', 1);
 
 -- --------------------------------------------------------
@@ -98,7 +117,6 @@ INSERT INTO `store_item_colors` (`id`, `item_id`, `item_color`) VALUES
 (19, 11, 'white'),
 (20, 11, 'blue'),
 (27, 13, 'White'),
-(29, 13, 'Black'),
 (30, 13, 'Silver');
 
 -- --------------------------------------------------------
@@ -135,6 +153,12 @@ ALTER TABLE `store_accounts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `store_categories`
+--
+ALTER TABLE `store_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `store_items`
 --
 ALTER TABLE `store_items`
@@ -161,6 +185,11 @@ ALTER TABLE `store_item_sizes`
 --
 ALTER TABLE `store_accounts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `store_categories`
+--
+ALTER TABLE `store_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `store_items`
 --

@@ -5,8 +5,8 @@ class Store_accounts extends MY_Controller
 {
 
 /* model name goes here */
-var $mdl_name   = 'mdl_store_accounts';
-var $store_redirect = 'store_accounts/';
+var $mdl_name = 'mdl_store_accounts';
+var $store_controller = 'store_accounts';
 
 var $column_rules = array(
         array('field' => 'firstname', 'label' => 'First Name', 'rules' => 'required'),
@@ -46,59 +46,18 @@ function __construct() {
     functions in applications/core/My_Controller.php
   ==================================================== */
 
-
-function update_password()
-{
-    $this->_security_check();    
-
-    $update_id = $this->uri->segment(3);
-    $submit = $this->input->post('submit', TRUE);
-
-    if( !is_numeric($update_id) ){
-        redirect( $this->store_redirect.'manage');
-    } elseif( $submit == "Cancel" ) {
-        redirect( $this->store_redirect.'create/'.$update_id);
-    } 
-
-    if( $submit == "Submit" ) {
-        // process changes
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules( $this->column_pword_rules );
-
-        if($this->form_validation->run() == TRUE) {
-            $password = $this->input->post('password', TRUE);
-            $this->load->module('site_security');
-            $data['password'] = $this->site_security->_hash_string($password);
-
-            // $this->lib->checkField($update_id, 1);            
-            // $this->lib->checkArray($data['password'],0);
-            //update the account details
-            $this->_update($update_id, $data);
-            $this->_set_flash_msg("The account password was sucessfully updated");
-            redirect( $this->store_redirect.'create/'.$update_id);
-        }
-    }
-
-    $data['headline']  = "Update Account Password";
-    $data['headtag']   = "Update Form";     
-    $data['view_file'] = "update_password";
-    $data['update_id'] = $update_id;
-
-    $this->_render_view('admin', $data);
-}
-
 function manage()
 {
     $this->_security_check();    
 
-    $data['columns']    = $this->get('company'); 
-
-    $data['add_button'] = "Add New Account";
-    $data['headtag']    = "Customer Accounts";     
-
-    $data['headline']   = "Manage Accounts";        
-    $data['view_file']  = "manage";
-    $data['update_id']  = "";    
+    $data['columns']      = $this->get('company'); // get form fields structure
+    $data['redirect_url'] = base_url().$this->uri->segment(1)."/create";    
+    $data['add_button']   = "Add New Account";
+    $data['headtag']      = "Customer Accounts";     
+    $data['headline']     = "Manage Accounts"; 
+    $data['class_icon']   = "icon-briefcase";
+    $data['view_file']    = "manage";
+    $data['update_id']    = "";    
 
     $this->_render_view('admin', $data);    
 }
@@ -107,12 +66,11 @@ function manage()
 function create()
 {
     $this->_security_check();    
-    // $data['pagelist'] = array();
-
+ 
     $update_id = $this->uri->segment(3);
     $submit = $this->input->post('submit', TRUE);
     if( $submit == "Cancel" ) {
-        redirect( $this->store_redirect.'manage');
+        redirect( $this->store_controller.'/manage');
     } 
 
     if( $submit == "Submit" ) {
@@ -135,7 +93,7 @@ function create()
                 // $flash_msg 
                 $this->_set_flash_msg("The account was sucessfully added");
             }
-            redirect( $this->store_redirect.'create/'.$update_id);
+            redirect( $this->store_controller.'/create/'.$update_id);
         }
     }
 
@@ -149,8 +107,48 @@ function create()
     $data['labels']    = $this->_get_column_names('label');        
     $data['button_options'] = "Update Customer Details";    
     $data['headtag']   = "Customer Accounts";     
+    $data['class_icon']   = "icon-briefcase";    
     $data['headline']  = !is_numeric($update_id) ? "Add New Customer" : "Update Customer Details";        
     $data['view_file'] = "create";
+    $data['update_id'] = $update_id;
+
+    $this->_render_view('admin', $data);
+}
+
+
+function update_password()
+{
+    $this->_security_check();    
+
+    $update_id = $this->uri->segment(3);
+    $submit = $this->input->post('submit', TRUE);
+
+    if( !is_numeric($update_id) ){
+        redirect( $this->store_controller.'/manage');
+    } elseif( $submit == "Cancel" ) {
+        redirect( $this->store_controller.'/create/'.$update_id);
+    } 
+
+    if( $submit == "Submit" ) {
+        // process changes
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules( $this->column_pword_rules );
+
+        if($this->form_validation->run() == TRUE) {
+            $password = $this->input->post('password', TRUE);
+            $this->load->module('site_security');
+            $data['password'] = $this->site_security->_hash_string($password);
+
+            //update the account details
+            $this->_update($update_id, $data);
+            $this->_set_flash_msg("The account password was sucessfully updated");
+            redirect( $this->store_controller.'/create/'.$update_id);
+        }
+    }
+
+    $data['headline']  = "Update Account Password";
+    $data['headtag']   = "Update Form";     
+    $data['view_file'] = "update_password";
     $data['update_id'] = $update_id;
 
     $this->_render_view('admin', $data);
@@ -222,32 +220,6 @@ function deleteconf( $update_id )
 }
 
 
-/* ===============================================
-    DRY functions go here...
-  =============================================== */
-
-function _render_view(  $arg, $data )    
-{
-    $data['flash'] = $this->session->flashdata('item');                
-    $this->load->module('templates');
-    $arg == 'public_bootstrap' ? $this->templates->public_bootstrap($data) : $this->templates->admin($data);
-}  
-
-function _get_column_names( $key_value )  // we will use for $key_value only "field" or "label"
-{
-    foreach ($this->column_rules as $key => $value) {
-        if( $key_value == 'field' ) {
-            $data[] = $this->column_rules[$key][$key_value];
-        } else {
-            $field  = $this->column_rules[$key]['field'];
-            $data[$field] = $this->column_rules[$key]['label'];
-        }
-    }
-    // $this->lib->checkArray($data, 1);
-    return $data;
-}
-
- 
 
 /* ===============================================
     Call backs go here...

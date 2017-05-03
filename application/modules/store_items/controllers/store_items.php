@@ -6,7 +6,7 @@ class Store_items extends MY_Controller
 
 /* model name goes here */
 var $mdl_name = 'mdl_store_items';
-var $store_redirect = 'store_accounts/';
+var $store_controller = 'store_items';
 
 var $column_rules = array(
         array('field' => 'item_title', 'label' => 'Item Title', 'rules' => 'required'),
@@ -19,6 +19,8 @@ var $column_rules = array(
         array('field' => 'status', 'label' => 'Status', 'rules' => '')
 );
 
+//// use like this.. in_array($key, $columns_not_allowed ) === false )
+var  $columns_not_allowed = array( 'create_date' );
 
 function __construct() {
     parent::__construct();
@@ -35,13 +37,14 @@ function manage()
 {
     $this->_security_check();    
 
-    $data['columns']    = $this->get('item_title'); 
-    $data['add_button'] = "Add New Item";
-    $data['headtag']    = "Items Inventory";     
-
-    $data['headline']  = "Manage Items";        
-    $data['view_file'] = "manage";
-    $data['update_id'] = "";    
+    $data['columns']      = $this->get('item_title'); // get form fields structure
+    $data['redirect_url'] = base_url().$this->uri->segment(1)."/create";        
+    $data['add_button']   = "Add New Item";
+    $data['headtag']      = "Items Inventory";     
+    $data['class_icon']   = "icon-tag";       
+    $data['headline']     = "Manage Items";        
+    $data['view_file']    = "manage";
+    $data['update_id']    = "";    
 
     $this->_render_view('admin', $data);    
 }
@@ -54,7 +57,7 @@ function create()
     $update_id = $this->uri->segment(3);
     $submit = $this->input->post('submit', TRUE);
     if( $submit == "Cancel" ) {
-        redirect('store_items/manage');
+        redirect($this->store_controller.'/manage');
     } 
 
     if( $submit == "Submit" ) {
@@ -77,7 +80,7 @@ function create()
                 // $flash_msg 
                 $this->_set_flash_msg("The item was sucessfully added");
             }
-            redirect('store_items/create/'.$update_id);
+            redirect($this->store_controller.'/create/'.$update_id);            
         }
     }
 
@@ -87,9 +90,9 @@ function create()
         $data['columns'] = $this->fetch_data_from_post();
     }
 
+    $data['columns_not_allowed'] = $this->columns_not_allowed;
     $data['labels']    = $this->_get_column_names('label');        
     $data['button_options'] = "Update Customer Details";    
-
     $data['headline']   = !is_numeric($update_id) ? "Add New Line" : "Update Item Details";        
     $data['headtag']   = "Item Inventory";         
     $data['view_file']  = "create";
@@ -131,7 +134,7 @@ function delete( $update_id )
 
     $submit = $this->input->post('submit', TRUE);
     if( $submit =="Cancel" ){
-        redirect('store_items/create/'.$update_id);
+        redirect($this->store_controller.'/create/'.$update_id);        
     } elseif( $submit=="Yes - Delete item" ){
         /* get item title from store_items table */
         $row_data = $this->fetch_data_from_db($update_id);
@@ -141,7 +144,7 @@ function delete( $update_id )
         $this->_process_delete($update_id);
         $this->_set_flash_msg("The item ".$data['item_title'].", was sucessfully deleted");
 
-        redirect('store_items/manage');
+        redirect($this->store_controller.'/manage');        
     }
 
 }
@@ -232,7 +235,7 @@ function delete_image( $update_id )
     $this->_update($update_id, $data);
 
     $this->_set_flash_msg("The item image was sucessfully deleted");
-    redirect('store_items/create/'.$update_id);
+    redirect($this->store_controller.'/create/'.$update_id);    
 }
 
 function upload_image( $update_id )
@@ -263,7 +266,7 @@ function do_upload( $update_id )
 
     $submit = $this->input->post('submit', TRUE);
     if( $submit == "Cancel" ) {
-        redirect('store_items/create/'.$update_id);
+        redirect($this->store_controller.'/create/'.$update_id);        
     } 
 
     $data['update_id']       = $update_id;
@@ -301,32 +304,6 @@ function do_upload( $update_id )
     $data['update_id']  = $update_id;
 
     $this->_render_view('admin', $data);    
-}
-
-
-/* ===============================================
-    DRY functions go here...
-  =============================================== */
-
-function _render_view(  $arg, $data )    
-{
-    $data['flash'] = $this->session->flashdata('item');                
-    $this->load->module('templates');
-    $arg == 'public_bootstrap' ? $this->templates->public_bootstrap($data) : $this->templates->admin($data);
-}  
-
-function _get_column_names( $key_value )  // we will use for $key_value only "field" or "label"
-{
-    foreach ($this->column_rules as $key => $value) {
-        if( $key_value == 'field' ) {
-            $data[] = $this->column_rules[$key][$key_value];
-        } else {
-            $field  = $this->column_rules[$key]['field'];
-            $data[$field] = $this->column_rules[$key]['label'];
-        }
-    }
-    // $this->lib->checkArray($data, 1);
-    return $data;
 }
 
 

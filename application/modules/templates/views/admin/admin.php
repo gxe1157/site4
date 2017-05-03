@@ -337,6 +337,7 @@
 				<ul class="nav nav-tabs nav-stacked main-menu">
 					<li><a href="index.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 					<li><a href="<?= base_url() ?>store_items/manage"><i class="icon-tag"></i><span class="hidden-tablet"> Manage Items</span></a></li>
+					<li><a href="<?= base_url() ?>store_categories/manage"><i class="icon-align-justify"></i><span class="hidden-tablet"> Manage Categories</span></a></li>					
 					<li><a href="<?= base_url() ?>store_accounts/manage"><i class="icon-briefcase"></i><span class="hidden-tablet"> Accounts</span></a></li>					
 
 

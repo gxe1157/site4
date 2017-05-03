@@ -22,29 +22,20 @@
 			<table class="table table-striped table-bordered bootstrap-datatable datatable">
 			  <thead>
 				  <tr>
-					  <th>First Name</th>
-					  <th>Last Name</th>
-					  <th>Company</th>
-					  <th>Date Created</th>
-					  <th>-----</th>					  
+					  <th>Category Title</th>
+					  <th>Parent Category</th>
 					  <th>Actions</th>
 				  </tr>
 			  </thead>   
 			  <tbody>
 
 					<?php
-						$this->load->module('timedates');					
 						foreach( $columns->result() as $row ) {
 						$edit_url = $redirect_url."/".$row->id;	
-						$create_date = $this->timedates->get_nice_date($row->create_date, 'cool')			
 					?>
 						<tr>
-							<td class="right"><?= $row->firstname ?></td>
-							<td class="right"><?= $row->lastname ?></td>
-							<td class="right"><?= $row->company ?></td>
-							<td class="right"><?= $create_date ?></td>
-							<td class="right">&nbsp;</td>
-
+							<td class="right"><?= $row->cat_title ?></td>
+							<td class="right"> ---- </td>
 							<td class="center">
 								<a class="btn btn-success" href="#">
 									<i class="halflings-icon white zoom-in"></i>  
@@ -55,6 +46,18 @@
 							</td>
 						</tr>
 			    	<?php } ?>			    
+
+					<div class="controls">
+						<?php
+						$additional_opt = " id = selectCategories";
+						$options = array(
+						        '' => 'Please Select....',
+						        '1' => 'Active',
+						        '0' => 'Inactive'
+						);
+						echo form_dropdown('parent_cat_id', $options, '0', $additional_opt);
+						?>
+					</div>
 
 			  </tbody>
 		  </table>            

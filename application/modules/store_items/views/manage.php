@@ -1,19 +1,18 @@
 <?php
-	$create_url = base_url().$this->uri->segment(1)."/create";
 	if( isset($flash) ) echo $flash;	
 ?>
 
 <h1><?= $headline ?></h1>
 
 <p style="margin-top: 30px,">
-	<a href="<?= $create_url ?>" ><button type="button" class="btn btn-primary"><?= $add_button ?></button></a>
+	<a href="<?= $redirect_url ?>" ><button type="button" class="btn btn-primary"><?= $add_button ?></button></a>
 </p>
 
 
 <div class="row-fluid sortable">		
 	<div class="box span12">
 		<div class="box-header" data-original-title >
-			<h2><i class="halflings-icon white briefcase"></i><span class="break"></span><?= $headtag ?></h2>
+			<h2><i class="<?= $class_icon ?>" ></i><span class="break"></span><?= $headtag ?></h2>
 			<div class="box-icon">
 				<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
 				<a href="#" ><i class="halflings-icon white remove"></i></a>
@@ -35,7 +34,7 @@
 
 			    <?php
 			    	 foreach( $columns->result() as $row ){
-			    	 	$edit_item_url = $create_url."/".$row->id;			    	 	
+			    	 	$edit_item_url = $redirect_url."/".$row->id;			    	 	
 			    	 	$status = $row->status;
 			    	 	if( $status == 1) {
 			    	 		$status_label = "success";

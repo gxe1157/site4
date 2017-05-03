@@ -5,12 +5,18 @@ class Perfectcontroller extends MY_Controller
 {
 
 /* model name goes here */
-var $mdl_name   = '';
+var $mdl_name = 'mdl_ ... ';
+var $store_controller = ' ... ';
+
+var $column_rules = array(
+        array('field' => ' ... ', 'label' => ' ... ', 'rules' => ' ... '),
+);
 
 function __construct() {
     parent::__construct();
 
 }
+
 
 
 
@@ -21,7 +27,6 @@ function __construct() {
 
 
 
-  
 
 /* ===============================================
     Call backs go here...
