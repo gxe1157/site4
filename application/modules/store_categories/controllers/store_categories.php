@@ -9,12 +9,12 @@ var $mdl_name = 'mdl_store_categories';
 var $store_controller = 'store_categories';
 
 var $column_rules = array(
-        array('field' => 'cat_title', 'label' => 'Category Title', 'rules' => 'required|max_length[240]')
-        // array('field' => 'parent_cat_id', 'label' => 'Parent Category Id', 'rules' => ''),        
+        array('field' => 'cat_title', 'label' => 'Category Title', 'rules' => 'required|max_length[240]'),
+        //array('field' => 'parent_cat_id', 'label' => 'Parent Category Id', 'rules' => ''),        
 );
 
 //// use like this.. in_array($key, $columns_not_allowed ) === false )
-var  $columns_not_allowed = array( 'parent_cat_id' );
+var  $columns_not_allowed = array( '' );
 
 function __construct() {
     parent::__construct();
@@ -69,7 +69,6 @@ function create()
                 $this->_set_flash_msg("The category details were sucessfully updated");
             } else {
                 //insert a new category
-                // $data['create_date'] = time();  // timestamp for database
                 $this->_insert($data);
                 $update_id = $this->get_max(); // get the ID of new category
                 // $flash_msg 
@@ -85,17 +84,43 @@ function create()
         $data['columns'] = $this->fetch_data_from_post();
     }
 
-    $data['columns_not_allowed'] = $this->columns_not_allowed;
+    $data['options']   = $this->_get_dropdown_options( $update_id );
+    $data['num_dropdown_options'] = count($data['options']);
+
+    $data['columns_not_allowed'] = $this->columns_not_allowed;    
     $data['labels']    = $this->_get_column_names('label');        
     $data['button_options'] = "Update Category Details";    
     $data['headtag']   = "Category Details"; 
-    $data['class_icon']   = "icon-align-justify";          
+    $data['class_icon']= "icon-align-justify";          
     $data['headline']  = !is_numeric($update_id) ? "Add New Category" : "Update Category";        
     $data['view_file'] = "create";
     $data['update_id'] = $update_id;
 
     $this->_render_view('admin', $data);
 }
+
+function _get_cat_title( $update_id )
+{
+    $data = $this->fetch_data_from_db($update_id);
+    $cat_title = $data['cat_title'];
+    return $cat_title;    
+}
+
+function _get_dropdown_options( $update_id )
+{
+    if(!is_numeric($update_id)) $update_id = 0;
+
+    $options[''] = 'Please Select....';   
+
+    // build array of all parent categories
+    $mysql_query = "SELECT * FROM `store_categories` WHERE parent_cat_id=0 AND id!=$update_id";
+    $query = $this->_custom_query($mysql_query);
+    foreach( $query->result() as $row){
+        $options[$row->id] = $row->cat_title;
+    }
+    return $options;
+}
+
 
 /* ===============================================
     Call backs go here...

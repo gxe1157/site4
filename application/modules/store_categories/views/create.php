@@ -19,7 +19,21 @@
 		<div class="box-content">
 
 			<form class="form-horizontal" method="post" action="<?= $form_location ?>" >
-				<fieldset>			    
+				<fieldset>		
+					<?php
+
+					if( $num_dropdown_options>1 ){ ?>
+						<div class="control-group">
+							<label class="control-label" for="selectStatus">Parent Category</label>
+							<div class="controls">
+								<?php
+									echo form_dropdown('parent_cat_id', $options, 0, array('id' => 'selectStatus'));
+								?>
+							</div>
+						</div> <?php 
+					} else {
+						echo form_hidden('parent_cat_id', 0);
+					} ?>
 
 					<?php
 						foreach( $columns as $key => $value ) {
