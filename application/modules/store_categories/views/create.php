@@ -19,34 +19,14 @@
 		<div class="box-content">
 
 			<form class="form-horizontal" method="post" action="<?= $form_location ?>" >
-				<fieldset>		
-					<?php
-
-					if( $num_dropdown_options>1 ){ ?>
-						<div class="control-group">
-							<label class="control-label" for="selectStatus">Parent Category</label>
-							<div class="controls">
-								<?php
-									echo form_dropdown('parent_cat_id', $options, 0, array('id' => 'selectStatus'));
-								?>
-							</div>
-						</div> <?php 
-					} else {
-						echo form_hidden('parent_cat_id', 0);
-					} ?>
-
-					<?php
-						foreach( $columns as $key => $value ) {
-							if( in_array($key, $columns_not_allowed ) === false ) {
-					?>		
-							<div class="control-group">
-							  <label class="control-label" for="typeahead"><?= $labels[$key] ?></label>
-							  <div class="controls">
-								<input type="text" class="span6" id="<?= $key ?>"  name="<?= $key ?>" value="<?= $value ?>">
-							  </div>
-							</div>
-
-			    	<?php } } ?>
+				<input type="hidden" id="parent_cat_id"  name="parent_cat_id" value="<?= $columns['parent_cat_id'] ?>">			    
+				<fieldset>
+					<div class="control-group">
+					  <label class="control-label" for="typeahead">Catagory Title</label>
+					  <div class="controls">
+						<input type="text" class="span6" id="cat_title"  name="cat_title" value="">
+					  </div>
+					</div>
 
 					<div class="form-actions">
 					  <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>

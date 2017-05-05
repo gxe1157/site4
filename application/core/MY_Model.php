@@ -21,6 +21,7 @@ function get_view_data_custom($col, $value, $table, $orderby) {
     return $query;
 }
 
+
 function _parse_db($query, $use_fields)
 {
     $data  = array();        

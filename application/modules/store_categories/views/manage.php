@@ -29,23 +29,14 @@
 				  </tr>
 			  </thead>   
 			  <tbody>
-
 					<?php
 						$this->load->module('store_categories');
 						foreach( $columns->result() as $row ) {
-						$edit_url  = $redirect_url."/".$row->id;	
-						$view__url = base_url()."store_categories/view/".$row->id;
-
-						if($row->parent_cat_id == 0){
-							$parent_cat_title = '-';
-						} else {
-						    $parent_cat_title = $this->store_categories->_get_cat_title($row->parent_cat_id);
-					    } 
+							$edit_url  = $update_url."/".$row->id;	
 					?>
-
 						<tr>
 							<td class="right"><?= $row->cat_title ?></td>
-							<td class="right"><?= $parent_cat_title ?></td>
+							<td class="right">--</td>
 							<td class="center">
 								<a class="btn btn-success" href="#">
 									<i class="halflings-icon white zoom-in"></i>  
