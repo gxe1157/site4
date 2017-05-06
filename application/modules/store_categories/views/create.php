@@ -24,7 +24,7 @@
 					<div class="control-group">
 					  <label class="control-label" for="typeahead">Catagory Title</label>
 					  <div class="controls">
-						<input type="text" class="span6" id="cat_title"  name="cat_title" value="">
+						<input type="text" class="span6" id="cat_title"  name="cat_title" value="<?= $columns['cat_title'] ?>">
 					  </div>
 					</div>
 

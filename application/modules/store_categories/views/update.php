@@ -4,31 +4,30 @@
 <?php
 	if( isset($flash) ) echo $flash;	
 	// $store_location = base_url().$store_db_table."/submit/".$update_id;
-	$store_location = base_url().$store_db_table."/create/";	
+	$store_location = base_url().$store_db_table."/submit_sub_cat/".$parent_cat_id;	
 ?>
 
 <div class="row-fluid sortable">
 	<div class="box span12">
 		<div class="box-header" data-original-title>
-			<h2><i class="halflings-icon white edit"></i><span class="break"></span> <?= $title ?></h2>
+			<h2><i class="halflings-icon white edit"></i><span class="break"></span> New <?= $options_hdr ?></h2>
 			<div class="box-icon">
-				<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-				<a href="<?= base_url() ?>store_items/manage" ><i class="halflings-icon white remove"></i></a>
+				<a href="<?= base_url().$store_db_table ?>/manage" ><i class="halflings-icon white remove"></i></a>
 			</div>
 		</div>
 		<div class="box-content">
+			<!-- show image -->
+			<!-- <img src="<?= base_url() ?>public/small_pic/<?= $small_img ?>" > -->
+			<h2>Category Title: </h2>						
 
-			<p>Submit New Sub Category as required. When finished, press 'Finished' </p>
+			<p>Submit new options as required. When you are finished adding new options, press 'Finished' </p>
 
 			<form class="form-horizontal" method="post" action="<?= $store_location ?>" >
-	 		  <input type="hidden" name="mode" value="update">
-	 		  <input type="hidden" id="parent_cat_id"  name="parent_cat_id" value="<?= $parent_cat_id ?>">
-
 			  <fieldset>
 				<div class="control-group">
-				  <label class="control-label" for="typeahead">Enter New Sub Category</label>
+				  <label class="control-label" for="typeahead">New Option</label>
 				  <div class="controls">
-					<input type="text" class="span6" name = "cat_title" value="">
+					<input type="text" class="span6" name = "new_option" value="">
 				  </div>
 				</div>
 				<div class="form-actions">
@@ -46,7 +45,7 @@
 	<div class="row-fluid sortable">		
 		<div class="box span12">
 			<div class="box-header" data-original-title>
-				<h2><i class="halflings-icon white edit"></i><span class="break"> Existing <?= $options_hdr ?></span></h2>
+				<h2><i class="halflings-icon white edit"></i><span class="break">Existing <?= $options_hdr ?> Options</span></h2>
 				<div class="box-icon">
 					<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
 					<a href="#" ><i class="halflings-icon white remove"></i></a>
@@ -70,7 +69,7 @@
 				    	 	$delete_url = base_url().$store_db_table."/delete/".$row->id;
 						?> 	
 							<tr>
-								<td><?=$count ?></td>
+								<td><?= $count ?></td>
 								<td class="right"><?= $row->$store_db_column ?></td>
 								<td class="center">
 									<a class="btn btn-danger" href="<?= $delete_url ?>">
