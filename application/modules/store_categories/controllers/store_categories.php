@@ -61,11 +61,17 @@ function _get_dropdown_options( $update_id )
 
 function _get_cat_title( $update_id )
 {
-  $data = $this->fetch_data_from_db( $update_id );
-  $cat_title = $data['cat_title'];
-  return $cat_title;
+    $data = $this->fetch_data_from_db( $update_id );
+    $cat_title = $data['cat_title'];
+    return $cat_title;
 }
 
+function _count_sub_cats( $update_id )
+{
+    $query = $this->get_where_custom('parent_cat_id', $update_id );
+    $num_rows = $query->num_rows();
+    return $num_rows;
+}
 
 function create()
 {

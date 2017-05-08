@@ -27,7 +27,7 @@
 
 				<a href="<?= base_url() ?>store_item_colors/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Color</button></a>
 				<a href="<?= base_url() ?>store_item_sizes/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Size</button></a>
-				<a href="<?= base_url() ?>store_items/"><button type="button" class="btn btn-primary">Update Item Categories</button></a>
+				<a href="<?= base_url() ?>store_cat_assign/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Categories</button></a>
 				<a href="<?= base_url() ?>store_items/deleteconf/<?= $update_id ?>"><button type="button" class="btn btn-danger">Delete Item</button></a>
 				<a href="<?= base_url() ?>store_items/view_layout/<?= $update_id ?>"><button type="button" class="btn btn-default">Preview Page</button></a>
 			</div>

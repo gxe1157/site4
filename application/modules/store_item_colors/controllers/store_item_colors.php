@@ -65,7 +65,7 @@ function update( $update_id )
     $this->_numeric_check($update_id);    
     $this->_security_check();    
 
-    // get item title from store_items table
+    // get item color from store_items_color table
     list ($item_title, $small_img) = $this->cntlr_name->get_item_title_id($update_id);
     $data['item_title'] = $item_title;
     $data['small_img']  = $small_img;
@@ -83,8 +83,7 @@ function update( $update_id )
     $data['flash']     = $this->session->flashdata('item');    
     $data['view_file'] = "update";
 
-    $this->load->module('templates');
-    $this->templates->admin($data);
+    $this->_render_view('admin', $data); 
 }
 
 
