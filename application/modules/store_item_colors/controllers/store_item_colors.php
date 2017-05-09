@@ -55,9 +55,10 @@ function delete( $update_id )
     $this->_numeric_check($update_id);    
     $this->_security_check();    
 
-    $item_id = $this->cntlr_name->get_item_id($update_id);
+    $item_id = $this->cntlr_name->_get_item_id($update_id);
     $this->_delete($update_id);
-    redirect($this->store_redirect.'/update/'.$item_id);
+    // redirect($this->store_redirect.'/update/'.$item_id);
+    $this->update($item_id);    
 }
 
 function update( $update_id )
@@ -66,7 +67,7 @@ function update( $update_id )
     $this->_security_check();    
 
     // get item color from store_items_color table
-    list ($item_title, $small_img) = $this->cntlr_name->get_item_title_id($update_id);
+    list ($item_title, $small_img) = $this->cntlr_name->_get_item_title_byid($update_id);
     $data['item_title'] = $item_title;
     $data['small_img']  = $small_img;
 
