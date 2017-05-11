@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Rename Perfectcontroller to [Name]
-class Store_categories extends MY_Controller 
+class Store_categories extends MY_Controller
 {
 
 /* model name goes here */
@@ -10,7 +10,7 @@ var $store_controller = 'store_categories';
 
 var $column_rules = array(
         array('field' => 'cat_title', 'label' => 'Category Title', 'rules' => 'required'),
-        array('field' => 'parent_cat_id', 'label' => 'Parent Catergory', 'rules' => '')        
+        array('field' => 'parent_cat_id', 'label' => 'Parent Catergory', 'rules' => '')
 );
 
 var $columns_not_allowed = array();
@@ -22,23 +22,24 @@ function __construct() {
 
 function manage()
 {
-    $this->_security_check();    
+    $this->_security_check();
 
     $parent_cat_id = $this->uri->segment(3);
     if( !is_numeric($parent_cat_id)){
       $parent_cat_id = 0;
-    }    
+    }
 
+    $data['mode']         = $this->uri->segment(4);
     $data['columns']      = $this->get_where_custom('parent_cat_id', $parent_cat_id); // get form fields structure
-    $data['redirect_url'] = base_url().$this->uri->segment(1)."/create";        
+    $data['redirect_url'] = base_url().$this->uri->segment(1)."/create";
     $data['add_button']   = "Add New Item";
-    $data['headtag']      = "Existing Catagories";     
-    $data['class_icon']   = "icon-align-justify";       
-    $data['headline']     = "Manage Catagories";        
+    $data['headtag']      = "Existing Catagories";
+    $data['class_icon']   = "icon-align-justify";
+    $data['headline']     = "Manage Catagories";
     $data['view_file']    = "manage";
-    $data['update_id']    = "";    
+    $data['update_id']    = "";
 
-    $this->_render_view('admin', $data);    
+    $this->_render_view('admin', $data);
 }
 
 
@@ -50,7 +51,7 @@ function _get_dropdown_options( $update_id )
 
     $options[] = "Please Select .... ";
     // parent category areay
-    $mysql_query =  "SELECT * From store_categories where parent_cat_id=0";
+    $mysql_query =  "SELECT * From store_categories where parent_cat_id=0 and id!=$update_id";
     $query = $this->_custom_query($mysql_query);
     foreach($query->result() as $row){
        $options[ $row->id ] = $row->cat_title;
@@ -75,13 +76,14 @@ function _count_sub_cats( $update_id )
 
 function create()
 {
-    $this->_security_check();    
-
+    $this->_security_check();
     $update_id = $this->uri->segment(3);
+    // $mode   = $this->uri->segment(4);
     $submit = $this->input->post('submit', TRUE);
+
     if( $submit == "Cancel" ) {
         redirect($this->store_controller.'/manage');
-    } 
+    }
 
     if( $submit == "Submit" ) {
         // process changes
@@ -89,7 +91,7 @@ function create()
         $this->form_validation->set_rules( $this->column_rules );
 
         if($this->form_validation->run() == TRUE) {
-            $data = $this->fetch_data_from_post();            
+            $data = $this->fetch_data_from_post();
             // make search friendly url
             $data['category_url'] = url_title( $data['cat_title'] );
             if(is_numeric($update_id)){
@@ -100,10 +102,10 @@ function create()
                 //insert a new category
                 $this->_insert($data);
                 $update_id = $this->get_max(); // get the ID of new category
-                // $flash_msg 
+                // $flash_msg
                 $this->_set_flash_msg("The category was sucessfully added");
             }
-            redirect($this->store_controller.'/create/'.$update_id);            
+            redirect($this->store_controller.'/create/'.$update_id);
         }
     }
 
@@ -116,12 +118,13 @@ function create()
 
     $data['options'] = $this->_get_dropdown_options($update_id);
     $data['num_dropdown_options'] = count( $data['options'] );
-
+    // $data['mode'] = !isset($mode) ? 'Update Parent Category' : 'Update sub Category';
+    $data['mode'] = $this->uri->segment(4);
     $data['columns_not_allowed'] = $this->columns_not_allowed;
-    $data['labels']    = $this->_get_column_names('label');        
-    $data['button_options'] = "Update Customer Details";    
-    $data['headline']   = !is_numeric($update_id) ? "Add New Category" : "Update Category Details";        
-    $data['headtag']   = "Category Details";         
+    $data['labels']    = $this->_get_column_names('label');
+    $data['button_options'] = "Update Customer Details";
+    $data['headline']   = !is_numeric($update_id) ? "Add New Category" : "Update Category Details";
+    $data['headtag']   = "Category Details";
     $data['view_file']  = "create";
     $data['update_id']  = $update_id;
 

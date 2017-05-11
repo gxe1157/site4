@@ -1,5 +1,5 @@
 <?php
-	if( isset($flash) ) echo $flash;	
+	if( isset($flash) ) echo $flash;
 ?>
 
 <h1><?= $headline ?></h1>
@@ -9,7 +9,7 @@
 </p>
 
 
-<div class="row-fluid sortable">		
+<div class="row-fluid sortable">
 	<div class="box span12">
 		<div class="box-header" data-original-title >
 			<h2><i class="<?= $class_icon ?>" ></i><span class="break"></span><?= $headtag ?></h2>
@@ -23,10 +23,10 @@
 				  <tr>
 					  <th>Category Tile</th>
 					  <th>Parent Category</th>
-					  <th>Sub Categories</th>					  
+					  <th>Sub Categories</th>
 					  <th>Actions</th>
 				  </tr>
-			  </thead>   
+			  </thead>
 			  <tbody>
 
 			    <?php
@@ -34,7 +34,7 @@
 
 			    	foreach( $columns->result() as $row ){
 						$num_sub_cats = $this->store_categories->_count_sub_cats( $row->id );
-			    	 	 $edit_item_url = $redirect_url."/".$row->id;			    	 
+			    	 	 $edit_item_url = $redirect_url."/".$row->id;
 			    	 	 $view_item_url = $redirect_url."/".$row->id;
 
 			    	 	 if($row->parent_cat_id==0) {
@@ -42,7 +42,7 @@
 			    	 	 } else {
 			    	 	 	$parent_cat_title = $this->store_categories->_get_cat_title($row->parent_cat_id);
 				    	 }
-			    ?> 	
+			    ?>
 						<tr>
 							<td class="right"><?= $row->cat_title ?></td>
 							<td class="right"><?= $parent_cat_title ?></td>
@@ -52,27 +52,27 @@
 							        } else {
 								       	$entity = $num_sub_cats == 1 ? "Category" : "Catagories";
 
-								    	$sub_cat_url = base_url().$this->uri->segment(1).'/manage/'.$row->id;
-								    	
+								    	$sub_cat_url = base_url().$this->uri->segment(1).'/manage/'.$row->id.'/sub-category';
+
 										?><a class="btn btn-default" href="<?= $sub_cat_url ?>">
 											<i class="halflings-icon white eye-open"></i> <?= $num_sub_cats." ".$entity ?>
-										</a>							    
+										</a>
 								<?php } ?>
 
 					        </td>
 							<td class="center">
 								<a class="btn btn-success" href="<?= $view_item_url ?>">
-									<i class="halflings-icon white eye-open"></i>  
+									<i class="halflings-icon white eye-open"></i>
 								</a>
-								<a class="btn btn-info" href="<?= $edit_item_url ?>">
-									<i class="halflings-icon white edit"></i>  
+								<a class="btn btn-info" href="<?= $edit_item_url ?>/<?= $mode ?>">
+									<i class="halflings-icon white edit"></i>
 								</a>
 							</td>
 						</tr>
 			    <?php } ?>
 
 			  </tbody>
-		  </table>            
+		  </table>
 		</div>
 	</div><!--/span-->
 

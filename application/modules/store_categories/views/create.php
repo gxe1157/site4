@@ -2,7 +2,7 @@
 <?= validation_errors("<p style='color: red;'>", "</p>") ?>
 
 <?php
-	if( isset($flash) ) echo $flash;	
+	if( isset($flash) ) echo $flash;
 	$form_location = base_url().$this->uri->segment(1)."/create/".$update_id;
 ?>
 
@@ -22,7 +22,7 @@
 				<?php
 				if( $num_dropdown_options > 1 ){ ?>
 					<div class="control-group">
-						<label class="control-label" for="selectStatus">Parent Category</label>
+						<label class="control-label" for="selectStatus">Parent Category: <?= $mode ?></label>
 						<div class="controls">
 							<?php
 							$additional_opt = " id = selectStatus";
@@ -45,9 +45,9 @@
 				<div class="form-actions">
 				  <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
 				  <button type="submit" class="btn" name="submit" value="Cancel">Cancel</button>
-				</div>				
+				</div>
 			  </fieldset>
-			</form>   
+			</form>
 
 		</div>
 	</div><!--/span-->
