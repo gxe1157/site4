@@ -47,10 +47,7 @@ Desktop.ini
 *.pdf
 *.csv
 *.zip
-\images
-\public\big_pic
-\public\small_pic
-
+/__hold/*
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
