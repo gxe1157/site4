@@ -47,7 +47,7 @@ Desktop.ini
 *.pdf
 *.csv
 *.zip
-/__hold/*
+\__hold\*
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
