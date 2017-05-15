@@ -1,12 +1,11 @@
 			<form class="form-horizontal" method="post" action="<?= $form_location ?>" >
 			  <fieldset>
 				<?php
-				// $this->lib->checkField($parent_cat_id, 1);
-
+		
 				if( $num_dropdown_options > 1 && $this->uri->segment(4) ){ ?>
 
 					<div class="control-group">
-						<label class="control-label" for="selectStatus">Parent Category: <?= $mode ?></label>
+						<label class="control-label" for="selectStatus">Parent Category:</label>
 						<div class="controls">
 							<?php
 							$additional_opt = " id = selectStatus";
@@ -17,13 +16,13 @@
 
 				  <?php
 				} else {
-					$columns['cat_title'] = '';					
-                    echo form_hidden('parent_cat_id', $this->uri->segment(3));
+					$columns['cat_title'] = '';
+          echo form_hidden('parent_cat_id', $this->uri->segment(3));
 				}
 				?>
 
 				<div class="control-group">
-				  <label class="control-label" for="typeahead">Category Title </label>
+				  <label class="control-label" for="typeahead">Sub Category Title</label>
 				  <div class="controls">
 					<input type="text" class="span6" name = "cat_title" value="<?= $columns['cat_title'] ?>">
 				  </div>

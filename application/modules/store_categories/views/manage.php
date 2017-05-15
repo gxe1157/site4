@@ -6,7 +6,7 @@
 
 <p style="margin-top: 30px,">
 
-	<?php	
+	<?php
 	  if( $mode == 'sub-category'){
 echo '<a href="'.$add_button_url.'/'.$this->uri->segment(3).'/add_sub-category" ><button type="button" class="btn btn-primary">'.$add_button.'</button></a> ';
 echo '<a href="'.$cancel_button_url.'" ><button type="button" class="btn btn-default"> Cancel </button></a>';
@@ -14,7 +14,7 @@ echo '<a href="'.$cancel_button_url.'" ><button type="button" class="btn btn-def
 echo '<a href="'.$add_button_url.'" ><button type="button" class="btn btn-primary">'.$add_button.'</button></a>';
       }
 
-    ?> 
+    ?>
 </p>
 
 
@@ -42,7 +42,7 @@ echo '<a href="'.$add_button_url.'" ><button type="button" class="btn btn-primar
 			    	$this->load->module('store_categories');
 
 			    	foreach( $columns->result() as $row ){
-						$num_sub_cats = $this->store_categories->_count_sub_cats( $row->id );
+					  	$num_sub_cats = $this->store_categories->_count_sub_cats( $row->id );
 			    	 	$edit_item_url = $redirect_url."/".$row->id;
 			    	 	$view_item_url = $redirect_url."/".$row->id;
 
@@ -65,7 +65,7 @@ echo '<a href="'.$add_button_url.'" ><button type="button" class="btn btn-primar
 								    	if( $row->parent_cat_id !=0 ){
 								            echo '-';
 								    	}else{
-										echo '<a class="btn btn-small btn-primary" href="'.$add_cat_url.'">Add Sub Category</a>';
+									        	echo '<a class="btn btn-small btn-primary" href="'.$add_cat_url.'">Add Sub Category</a>';
 										}
 
 							        } else {

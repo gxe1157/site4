@@ -35,7 +35,7 @@ function manage()
     $data['add_button']   = $this->uri->segment(4) ? "Add Sub Category" : "Add New Category";
     $data['cancel_button_url'] = base_url().$this->uri->segment(1)."/manage";
 
-    $data['add_button_url']= $data['redirect_url'];    
+    $data['add_button_url']= $data['redirect_url'];
     $data['headtag']      = "Existing Catagories";
     $data['class_icon']   = "icon-align-justify";
     $data['headline']     =  $this->uri->segment(4) ? "Manage Sub Catagories" : "Manage Catagories";
@@ -82,6 +82,7 @@ function create()
     $this->_security_check();
     $update_id = $this->uri->segment(3);
     $submit = $this->input->post('submit', TRUE);
+    $posted_mode   = $this->input->post('mode', false);
 
     if( $submit == "Cancel" )
         redirect($this->store_controller.'/manage');
@@ -110,7 +111,15 @@ function create()
                 $update_id = $this->get_max(); // get the ID of new category
                 $this->_set_flash_msg("The category was sucessfully added");
             }
-            redirect($this->store_controller.'/create/'.$update_id);
+
+            if( $posted_mode == 'add_sub-category'){
+                redirect($this->store_controller.'/manage/'.$this->input->post('parent_cat_id', TRUE).'/sub-category');
+            } else {
+                redirect($this->store_controller.'/create/'.$update_id);
+            }
+
+
+
         }
     }
 
@@ -123,11 +132,10 @@ function create()
     $data['options'] = $this->_get_dropdown_options($update_id);
     $data['num_dropdown_options'] = count( $data['options'] );
     $data['mode'] = $this->uri->segment(4);
-    $data['columns_not_allowed'] = $this->columns_not_allowed;
-    $data['labels']    = $this->_get_column_names('label');
+
     $data['button_options'] = "Update Customer Details";
     $data['headline']   = !is_numeric($update_id) ? "Add New Category" : "Update Category Details";
-    $data['headtag']   = "Category Details";
+    $data['headtag']    = "Category Details";
     $data['view_file']  = "create";
     $data['update_id']  = $update_id;
 
