@@ -5,7 +5,16 @@
 <h1><?= $headline ?></h1>
 
 <p style="margin-top: 30px,">
-	<a href="<?= $redirect_url ?>" ><button type="button" class="btn btn-primary"><?= $add_button ?></button></a>
+
+	<?php	
+	  if( $mode == 'sub-category'){
+echo '<a href="'.$add_button_url.'/'.$this->uri->segment(3).'/add_sub-category" ><button type="button" class="btn btn-primary">'.$add_button.'</button></a> ';
+echo '<a href="'.$cancel_button_url.'" ><button type="button" class="btn btn-default"> Cancel </button></a>';
+      } else {
+echo '<a href="'.$add_button_url.'" ><button type="button" class="btn btn-primary">'.$add_button.'</button></a>';
+      }
+
+    ?> 
 </p>
 
 
@@ -34,31 +43,35 @@
 
 			    	foreach( $columns->result() as $row ){
 						$num_sub_cats = $this->store_categories->_count_sub_cats( $row->id );
-			    	 	 $edit_item_url = $redirect_url."/".$row->id;
-			    	 	 $view_item_url = $redirect_url."/".$row->id;
+			    	 	$edit_item_url = $redirect_url."/".$row->id;
+			    	 	$view_item_url = $redirect_url."/".$row->id;
 
-			    	 	 if($row->parent_cat_id==0) {
+			    	 	if($row->parent_cat_id==0) {
 			    	 	 	$parent_cat_title='--';
-			    	 	 } else {
+			    	 	} else {
 			    	 	 	$parent_cat_title = $this->store_categories->_get_cat_title($row->parent_cat_id);
-				    	 }
+				    	}
+
+				       	$entity = $num_sub_cats == 1 ? "Category" : "Catagories";
+				    	$sub_cat_url = base_url().$this->uri->segment(1).'/manage/'.$row->id.'/sub-category';
+				    	$add_cat_url = base_url().$this->uri->segment(1).'/create/'.$row->id.'/add_sub-category';
+
 			    ?>
 						<tr>
 							<td class="right"><?= $row->cat_title ?></td>
 							<td class="right"><?= $parent_cat_title ?></td>
 							<td class="right">
 							    <?php if( $num_sub_cats < 1 ){
-							           echo '-';
+								    	if( $row->parent_cat_id !=0 ){
+								            echo '-';
+								    	}else{
+										echo '<a class="btn btn-small btn-primary" href="'.$add_cat_url.'">Add Sub Category</a>';
+										}
+
 							        } else {
-								       	$entity = $num_sub_cats == 1 ? "Category" : "Catagories";
-
-								    	$sub_cat_url = base_url().$this->uri->segment(1).'/manage/'.$row->id.'/sub-category';
-
-										?><a class="btn btn-default" href="<?= $sub_cat_url ?>">
-											<i class="halflings-icon white eye-open"></i> <?= $num_sub_cats." ".$entity ?>
-										</a>
-								<?php } ?>
-
+										echo '<a class="btn btn-default" href="'.$sub_cat_url.'">
+											<i class="halflings-icon white eye-open"></i> '.$num_sub_cats." ".$entity.'</a>';
+								    } ?>
 					        </td>
 							<td class="center">
 								<a class="btn btn-success" href="<?= $view_item_url ?>">

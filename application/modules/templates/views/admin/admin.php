@@ -368,7 +368,7 @@
 		<!-- end: Main Menu -->
 
 		<!-- start: Content -->
-		<div id="content" class="span10"  style="border: 0px solid blue;" >
+		<div id="content" class="span10" >
 				<?php
 						if( isset($view_file) ){
 				    		// echo '<h3>manage store items: '.$view_module.'/'.$view_file.'</h3>';							
@@ -394,7 +394,7 @@
 	<!-- start: JavaScript-->
 
 		<script src="<?php echo base_url(); ?>adminfiles/js/jquery-1.9.1.min.js"></script>
-	<script src="<?php echo base_url(); ?>adminfiles/js/jquery-migrate-1.0.0.min.js"></script>
+		<script src="<?php echo base_url(); ?>adminfiles/js/jquery-migrate-1.0.0.min.js"></script>
 
 		<script src="<?php echo base_url(); ?>adminfiles/js/jquery-ui-1.10.0.custom.min.js"></script>
 

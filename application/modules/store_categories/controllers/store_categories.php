@@ -30,12 +30,15 @@ function manage()
     }
 
     $data['mode']         = $this->uri->segment(4);
-    $data['columns']      = $this->get_where_custom('parent_cat_id', $parent_cat_id); // get form fields structure
+    $data['columns']      = $this->get_where_custom('parent_cat_id', $parent_cat_id); //get form fields structure
     $data['redirect_url'] = base_url().$this->uri->segment(1)."/create";
-    $data['add_button']   = "Add New Item";
+    $data['add_button']   = $this->uri->segment(4) ? "Add Sub Category" : "Add New Category";
+    $data['cancel_button_url'] = base_url().$this->uri->segment(1)."/manage";
+
+    $data['add_button_url']= $data['redirect_url'];    
     $data['headtag']      = "Existing Catagories";
     $data['class_icon']   = "icon-align-justify";
-    $data['headline']     = "Manage Catagories";
+    $data['headline']     =  $this->uri->segment(4) ? "Manage Sub Catagories" : "Manage Catagories";
     $data['view_file']    = "manage";
     $data['update_id']    = "";
 
@@ -78,12 +81,15 @@ function create()
 {
     $this->_security_check();
     $update_id = $this->uri->segment(3);
-    // $mode   = $this->uri->segment(4);
     $submit = $this->input->post('submit', TRUE);
 
-    if( $submit == "Cancel" ) {
+    if( $submit == "Cancel" )
         redirect($this->store_controller.'/manage');
-    }
+    if( $submit == "Finish" )
+        redirect($this->store_controller.'/manage/'.$this->input->post('parent_cat_id', TRUE).'/sub-category');
+    if( $this->uri->segment(4) == 'add_sub-category'  )
+        $update_id = '';
+
 
     if( $submit == "Submit" ) {
         // process changes
@@ -102,7 +108,6 @@ function create()
                 //insert a new category
                 $this->_insert($data);
                 $update_id = $this->get_max(); // get the ID of new category
-                // $flash_msg
                 $this->_set_flash_msg("The category was sucessfully added");
             }
             redirect($this->store_controller.'/create/'.$update_id);
@@ -115,10 +120,8 @@ function create()
         $data['columns'] = $this->fetch_data_from_post();
     }
 
-
     $data['options'] = $this->_get_dropdown_options($update_id);
     $data['num_dropdown_options'] = count( $data['options'] );
-    // $data['mode'] = !isset($mode) ? 'Update Parent Category' : 'Update sub Category';
     $data['mode'] = $this->uri->segment(4);
     $data['columns_not_allowed'] = $this->columns_not_allowed;
     $data['labels']    = $this->_get_column_names('label');

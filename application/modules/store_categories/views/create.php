@@ -3,9 +3,8 @@
 
 <?php
 	if( isset($flash) ) echo $flash;
-	$form_location = base_url().$this->uri->segment(1)."/create/".$update_id;
+	$data['form_location'] = base_url().$this->uri->segment(1)."/create/".$update_id;
 ?>
-
 
 <div class="row-fluid sortable">
 	<div class="box span12">
@@ -17,38 +16,10 @@
 			</div>
 		</div>
 		<div class="box-content">
-			<form class="form-horizontal" method="post" action="<?= $form_location ?>" >
-			  <fieldset>
-				<?php
-				if( $num_dropdown_options > 1 ){ ?>
-					<div class="control-group">
-						<label class="control-label" for="selectStatus">Parent Category: <?= $mode ?></label>
-						<div class="controls">
-							<?php
-							$additional_opt = " id = selectStatus";
-							echo form_dropdown('parent_cat_id', $options, $columns['parent_cat_id'], $additional_opt);
-							?>
-						</div>
-					</div
-				  <?php
-				} else {
-                    echo form_hidden('parent_cat_id', 0);
-				}
-				?>
-
-				<div class="control-group">
-				  <label class="control-label" for="typeahead">Category Title </label>
-				  <div class="controls">
-					<input type="text" class="span6" name = "cat_title" value="<?= $columns['cat_title'] ?>">
-				  </div>
-				</div>
-				<div class="form-actions">
-				  <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
-				  <button type="submit" class="btn" name="submit" value="Cancel">Cancel</button>
-				</div>
-			  </fieldset>
-			</form>
-
+			<?php
+				$category_form = $mode == 'sub-category' ? 'sub_category_form' : 'category_form';
+				echo $this->load->view($view_module.'/partials/'.$category_form ,$data );
+    		?>
 		</div>
 	</div><!--/span-->
 
