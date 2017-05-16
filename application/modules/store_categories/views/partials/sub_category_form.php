@@ -1,7 +1,7 @@
 			<form class="form-horizontal" method="post" action="<?= $form_location ?>" >
 			  <fieldset>
 				<?php
-		
+
 				if( $num_dropdown_options > 1 && $this->uri->segment(4) ){ ?>
 
 					<div class="control-group">
@@ -29,7 +29,7 @@
 				</div>
 				<div class="form-actions">
 				  <button type="submit" class="btn btn-primary" name="submit" value="Submit">Submit</button>
-				  <button type="submit" class="btn" name="submit" value="Finish">Finish</button>
+				  <button type="submit" class="btn" name="submit" value="Return">Return</button>
 				</div>
 			  </fieldset>
 			</form>

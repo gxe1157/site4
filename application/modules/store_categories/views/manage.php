@@ -52,7 +52,7 @@
 			    	 	 	$parent_cat_title = $this->store_categories->_get_cat_title($row->parent_cat_id);
 				    	}
 
-				       	$entity = $num_sub_cats == 1 ? "Category" : "Catagories";
+				      $entity = $num_sub_cats == 1 ? "Category" : "Catagories";
 				    	$sub_cat_url = base_url().$this->uri->segment(1).'/manage/'.$row->id.'/sub-category';
 				    	$add_cat_url = base_url().$this->uri->segment(1).'/create/'.$row->id.'/add_sub-category';
 

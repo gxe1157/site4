@@ -31,8 +31,8 @@ function manage()
 
     $redirect_base =  base_url().$this->uri->segment(1);
     $mode = $this->uri->segment(4);
-
     $data['mode'] = $mode;
+
     //get form fields structure
     $data['columns']      = $this->get_where_custom('parent_cat_id', $parent_cat_id);
     $data['redirect_url'] = $redirect_base."/create";
@@ -89,12 +89,12 @@ function create()
                 $this->_set_flash_msg("The category was sucessfully added");
             }
 
-            redirect( $redirect_posted_mode );
-            // if( $posted_mode == 'add_sub-category'){
-            //     redirect( $redirect_posted_mode );
-            // } else {
-            //     redirect($this->store_controller.'/create/'.$update_id);
-            // }
+            // redirect( $redirect_posted_mode );
+            if( $posted_mode == 'add_sub-category'){
+                redirect( $redirect_posted_mode );
+            } else {
+                redirect($this->store_controller.'/manage');
+            }
         }
 
     }
