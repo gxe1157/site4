@@ -2,9 +2,9 @@
 		 $show_parent_id = '';
 		 $Category_Title = 'Category Title';
  	 	 $Category_button = 'Cancel';
-		 $parent_cat_id = $this->uri->segment(3) ? : 0;
+		 // $parent_cat_id = $this->uri->segment(3) ? : 0;
 
-     if( $parent_cat_id > 0 && $this->uri->segment(4) ){
+     if( $parent_cat_id > 0 && $mode ){
 		     $this->load->module('store_categories');
 				 $parent_cat_title = $this->store_categories->_get_cat_title($parent_cat_id);
 				 $show_parent_id  ='<h3 style="margin-left: 36px;">Parent Category:<span style="margin-left:20px">'.$parent_cat_title.'</span></h3>';

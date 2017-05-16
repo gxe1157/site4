@@ -4,6 +4,12 @@
 <?php
 	if( isset($flash) ) echo $flash;
 	$data['form_location'] = base_url().$this->uri->segment(1)."/create/".$update_id;
+	if( $mode == ''){
+		$data['parent_cat_id'] = 0;	
+	} else {
+	    $data['parent_cat_id'] = !is_numeric($parent_cat_id) ? 0 : $parent_cat_id;	
+	    $data['mode'] = $mode;	
+	}
 ?>
 
 <div class="row-fluid sortable">
@@ -17,6 +23,8 @@
 		</div>
 		<div class="box-content">
 			<?php
+			echo 'mode: '.$mode.'  | '.$data['parent_cat_id'];
+
 				$category_form = $mode == 'sub-category' ? 'sub_category_form' : 'category_form';
 				echo $this->load->view($view_module.'/partials/'.$category_form ,$data );
     		?>

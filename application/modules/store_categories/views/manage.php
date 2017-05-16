@@ -7,13 +7,13 @@
 <p style="margin-top: 30px,">
 
 	<?php
-	  if( $mode == 'sub-category'){
-echo '<a href="'.$add_button_url.'/'.$this->uri->segment(3).'/add_sub-category" ><button type="button" class="btn btn-primary">'.$add_button.'</button></a> ';
-echo '<a href="'.$cancel_button_url.'" ><button type="button" class="btn btn-default"> Cancel </button></a>';
-      } else {
-echo '<a href="'.$add_button_url.'" ><button type="button" class="btn btn-primary">'.$add_button.'</button></a>';
-      }
+		echo '<a href="'.$add_button_url.'" >
+		<button type="button" class="btn btn-primary">'.$add_button.'</button></a> ';
 
+		if( $mode == 'sub-category'){
+			echo '<a href="'.$cancel_button_url.'" >
+			<button type="button" class="btn btn-default"> Cancel </button></a>';
+		}
     ?>
 </p>
 
