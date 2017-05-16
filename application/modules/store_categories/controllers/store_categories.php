@@ -63,7 +63,7 @@ function create()
     if( $submit == "Cancel" )
         redirect($this->store_controller.'/manage');
 
-    if( $submit == "Finish" )
+    if( $submit == "Finish" || $submit == "Return")
         redirect( $redirect_posted_mode );
 
     if( $this->uri->segment(4) == 'add_sub-category'  )
@@ -89,11 +89,12 @@ function create()
                 $this->_set_flash_msg("The category was sucessfully added");
             }
 
-            if( $posted_mode == 'add_sub-category'){
-                redirect( $redirect_posted_mode );
-            } else {
-                redirect($this->store_controller.'/create/'.$update_id);
-            }
+            redirect( $redirect_posted_mode );
+            // if( $posted_mode == 'add_sub-category'){
+            //     redirect( $redirect_posted_mode );
+            // } else {
+            //     redirect($this->store_controller.'/create/'.$update_id);
+            // }
         }
 
     }

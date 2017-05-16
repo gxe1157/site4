@@ -12,7 +12,7 @@
 
 		if( $mode == 'sub-category'){
 			echo '<a href="'.$cancel_button_url.'" >
-			<button type="button" class="btn btn-default"> Cancel </button></a>';
+			<button type="button" class="btn btn-default">Manage Categories</button></a>';
 		}
     ?>
 </p>
