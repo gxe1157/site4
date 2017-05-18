@@ -35,7 +35,8 @@ function manage()
 
     //get form fields structure
     $data['columns']      = $this->get_where_custom('parent_cat_id', $parent_cat_id);
-    $data['redirect_url'] = $redirect_base."/create";
+    $data['sub_cats']     = $this->_count_sub_cats();    
+    $data['redirect_base']= $redirect_base;
 
     $data['add_button']   = $mode ? "Add Sub Category" : "Add New Category";
     $data['cancel_button_url'] = $redirect_base."/manage";
@@ -105,6 +106,8 @@ function create()
         $data['columns'] = $this->fetch_data_from_post();
     }
 
+
+    $data['redirect_base']= base_url().$this->uri->segment(1);
     $data['options'] = $this->_get_dropdown_options($update_id);
     $data['num_dropdown_options'] = count( $data['options'] );
     $data['mode'] = $posted_mode ? : $this->uri->segment(4);
@@ -122,9 +125,7 @@ function create()
 
 function _get_dropdown_options( $update_id )
 {
-    if(!is_numeric($update_id)){
-        $update_id = 0;
-    }
+    if(!is_numeric($update_id)) $update_id = 0;
 
     $options[] = "Please Select .... ";
     // parent category areay
@@ -144,12 +145,17 @@ function _get_cat_title( $update_id )
     return $cat_title;
 }
 
-function _count_sub_cats( $update_id )
+function _count_sub_cats()
 {
-    $query = $this->get_where_custom('parent_cat_id', $update_id );
-    $num_rows = $query->num_rows();
-    return $num_rows;
+    $mysql_query  =  "SELECT *, count(*) as parent_id FROM `store_categories` group by parent_cat_id";
+    $myResults = $this->_custom_query($mysql_query );
+    foreach( $myResults->result() as $key => $line ){ 
+        $sub_cats[ $line->parent_cat_id ] = $line->parent_id;
+    }   
+    return $sub_cats;
 }
+
+
 
 
 /* ===================================================

@@ -3,7 +3,7 @@
 
 <?php
 	if( isset($flash) ) echo $flash;
-	$data['form_location'] = base_url().$this->uri->segment(1)."/create/".$update_id;
+	$data['form_location'] = $redirect_base."/create/".$update_id;
 	if( $mode == ''){
 		$data['parent_cat_id'] = 0;	
 	} else {
@@ -18,13 +18,12 @@
 			<h2><i class="halflings-icon white edit"></i><span class="break"></span>
 			<?= $headtag ?></h2>
 			<div class="box-icon">
-				<a href="<?= base_url().$this->uri->segment(1) ?>/manage" ><i class="halflings-icon white remove"></i></a>
+				<a href="<?= $redirect_base ?>/manage" ><i class="halflings-icon white remove"></i></a>
 			</div>
 		</div>
 		<div class="box-content">
 			<?php
-			echo 'mode: '.$mode.'  | '.$data['parent_cat_id'];
-
+			//  echo 'mode: '.$mode.'  | '.$data['parent_cat_id'];
 				$category_form = $mode == 'sub-category' ? 'sub_category_form' : 'category_form';
 				echo $this->load->view($view_module.'/partials/'.$category_form ,$data );
     		?>

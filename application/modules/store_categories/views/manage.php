@@ -3,20 +3,27 @@
 ?>
 
 <h1><?= $headline ?></h1>
-
 <p style="margin-top: 30px,">
 
 	<?php
+    	$this->load->module('store_categories');
+
 		echo '<a href="'.$add_button_url.'" >
 		<button type="button" class="btn btn-primary">'.$add_button.'</button></a> ';
 
+		$parent_cat_title = '';
 		if( $mode == 'sub-category'){
 			echo '<a href="'.$cancel_button_url.'" >
 			<button type="button" class="btn btn-default">Manage Categories</button></a>';
+
+			if( count($columns->result()) > 0 ){
+				// Lookup Parent Id for subcategory listing
+				$parent_id = $columns->result()[0]->parent_cat_id;
+				$parent_cat_title = $this->store_categories->_get_cat_title( $parent_id );
+			}	
 		}
     ?>
 </p>
-
 
 <div class="row-fluid sortable">
 	<div class="box span12">
@@ -39,22 +46,21 @@
 			  <tbody>
 
 			    <?php
-			    	$this->load->module('store_categories');
-
 			    	foreach( $columns->result() as $row ){
-					  	$num_sub_cats = $this->store_categories->_count_sub_cats( $row->id );
-			    	 	$edit_item_url = $redirect_url."/".$row->id;
-			    	 	$view_item_url = $redirect_url."/".$row->id;
+					  	$num_sub_cats = isset($sub_cats[$row->id]) ? $sub_cats[$row->id] : 0;	
+					  	// $this->lib->checkField($redirect_base, 0)				;
+			    	 	$edit_item_url = $redirect_base."/create/".$row->id;
+			    	 	$view_item_url = $redirect_base."/create/".$row->id;
 
 			    	 	if($row->parent_cat_id==0) {
 			    	 	 	$parent_cat_title='--';
 			    	 	} else {
-			    	 	 	$parent_cat_title = $this->store_categories->_get_cat_title($row->parent_cat_id);
+							if( $parent_cat_title =='' ) $parent_cat_title = $row->cat_title;			    	 
 				    	}
 
-				      $entity = $num_sub_cats == 1 ? "Category" : "Catagories";
-				    	$sub_cat_url = base_url().$this->uri->segment(1).'/manage/'.$row->id.'/sub-category';
-				    	$add_cat_url = base_url().$this->uri->segment(1).'/create/'.$row->id.'/add_sub-category';
+				        $entity = $num_sub_cats == 1 ? "Category" : "Catagories";
+				    	$sub_cat_url = $redirect_base.'/manage/'.$row->id.'/sub-category';
+				    	$add_cat_url = $redirect_base.'/create/'.$row->id.'/add_sub-category';
 
 			    ?>
 						<tr>
@@ -65,12 +71,12 @@
 								    	if( $row->parent_cat_id !=0 ){
 								            echo '-';
 								    	}else{
-									        	echo '<a class="btn btn-small btn-primary" href="'.$add_cat_url.'">Add Sub Category</a>';
+									       	echo '<a class="btn btn-small btn-primary" href="'.$add_cat_url.'">Add Sub Category</a>';
 										}
 
 							        } else {
 										echo '<a class="btn btn-default" href="'.$sub_cat_url.'">
-											<i class="halflings-icon white eye-open"></i> '.$num_sub_cats." ".$entity.'</a>';
+										<i class="halflings-icon white eye-open"></i> '.$num_sub_cats." ".$entity.'</a>';
 								    } ?>
 					        </td>
 							<td class="center">

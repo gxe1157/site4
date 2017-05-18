@@ -17,7 +17,7 @@
 				  <?php
 				} else {
 					$columns['cat_title'] = '';
-          echo form_hidden('parent_cat_id', $this->uri->segment(3));
+        			echo form_hidden('parent_cat_id', $this->uri->segment(3));
 				}
 				?>
 
