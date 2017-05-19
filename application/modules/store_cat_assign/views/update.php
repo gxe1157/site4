@@ -18,7 +18,7 @@
 		</div>
 		<div class="box-content">
 			<!-- show image -->
-			<!-- <img src="<?= base_url() ?>public/small_pic/<?= $small_img ?>" > -->
+			<img src="<?= base_url() ?>public/small_pic/<?= $small_img ?>" >
 			<h2>Item Title: <?= $item_title ?></h2>
 
 			<p>Choose a new category and hit 'Submit' </p>
@@ -66,15 +66,14 @@
 				  <tbody>
 
 				    <?php
-         $count = 0;
-    	 foreach( $query->result() as $row ){
-    	 	$count++;
-    	 	$delete_url = base_url().$store_db_table."/delete/".$row->id;
-    	 	$cat_title = $this->cntlr_name->_get_cat_title( $row->cat_id );
+			        $count = 0;
+				   	foreach( $query->result() as $row ){
+			    	 	$count++;
+			    	 	$delete_url = base_url().$store_db_table."/delete/".$row->id;
 						?> 	
 							<tr>
-								<td><?=$count ?></td>
-								<td class="right"><?= $cat_title ?></td>
+								<td><?= $count ?></td>
+								<td class="right"><?= $assigned_categories[$row->cat_id] ?></td>
 								<td class="center">
 									<a class="btn btn-danger" href="<?= $delete_url ?>">
 										<i class="halflings-icon white trash"></i> Remove Option  

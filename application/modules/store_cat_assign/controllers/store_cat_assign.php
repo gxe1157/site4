@@ -14,8 +14,8 @@ var $column_rules = array(
 
 /* fill in these variable names */
 var $headline = "Category Assign";
-var $options_hdr = 'Assigned category for this item'; // should read "New 
-var $options_dtls = 'Existing assigned categories';
+var $options_hdr = 'Assign New Categories '; // should read "New 
+var $options_dtls = 'Assigned categories for this item';
 var $store_redirect = 'store_cat_assign';
 var $store_db_table = 'store_cat_assign';
 var $store_db_column = '#';
@@ -37,21 +37,27 @@ function update( $item_id )
     // get sub_catergories from store_catergories
     $sub_categories = $this->cntlr_name->_get_all_sub_cats_for_dropdown();
 
-    // get an array of all assigned catergories from store_catergories
-    $query = $this->cntlr_name->_get_store_categories('item_id', $item_id, $orderby = null);
+    // get an array of all assigned to item_id from store_cat_assign
+    $query = $this->cntlr_name->_get_assigned_categories('item_id', $item_id, $orderby = null);
     $data['query'] = $query;
     $data['num_rows'] = $query->num_rows();
     foreach ($query->result() as $row) {
-        $cat_title = $this->cntlr_name->_get_cat_title($row->cat_id);
-        $parent_cat_title = $this->cntlr_name->_get_parent_cat_title($row->cat_id);
-        $assigned_categories[$row->cat_id] = $parent_cat_title." > ".$cat_title;
+       list ($cat_title, $parent_cat_title) = $this->cntlr_name->_get_parent_cat_title($row->cat_id);
+       $assigned_categories[$row->cat_id] = $parent_cat_title." > ".$cat_title;
     }
 
 // $this->lib->checkField($item_id,1);
-// $this->lib->checkArray($query->result(),0);
+// $this->lib->checkArray($query->result(),1);
+// $this->lib->checkArray( $assigned_categories,1 );
 
-    if(!isset($assigned_categories)) $assign_categories ="";
+    if(!isset($assigned_categories)){
+        $assign_categories ="";
+     } else {
+        // Item has been assigned to at least one catergory 
+        $sub_categories = array_diff( $sub_categories, $assigned_categories );
+     }   
 
+    $data['assigned_categories'] = $assigned_categories;
     $data['options']         = $sub_categories;
     $data['cat_id']          = $this->input->post('cat_id',TRUE);
     $data['store_db_table']  = $this->store_db_table;
@@ -59,7 +65,8 @@ function update( $item_id )
     $data['options_hdr']     = $this->options_hdr;
     $data['options_dtls']    = $this->options_dtls;
 
-    $data['item_title']=$item_title;    
+    $data['item_title']= $item_title; 
+    $data['small_img']= $small_img;   
     $data['item_id']   = $item_id;
     $data['headline']  = $this->headline;
     $data['flash']     = $this->session->flashdata('item');
@@ -74,7 +81,7 @@ function delete( $update_id )
     $this->_numeric_check($update_id);    
     $this->_security_check();    
 
-    $item_id = $this->cntlr_name->_get_item_id($update_id);
+    $item_id = $this->cntlr_name->_get_assigned_id($update_id);
     $this->_delete($update_id);
     $this->_set_flash_msg("The item was successfully removed.");
 
