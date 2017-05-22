@@ -12,8 +12,8 @@
 	    	<?= anchor(
 						base_url($top_menu_line),
 	    				$menu_title,
-							array('class' => 'nav_menu')
-	    				);
+						array('class' => 'nav_menu')
+	    			);
 			?>
 
 	        <!-- if level exist  -->

@@ -1,0 +1,19 @@
+	<ul class="nav navbar-nav">
+		<?php		
+		foreach ($parent_categories as $parent_cat_id => $sub_cat_title) { ?>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+				<?= $parent_cat_id ?>
+				<span class="caret"></span></a>
+				
+				<ul class="dropdown-menu">
+	 				<?php
+					foreach( $sub_cat_title as $line ) {
+						echo '<li><a href="#">'.$line->cat_title.'</a></li>';
+					} ?>	
+				</ul>
+			</li>
+		<?php
+		}
+		?>
+	</ul>

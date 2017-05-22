@@ -20,6 +20,13 @@ function __construct() {
 
 }
 
+
+
+/* ===================================================
+    Controller functions goes here. Put all DRY
+    functions in applications/core/My_Controller.php
+  ==================================================== */
+
 function manage()
 {
     $this->_security_check();
@@ -156,12 +163,25 @@ function _count_sub_cats()
 }
 
 
+function _draw_top_nav()
+{
+    $mysql_query = "SELECT * FROM store_categories where parent_cat_id = 0 ORDER BY cat_title";
+    $query = $this->db->query($mysql_query);
+    foreach ($query->result() as $row) {
+       $parent_categories[$row->cat_title] = $this->_get_sub_cat($row->id);
+    }
 
+    $data['parent_categories'] = $parent_categories;
+    $this->load->view('top_nav', $data);
+}
 
-/* ===================================================
-    Controller functions goes here. Put all DRY
-    functions in applications/core/My_Controller.php
-  ==================================================== */
+function _get_sub_cat($parent_id)
+{
+    $sql  = "SELECT * FROM store_categories where parent_cat_id = $parent_id ORDER BY cat_title";
+    $sub_categories = $this->db->query($sql)->result();
+    return $sub_categories;
+}
+
 
 
 

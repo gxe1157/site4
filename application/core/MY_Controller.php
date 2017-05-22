@@ -122,6 +122,8 @@ function get_where($id)
 function get_where_custom($col, $value, $order_by = null)
 {
     $query = $this->cntlr_name->get_where_custom($col, $value, $order_by);
+    $this->lib->checkArray($query, 0);
+
     return $query;
 }
 

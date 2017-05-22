@@ -101,23 +101,12 @@ function create()
     $this->_render_view('admin', $data);
 }
 
-function view_layout( $update_id ){
-    $this->_numeric_check( $update_id );
-    // fetch item details for pubic page
-    $data = $this->fetch_data_from_db( $update_id );
-
-    $data['headline'] = "Preview Item layout";            
-    $data['view_file'] = "view_layout";
-    $data['update_id'] = $update_id;
-
-    $this->_render_view('admin', $data);
-}
-
 function view( $update_id )
 {
     $this->_numeric_check( $update_id );
     // fetch item details for pubic page
     $data = $this->fetch_data_from_db( $update_id );
+//$this->lib->checkArray($data,0);
 
     $data['headline']  = "";        
     $data['view_file'] = "view";
