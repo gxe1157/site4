@@ -42,7 +42,7 @@ function manage()
 
     //get form fields structure
     $data['columns']      = $this->get_where_custom('parent_cat_id', $parent_cat_id);
-    $data['sub_cats']     = $this->_count_sub_cats();    
+    $data['sub_cats']     = $this->_count_sub_cats();
     $data['redirect_base']= $redirect_base;
 
     $data['add_button']   = $mode ? "Add Sub Category" : "Add New Category";
@@ -129,7 +129,6 @@ function create()
     $this->_render_view('admin', $data);
 }
 
-
 function _get_dropdown_options( $update_id )
 {
     if(!is_numeric($update_id)) $update_id = 0;
@@ -156,12 +155,11 @@ function _count_sub_cats()
 {
     $mysql_query  =  "SELECT *, count(*) as parent_id FROM `store_categories` group by parent_cat_id";
     $myResults = $this->_custom_query($mysql_query );
-    foreach( $myResults->result() as $key => $line ){ 
+    foreach( $myResults->result() as $key => $line ){
         $sub_cats[ $line->parent_cat_id ] = $line->parent_id;
-    }   
+    }
     return $sub_cats;
 }
-
 
 function _draw_top_nav()
 {

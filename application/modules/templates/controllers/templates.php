@@ -28,7 +28,7 @@ function public_bootstrap($data = null)
 {
     if( !isset( $data['view_module'] ) )
         $data['view_module']= $this->uri->segment(1);
- 
+
     $this->load->view('public_bootstrap/public_bootstrap', $data);
 }
 
@@ -36,8 +36,8 @@ function public_bootstrap($data = null)
 function _inner_nav_options( $nav_to = null, $nav)
 {
     $menu_title = urldecode($nav_to);
-    $this->lib->checkField($menu_title,1);
-    $this->lib->checkArray( $nav['About Us'], 0);
+    // $this->lib->checkField($menu_title,1);
+    // $this->lib->checkArray( $nav['About Us'], 0);
 
     $menu_items = $nav[ $menu_title ];
     $menu_view_items = '';
@@ -96,7 +96,7 @@ function public_blueMass( $page = null, $dir_name1 = null, $dir_name2 = null, $p
     $data['img_dir']  = $dir_name2;
     $data['nav_to']   = !isset($dir_name2) ? 'Blue Mass ' : 'Blue Mass '.substr( $dir_name2, 2);
     $data['contents'] = $page == null ? 'main' : $page;
-    
+
     if( !isset( $data['view_module'] ) )
         $data['view_module']= $this->uri->segment(1);
 

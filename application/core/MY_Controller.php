@@ -3,7 +3,8 @@
 class MY_Controller extends MX_Controller
 {
 
-function __construct() {
+function __construct()
+{
   parent::__construct();
 
   $this->load->module('lib');
@@ -11,11 +12,10 @@ function __construct() {
   $this->load->library('form_validation');
   $this->form_validation->CI =& $this;
 
-/* ===============================================================
-    model name is assigned a different object name specified
-    in second parameter of the loading method for dynamic query.
+  /* ===============================================================
+    model name is assigned from $this->mdl_name to  'cntlr_name' which is a constant    
    =============================================================== */
-  $this->load->model( $this->mdl_name, 'cntlr_name');
+   if( $this->mdl_name != 'mdl_' ) $this->load->model( $this->mdl_name, 'cntlr_name');
 
 }
 
@@ -26,7 +26,7 @@ function __construct() {
 
 function _security_check()
 {
-    $this->load->library('session');  
+    $this->load->library('session');
     $this->load->module('site_security');
     $this->site_security->_make_sure_is_admin();
 }
@@ -44,12 +44,12 @@ function _set_flash_msg($flash_msg)
 }
 
 
-function _render_view(  $arg, $data )    
+function _render_view(  $arg, $data )
 {
-    $data['flash'] = $this->session->flashdata('item');                
+    $data['flash'] = $this->session->flashdata('item');
     $this->load->module('templates');
     $arg == 'public_bootstrap' ? $this->templates->public_bootstrap($data) : $this->templates->admin($data);
-}  
+}
 
 
 function _get_column_names( $key_value )  // we will use for $key_value only "field" or "label"
@@ -71,7 +71,7 @@ function fetch_data_from_post()
 {
     $field_names = $this->_get_column_names('field');
     $data = $this->cntlr_name->_fetch_data_from_post($field_names);
-    return $data;    
+    return $data;
 }
 
 function fetch_data_from_db($update_id)
@@ -84,17 +84,17 @@ function fetch_data_from_db($update_id)
         // No records found send to manage item page
         redirect( 'store_items/manage');
     }
-    return $data;    
+    return $data;
 }
 
 
 
-/* =============================================== 
+/* ===============================================
    Below is Perfect Controller From David Connelly
    =============================================== */
 
 function get($order_by)
-{   
+{
     $query = $this->cntlr_name->get($order_by);
     return $query;
 }
@@ -122,8 +122,6 @@ function get_where($id)
 function get_where_custom($col, $value, $order_by = null)
 {
     $query = $this->cntlr_name->get_where_custom($col, $value, $order_by);
-    $this->lib->checkArray($query, 0);
-
     return $query;
 }
 
