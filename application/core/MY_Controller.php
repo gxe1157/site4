@@ -48,6 +48,7 @@ function _render_view(  $arg, $data )
 {
     $data['flash'] = $this->session->flashdata('item');
     $this->load->module('templates');
+$this->lib->checkArray( $data, 1);           
     $arg == 'public_bootstrap' ? $this->templates->public_bootstrap($data) : $this->templates->admin($data);
 }
 
@@ -71,6 +72,7 @@ function fetch_data_from_post()
 {
     $field_names = $this->_get_column_names('field');
     $data = $this->cntlr_name->_fetch_data_from_post($field_names);
+
     return $data;
 }
 
@@ -79,7 +81,7 @@ function fetch_data_from_db($update_id)
     $field_names = $this->_get_column_names('field');
     $data = $this->cntlr_name->_fetch_data_from_db($update_id, $field_names);
 
-    // $this->lib->checkArray($data, 0);
+    // $this->lib->checkArray($data, 1);
     if( !isset($data) ) {
         // No records found send to manage item page
         redirect( 'store_items/manage');

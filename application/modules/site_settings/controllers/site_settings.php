@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+k<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Rename Perfectcontroller to [Name]
 class Site_settings extends MY_Controller
@@ -28,12 +28,6 @@ function _get_item_segments()
   // return segments for store_items page ( product page )
   $segments = "musical/instrument/";
 
-  // echo $this->uri->segment(1).' | '; // controller
-  // echo $this->uri->segment(2).' | '; // action
-  // echo $this->uri->segment(3).' |<br> '; // 1stsegment
-  // echo $this->uri->segment(4).' | '; // 2ndsegment
-  // echo $this->uri->segment(5).' | '; // 3ndsegment
-  // echo $this->uri->segment(6); // 4ndsegment
 
 }
 
@@ -41,7 +35,7 @@ function _get_items_segments()
 {
   // return segments for category pages
   $segments = "music/instruments/";
-
+  return $segments;
 
 }
 

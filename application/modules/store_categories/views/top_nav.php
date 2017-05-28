@@ -9,7 +9,8 @@
 				<ul class="dropdown-menu">
 	 				<?php
 					foreach( $sub_cat_title as $line ) {
-						echo '<li><a href="#">'.$line->cat_title.'</a></li>';
+						$category_url = $line->category_url;
+						echo '<li><a href="'.$target_url_start.$category_url.'">'.$line->cat_title.'</a></li>';
 					} ?>	
 				</ul>
 			</li>

@@ -9,7 +9,7 @@ var $mdl_name = 'mdl_store_items';
 var $store_controller = 'store_items';
 
 var $column_rules = array(
-        array('field' => 'item_title', 'label' => 'Item Title', 'rules' => 'required'),
+        array('field' => 'item_title', 'label' => 'Item Title', 'rules' => 'required|max_length[240]|callback_item_check'),
         array('field' => 'item_url', 'label' => 'Item URL', 'rules' => ''),
         array('field' => 'item_price', 'label' => 'Item Price', 'rules' => 'required'),
         array('field' => 'item_description', 'label' => 'Item Description', 'rules' => 'required'),
@@ -93,10 +93,10 @@ function create()
     $data['columns_not_allowed'] = $this->columns_not_allowed;
     $data['labels']    = $this->_get_column_names('label');        
     $data['button_options'] = "Update Customer Details";    
-    $data['headline']   = !is_numeric($update_id) ? "Add New Line" : "Update Item Details";        
+    $data['headline']  = !is_numeric($update_id) ? "Add New Line" : "Update Item Details";        
     $data['headtag']   = "Item Inventory";         
-    $data['view_file']  = "create";
-    $data['update_id']  = $update_id;
+    $data['view_file'] = "create";
+    $data['update_id'] = $update_id;
 
     $this->_render_view('admin', $data);
 }
@@ -106,9 +106,9 @@ function view( $update_id )
     $this->_numeric_check( $update_id );
     // fetch item details for pubic page
     $data = $this->fetch_data_from_db( $update_id );
-//$this->lib->checkArray($data,0);
 
-    $data['headline']  = "";        
+    $data['headline']  = ""; 
+    $data['view_module'] = "store_items";           
     $data['view_file'] = "view";
     $data['update_id'] = $update_id;
 
@@ -295,6 +295,17 @@ function do_upload( $update_id )
     $this->_render_view('admin', $data);    
 }
 
+
+function _get_item_id_from_item_url($item_url) {
+    $query   = $this->get_where_custom('item_url', $item_url);
+    $num_row = $query->num_rows();
+
+    // show_error('Page was found........... ' );
+    if($num_row == 0 ) show_404();
+
+    $item_id = $query->result()[0]->id;
+    return $item_id; 
+}
 
 
 /* ===============================================

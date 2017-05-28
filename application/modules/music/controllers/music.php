@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Rename Perfectcontroller to [Name]
-class Musical extends MY_Controller
+class Music extends MY_Controller
 {
 
 /* model name goes here */
@@ -22,14 +22,13 @@ function __construct() {
     Controller functions goes here. Put all DRY
     functions in applications/core/My_Controller.php
   ==================================================== */
-function instrument()
+function instruments()
 {
-  // get item id from url
-  $item_url = $this->uri->segment(3);
-  $this->load->module('store_items');
-  $item_id = $this->store_items->_get_item_id_from_item_url($item_url);
-  $this->store_items->view($item_id);
-  //echo "<h3>".$item_id."</h3>";
+  // get category id from url
+  $category_url = $this->uri->segment(3);
+  $this->load->module('store_categories');
+  $cat_id = $this->store_categories->_get_cat_id_from_cat_url( $category_url );
+   $this->store_categories->view($cat_id);
 }
 
 
