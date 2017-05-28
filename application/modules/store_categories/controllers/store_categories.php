@@ -172,7 +172,7 @@ function _draw_top_nav()
     $this->load->module('site_settings');
     $items_segments = $this->site_settings->_get_items_segments();
 
-$this->lib->checkField( $items_segments,1);
+//$this->lib->checkField( $items_segments,1);
 
     $data['target_url_start'] = base_url().$items_segments;
 
@@ -196,9 +196,8 @@ function _get_cat_id_from_cat_url( $category_url ) {
     if($num_row == 0 ) show_404();
 
     $cat_id = $query->result()[0]->id;
-    return $cat_id; 
+    return $cat_id;
 }
-
 
 function view( $update_id )
 {
@@ -206,8 +205,8 @@ function view( $update_id )
     // fetch item details for pubic page
     $data = $this->fetch_data_from_db( $update_id );
 
-    $data['headline']  = ""; 
-    $data['view_module'] = "store_categories";           
+    $data['headline']  = "";
+    $data['view_module'] = "store_categories";
     $data['view_file'] = "view";
     $data['update_id'] = $update_id;
 

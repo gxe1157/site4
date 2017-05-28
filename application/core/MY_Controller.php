@@ -13,7 +13,7 @@ function __construct()
   $this->form_validation->CI =& $this;
 
   /* ===============================================================
-    model name is assigned from $this->mdl_name to  'cntlr_name' which is a constant    
+    model name is assigned from $this->mdl_name to  'cntlr_name' which is a constant
    =============================================================== */
    if( $this->mdl_name != 'mdl_' ) $this->load->model( $this->mdl_name, 'cntlr_name');
 
@@ -48,7 +48,6 @@ function _render_view(  $arg, $data )
 {
     $data['flash'] = $this->session->flashdata('item');
     $this->load->module('templates');
-$this->lib->checkArray( $data, 1);           
     $arg == 'public_bootstrap' ? $this->templates->public_bootstrap($data) : $this->templates->admin($data);
 }
 
@@ -81,7 +80,7 @@ function fetch_data_from_db($update_id)
     $field_names = $this->_get_column_names('field');
     $data = $this->cntlr_name->_fetch_data_from_db($update_id, $field_names);
 
-    // $this->lib->checkArray($data, 1);
+//    $this->lib->checkArray($data,0);
     if( !isset($data) ) {
         // No records found send to manage item page
         redirect( 'store_items/manage');

@@ -26,7 +26,7 @@ function test()
 
 function public_bootstrap($data = null)
 {
-    if( !isset( $data['view_module'] ) )
+  if( !isset( $data['view_module'] ) )
         $data['view_module']= $this->uri->segment(1);
 
     $this->load->view('public_bootstrap/public_bootstrap', $data);

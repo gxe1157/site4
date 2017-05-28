@@ -58,7 +58,7 @@
     <div class="container" style="min-height: 650px;">
       <?php
           if( isset($view_file) ){
-              // echo '<h3>manage store items: '.$view_module.'/'.$view_file.'</h3>';             
+              // echo '<h3>view file: '.$view_module.'/'.$view_file.'</h3>';             
               $this->load->view($view_module.'/'.$view_file);
           }
       ?>

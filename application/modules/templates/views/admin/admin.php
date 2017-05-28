@@ -337,8 +337,9 @@
 				<ul class="nav nav-tabs nav-stacked main-menu">
 					<li><a href="index.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 					<li><a href="<?= base_url() ?>store_items/manage"><i class="icon-tag"></i><span class="hidden-tablet"> Manage Items</span></a></li>
-					<li><a href="<?= base_url() ?>store_categories/manage"><i class="icon-align-justify"></i><span class="hidden-tablet"> Manage Categories</span></a></li>					
-					<li><a href="<?= base_url() ?>store_accounts/manage"><i class="icon-briefcase"></i><span class="hidden-tablet"> Accounts</span></a></li>					
+					<li><a href="<?= base_url() ?>store_categories/manage"><i class="icon-align-justify"></i><span class="hidden-tablet"> Manage Categories</span></a></li>
+					<li><a href="<?= base_url() ?>webpages/manage"><i class="icon-file"></i><span class="hidden-tablet"> CMS</span></a></li>
+					<li><a href="<?= base_url() ?>store_accounts/manage"><i class="icon-briefcase"></i><span class="hidden-tablet"> Accounts</span></a></li>
 
 
 					<li><a href="messages.html"><i class="icon-envelope"></i><span class="hidden-tablet"> Messages</span></a></li>
@@ -371,7 +372,7 @@
 		<div id="content" class="span10" >
 				<?php
 						if( isset($view_file) ){
-				    		// echo '<h3>manage store items: '.$view_module.'/'.$view_file.'</h3>';							
+				    		//  echo '<h3>View page: '.$view_module.'/'.$view_file.'</h3>';
 								$this->load->view($view_module.'/'.$view_file);
 						}
 				?>
