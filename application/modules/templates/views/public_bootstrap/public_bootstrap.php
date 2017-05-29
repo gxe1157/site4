@@ -43,7 +43,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Home</a>
+          <a class="navbar-brand" href="<?= base_url() ?>">Home</a>
         </div>
 
 
@@ -57,9 +57,11 @@
 
     <div class="container" style="min-height: 650px;">
       <?php
-          if( isset($view_file) ){
-              // echo '<h3>view file: '.$view_module.'/'.$view_file.'</h3>';             
-              $this->load->view($view_module.'/'.$view_file);
+          if( isset($page_content) ){
+            echo nl2br($page_content);
+          } elseif ( isset($view_file) ) {
+            //echo '<h3>view file: '.$view_module.'/'.$view_file.'</h3>';
+            $this->load->view($view_module.'/'.$view_file);
           }
       ?>
     </div>

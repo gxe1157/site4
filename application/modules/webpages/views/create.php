@@ -10,7 +10,6 @@
 ?>
 
 
-
 <div class="row-fluid sortable">
 	<div class="box span12">
 		<div class="box-header" data-original-title>
@@ -49,13 +48,6 @@
 				  </div>
 				</div>
 
-				<div class="control-group">
-				  <label class="control-label" for="typeahead">page_headline</label>
-				  <div class="controls">
-					<input type="text" class="span6" name = "page_headline" value="<?= $columns['page_headline']  ?>">
-				  </div>
-				</div>
-
 				<div class="control-group hidden-phone">
 				  <label class="control-label" for="textarea3">Page Content</label>
 				  <div class="controls">
@@ -76,3 +68,26 @@
 	</div><!--/span-->
 
 </div><!--/row-->
+
+<?php if( is_numeric($update_id) ) { ?>
+	<div class="row-fluid sortable">
+		<div class="box span12">
+			<div class="box-header" data-original-title>
+				<h2><i class="halflings-icon white edit"></i><span class="break"></span>Additional Options</h2>
+				<div class="box-icon">
+					<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+					<a href="<?= base_url().$this->uri->segment(1) ?>/manage" ><i class="halflings-icon white remove"></i></a>
+				</div>
+			</div>
+			<div class="box-content">
+				<?php if( $update_id > 2 ){ ?>
+					<a href="<?= base_url() ?>webpages/deleteconf/<?= $update_id ?>"><button type="button" class="btn btn-danger">Delete Page</button></a>
+				<?php } ?>
+
+				<a href="<?= base_url().$columns['page_url'] ?>"><button type="button" class="btn btn-default">Preview Page</button></a>
+			</div>
+
+		</div><!-- end 12 span -->
+	</div><!-- end row-fluid sortable -->
+<?php } ?>
+

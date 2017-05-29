@@ -21,9 +21,9 @@
 			<table class="table table-striped table-bordered bootstrap-datatable datatable">
 			  <thead>
 				  <tr>
-					  <th>Page URL</th>
-					  <th>Headline</th>
-					  <th>Actions</th>
+					  <th class="span6">Page URL</th>
+					  <th class="span4">Page Title</th>
+					  <th class="span2">Actions</th>
 				  </tr>
 			  </thead>
 			  <tbody>
@@ -31,11 +31,11 @@
 			    <?php
 			    	 foreach( $columns->result() as $row ){
 			    	 	$edit_page_url = $redirect_url."/".$row->id;
-			    	 	$view_page_url = $redirect_url."/".$row->page_url;
+			    	 	$view_page_url =base_url().$row->page_url;
 			    ?>
 						<tr>
 							<td class="right"><?=  $view_page_url ?></td>
-							<td class="right"><?= $row->page_headline ?></td>
+							<td class="right"><?= $row->page_title ?></td>
 							<td class="center">
 								<a class="btn btn-success" href="<?= $view_page_url ?>">
 									<i class="halflings-icon white zoom-in"></i>

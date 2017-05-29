@@ -1,4 +1,4 @@
-k<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Rename Perfectcontroller to [Name]
 class Site_settings extends MY_Controller
@@ -9,7 +9,7 @@ var $mdl_name = 'mdl_ ... ';
 var $store_controller = ' ... ';
 
 var $column_rules = array(
-        array('field' => ' ... ', 'label' => ' ... ', 'rules' => ' ... '),
+        array('field' => ' ... ', 'label' => ' ... ', 'rules' => ' ... ')
 );
 
 function __construct() {
@@ -37,6 +37,13 @@ function _get_items_segments()
   $segments = "music/instruments/";
   return $segments;
 
+}
+
+function _get_page_not_found_msg()
+{
+    $msg ='<h4> Page Not Found ............ </h4>';
+    $msg .='Please try again...........';
+    return $msg;
 }
 
 

@@ -13,8 +13,7 @@ var $column_rules = array(
         array('field' => 'page_title', 'label' => 'Page Title', 'rules' => 'required|max_length[250]|callback_item_check'),
         array('field' => 'page_keywords', 'label' => 'Page Keywords', 'rules' => ''),
         array('field' => 'page_description', 'label' => 'Page Description', 'rules' => ''),
-        array('field' => 'page_content', 'label' => 'Page Content', 'rules' => 'required'),
-        array('field' => 'page_headline', 'label' => 'page_headline', 'rules' => 'required|max_length[250]|callback_item_check'),
+        array('field' => 'page_content', 'label' => 'Page Content', 'rules' => 'required')
         // array('field' => 'status', 'label' => 'Status', 'rules' => ''),
 );
 
@@ -72,6 +71,12 @@ function __construct() {
               $data = $this->fetch_data_from_post();
               // make search friendly url
               $data['page_url'] = url_title( $data['page_title'] );
+
+              // Do not populate page_url for Home and contact us pages
+              if( $update_id < 2 ){
+                 unset( $data['page_url'] );
+              }
+
               if(is_numeric($update_id)){
                   //update the page details
                   $this->_update($update_id, $data);
@@ -127,10 +132,13 @@ function __construct() {
       $submit = $this->input->post('submit', TRUE);
       if( $submit =="Cancel" ){
           redirect($this->store_controller.'/create/'.$update_id);
-      } elseif( $submit=="Yes - Delete page" ){
+      } elseif( $submit=="Yes - Delete Page" ){
           /* get page title from webpages table */
           $row_data = $this->fetch_data_from_db($update_id);
           $data['page_title'] = $row_data['page_title'];
+
+          /* delete item */
+          $this->_delete( $update_id );          
           $this->_set_flash_msg("The page ".$data['page_title'].", was sucessfully deleted");
 
           redirect($this->store_controller.'/manage');
@@ -143,6 +151,8 @@ function __construct() {
   {
       $this->_numeric_check($update_id);
       $this->_security_check();
+      if( $update_id < 3 ) 
+          redirect($this->store_controller.'/manage');
 
       /* get page title and small img from webpages table */
       $row_data = $this->fetch_data_from_db($update_id);
