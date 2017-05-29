@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Rename Perfectcontroller to [Name]
-class Default_module extends MX_Controller 
+class Default_module extends MX_Controller
 {
 
 
@@ -16,7 +16,7 @@ function index()
 	$first_bit = trim($this->uri->segment(1) );
 	$this->load->module('webpages');
 	$query = $this->webpages->get_where_custom('page_url', $first_bit);
-    $num_rows = $query->num_rows();
+  $num_rows = $query->num_rows();
 
 	if($num_rows > 0) {
 		//we have found content... load page
@@ -24,8 +24,8 @@ function index()
 			$data['page_url'] = $row->page_url;
 			$data['page_title'] = $row->page_title;
 			$data['page_keywords'] = $row->page_keywords;
-			$data['page_description'] = $row->page_description;	
-			$data['page_content'] = $row->page_content;		
+			$data['page_description'] = $row->page_description;
+			$data['page_content'] = $row->page_content;
 		}
 
 	} else {

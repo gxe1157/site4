@@ -59,6 +59,14 @@
       <?php
           if( isset($page_content) ){
             echo nl2br($page_content);
+
+            // if( $page_url == '' ){
+            //   require_once('homepage_content.php');
+            // } elseif( $page_url == 'contactus' ){
+            //   // contact us form goes here
+            //   echo Modules::run('contactus/_draw_form');
+            // }
+
           } elseif ( isset($view_file) ) {
             //echo '<h3>view file: '.$view_module.'/'.$view_file.'</h3>';
             $this->load->view($view_module.'/'.$view_file);
@@ -69,7 +77,7 @@
     <hr>
     <div class="container">
       <footer>
-        <p>&copy; 2016 Company, Inc.</p>
+        <p>&copy; 2017 Company, Inc.</p>
       </footer>
     </div> <!-- /container -->
 

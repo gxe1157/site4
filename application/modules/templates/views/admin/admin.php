@@ -339,6 +339,7 @@
 					<li><a href="<?= base_url() ?>store_items/manage"><i class="icon-tag"></i><span class="hidden-tablet"> Manage Items</span></a></li>
 					<li><a href="<?= base_url() ?>store_categories/manage"><i class="icon-align-justify"></i><span class="hidden-tablet"> Manage Categories</span></a></li>
 					<li><a href="<?= base_url() ?>webpages/manage"><i class="icon-file"></i><span class="hidden-tablet"> CMS</span></a></li>
+					<li><a href="<?= base_url() ?>blog/manage"><i class="icon-file"></i><span class="hidden-tablet"> Blog</span></a></li>					
 					<li><a href="<?= base_url() ?>store_accounts/manage"><i class="icon-briefcase"></i><span class="hidden-tablet"> Accounts</span></a></li>
 
 
