@@ -7,6 +7,16 @@ function __construct() {
 
 }
 
+function generate_random_string( $length )
+{
+	$charcters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = '';
+    for( $i=0; $i<$length; $i++){
+    	$randomString .= $charcters[rand(0, strlen($charcters) -1)];
+    }
+    return $randomString;
+}
+
 
 function _hash_string($str)
 {

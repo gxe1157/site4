@@ -29,6 +29,7 @@ function index()
 		}
 
 	} else {
+		$data['page_url'] = '404_page';
 		$this->load->module('site_settings');
 		$data['page_content'] = $this->site_settings->_get_page_not_found_msg();
 	}
