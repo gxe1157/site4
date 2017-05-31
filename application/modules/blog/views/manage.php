@@ -18,22 +18,34 @@
 			</div>
 		</div>
 		<div class="box-content">
-			<table class="table table-striped table-bordered bootstrap-datatable datatable">
+			<table class="table table-striped table-bordered table-responsive bootstrap-datatable datatable">
 			  <thead>
 				  <tr>
-					  <th class="span6">Blog URL</th>
-					  <th class="span4">Blog Headline</th>
+				  	  <th>Picture</th>
+				  	  <th>Date Published</th>
+				  	  <th>author</th>				  	  				  	  
+					  <th>Blog URL</th>
+					  <th>Blog Headline</th>
 					  <th class="span2">Actions</th>
 				  </tr>
 			  </thead>
 			  <tbody>
 
 			    <?php
+			    	 $this->load->module('timedates');
+			    	 $this->load->module('blog');
 			    	 foreach( $columns->result() as $row ){
+
 			    	 	$edit_page_url = $redirect_url."/".$row->id;
 			    	 	$view_page_url =base_url().$row->page_url;
+			    	 	$date_published = $this->timedates->get_nice_date($row->date_published, 'mini' );
+			    	 	$image =  $row->picture;
+			    	 	$small_pic_path = $this->blog->_get_thumbnail_path( $image );
 			    ?>
 						<tr>
+						    <td><img src="<?= base_url().$small_pic_path ?>"  class="img-fluid"></td> 
+						    <td><?= $date_published ?></td>
+						    <td><?= $row->author ?></td>					
 							<td class="right"><?=  $view_page_url ?></td>
 							<td class="right"><?= $row->page_title ?></td>
 							<td class="center">

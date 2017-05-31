@@ -111,3 +111,23 @@
 	</div><!-- end row-fluid sortable -->
 <?php } ?>
 
+<!-- Image display and delete -->
+<?php
+if( isset($columns['picture']) && $columns['picture'] != "" ) { ?>
+	<div class="row-fluid sortable">
+		<div class="box span12">
+			<div class="box-header" data-original-title>
+				<h2><i class="halflings-icon white edit"></i><span class="break"></span>Image</h2>
+				<div class="box-icon">
+					<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+					<a href="<?= base_url().$this->uri->segment(1) ?>/manage" ><i class="halflings-icon white remove"></i></a>
+				</div>
+			</div>
+			<div class="box-content">
+				<img src="<?= base_url() ?>public/blog_pics/<?= $columns['picture'] ?>" >
+			</div> 
+		</div><!-- end 12 span -->
+	</div><!-- end row-fluid sortable -->
+<?php
+}
+?>

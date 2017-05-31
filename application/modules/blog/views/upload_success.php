@@ -3,7 +3,7 @@
 
 <?php
 	if( isset($flash) ) echo $flash;	
-	$form_location = base_url()."store_items/create/".$update_id;
+	$form_location = base_url()."blog/create/".$update_id;
 ?>
 
 <div class="row-fluid sortable">
@@ -12,13 +12,13 @@
 			<h2><i class="halflings-icon white edit"></i><span class="break"></span>Upload Success</h2>
 			<div class="box-icon">
 				<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-				<a href="<?= base_url() ?>store_items/manage" ><i class="halflings-icon white remove"></i></a>
+				<a href="<?= base_url() ?>blog/manage" ><i class="halflings-icon white remove"></i></a>
 			</div>
 		</div>
 		<div class="box-content">
 			<!-- show image -->
-			<img src="<?= base_url() ?>public/small_pic/<?= $upload_data['file_name'] ?>" >
-			<h2>Item Title: <?= $item_title ?></h2>				
+			<img src="<?= base_url() ?>public/blog_pics/<?= $thumbnail_name ?>" >
+			<h2>Item Title: <?= $page_title ?></h2>				
 	
 			<ul>
 				<li>File Name    : <?= $upload_data['file_name'] ?></li>
@@ -30,9 +30,9 @@
 
 			<p>
 			    <?php
-		     	$edit_item_url = base_url()."store_items/create/".$update_id;
+		     	$edit_item_url = base_url()."blog/create/".$update_id;
 			    ?>
-				<a href="<?= $edit_item_url ?>"><button type="button" class="btn btn-primary">Return To Main Update Item Details Page</button></a>
+				<a href="<?= $edit_item_url ?>"><button type="button" class="btn btn-primary">Return To Blog Entry Page</button></a>
 			</p>
 		</div>
 	</div><!-- end 12 span -->

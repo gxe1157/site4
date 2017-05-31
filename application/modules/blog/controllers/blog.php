@@ -16,7 +16,7 @@ var $column_rules = array(
         array('field' => 'page_content', 'label' => 'Blog Entry Content', 'rules' => 'required'),
         array('field' => 'date_published', 'label' => 'Date Published', 'rules' => 'required'),        
         array('field' => 'author', 'label' => 'Author', 'rules' => ''),
-        array('field' => 'picture', 'label' => 'Picture', 'rules' => ''),                        
+        array('field' => 'picture', 'label' => 'Picture', 'rules' => '')                       
         // array('field' => 'status', 'label' => 'Status', 'rules' => ''),
 );
 
@@ -55,7 +55,7 @@ function __construct() {
   {
       $this->_security_check();
 
-      $data['columns']      = $this->get('page_url'); // get form fields structure
+      $data['columns']      = $this->get('date_published desc'); // get form fields structure
       $data['redirect_url'] = base_url().$this->uri->segment(1)."/create";
       $data['add_button']   = "Create New Blog Entry";
       $data['headtag']      = "Blog Entry Details";
@@ -195,7 +195,7 @@ function upload_image( $update_id )
 
     /* get item title */
     $row_data = $this->fetch_data_from_db($update_id);
-    $data['item_title'] = $row_data['item_title'];        
+    $data['page_title'] = $row_data['page_title'];        
 
     $data['headline']  = "Upload Image";        
     $data['view_file'] = "upload_image";
@@ -210,9 +210,9 @@ function do_upload( $update_id )
     $this->_numeric_check($update_id);    
     $this->_security_check();    
 
-    if( !is_numeric($update_id) ){
-        redirect('site_security/not_allowed');
-    }
+    // if( !is_numeric($update_id) ){
+    //     redirect('site_security/not_allowed');
+    // }
 
     $submit = $this->input->post('submit', TRUE);
     if( $submit == "Cancel" ) {
@@ -220,11 +220,13 @@ function do_upload( $update_id )
     } 
 
     $data['update_id']       = $update_id;
-    $config['upload_path']   = './public/big_pic/';
+    $config['upload_path']   = './public/blog_pics/';
     $config['allowed_types'] = 'gif|jpg|png';
     $config['max_size']      = 2500;  // kb
-    $config['max_width']     = 1024;
-    $config['max_height']    = 768;
+    $config['max_width']     = 2024;
+    $config['max_height']    = 1268;
+    $config['file_name']     = $this->site_security->generate_random_string(16);
+
 
     $this->load->library('upload', $config);
     if (!$this->upload->do_upload('userfile')) {
@@ -237,17 +239,18 @@ function do_upload( $update_id )
         $file_name   = $upload_data['file_name'];
 
         /* Create thumbnail image */
-        $this->_generate_thumbnail($file_name);
+        $thumbnail_name = $upload_data['raw_name'].'_thumb'.$upload_data['file_ext'];
+        $this->_generate_thumbnail($file_name, $thumbnail_name);
 
         /* Update the database */
-        $update_data['big_pic'] = $file_name;
-        $update_data['small_pic'] = $file_name;
+        $update_data['picture'] = $file_name;
         $this->_update($update_id, $update_data);
+        $data['thumbnail_name'] = $thumbnail_name;                
     }
 
     /* get item title */
     $row_data = $this->fetch_data_from_db($update_id);
-    $data['item_title'] = $row_data['item_title'];        
+    $data['page_title'] = $row_data['page_title'];        
 
     $data['headline']  = $is_uploaded == TRUE ? "Upload Success" : "Upload Error";        
     $data['view_file'] = $is_uploaded == TRUE ? "Upload_success" : "Upload_image";
@@ -257,13 +260,63 @@ function do_upload( $update_id )
 }
 
 
+function _generate_thumbnail($file_name, $thumbnail_name)
+{
+    $config['image_library'] = 'gd2';
+    $config['source_image']  = './public/blog_pics/'.$file_name;
+    $config['new_image']     = './public/blog_pics/'.$thumbnail_name;    
+    $config['create_thumb']  = FALSE;
+    $config['maintain_ratio']= TRUE;
+    $config['width']         = 200;
+    $config['height']        = 200;
+
+    $this->load->library('image_lib', $config);
+    $this->image_lib->resize();
+}
+
+
+function delete_image( $update_id )
+{
+    $this->_numeric_check($update_id);    
+    $this->_security_check();    
+
+    $data = $this->fetch_data_from_db($update_id);
+    $picture = $data['picture'];
+    $big_pic_path = './public/blog_pics/'.$picture;
+    $small_pic_path = $this->_get_thumbnail_path( $picture );
+   
+    /* remove the images */
+    if(file_exists($big_pic_path)) {
+        unlink($big_pic_path);
+    } 
+
+    if(file_exists($small_pic_path)) {
+        unlink($small_pic_path);
+    }  
+
+    /* update the database */
+    unset($data);
+    $data['picture'] ='';
+    $this->_update($update_id, $data);
+
+    $this->_set_flash_msg("The image was sucessfully deleted");
+    redirect($this->store_controller.'/create/'.$update_id);    
+}
+
+function _get_thumbnail_path( $image ){
+     $file_bits = explode(".", $image);
+    $thumbnail_name = $file_bits[0].'_thumb.'.$file_bits[1];
+    $small_pic_path = './public/blog_pics/'.$thumbnail_name;
+    return $small_pic_path; 
+}
+
 /* ===============================================
     Call backs go here...
   =============================================== */
 
 
-  function item_check($str) {
-      $item_url = url_title($str);
+  function page_check($str) {
+      $page_url = url_title($str);
       $mysql_query = "select * from blog where page_title='$str' and page_url='$page_url'";
 
       $update_id = $this->uri->segment(3);
@@ -276,7 +329,7 @@ function do_upload( $update_id )
       $num_rows = $query->num_rows();
 
       if( $num_rows > 0 ){
-          $this->form_validation->set_message('item_check', 'The Blog Entry Title you selected is not available.');
+          $this->form_validation->set_message('page_check', 'The Blog Entry Title you selected is not available.');
           return FALSE;
       } else {
           return TRUE;
