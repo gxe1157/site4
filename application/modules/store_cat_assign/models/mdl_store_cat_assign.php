@@ -52,9 +52,9 @@ function _get_item_title_byid($id)
 // table store store_cat_categories
 function _get_all_sub_cats_for_dropdown()
 {
-    $table = "store_categories";
+    $sub_categories = array();    
     $mysql_query = "SELECT * FROM store_categories
-                    where parent_cat_id !=0 
+                    where parent_cat_id != 0 
                     ORDER BY parent_cat_id, cat_title";
     $query = $this->db->query($mysql_query);
 
@@ -62,13 +62,13 @@ function _get_all_sub_cats_for_dropdown()
        $parent_cat_title = $this->_get_cat_title($row->parent_cat_id);
        $sub_categories[$row->id] = $parent_cat_title." > ".$row->cat_title;
     }
-
-    if(!isset($sub_categories)) $sub_categories = "";
     return $sub_categories;
 }
 
 function _get_parent_cat_title( $id )
 {
+
+// $this->lib->checkField($id,0);   
     $data = $this->_exec_get_title_query( $id );
     $cat_title = $data->cat_title;
     $parent_cat_id = $data->parent_cat_id;

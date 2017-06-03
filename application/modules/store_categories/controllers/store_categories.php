@@ -153,6 +153,7 @@ function _get_cat_title( $update_id )
 
 function _count_sub_cats()
 {
+    $sub_cats = '';
     $mysql_query  =  "SELECT *, count(*) as parent_id FROM `store_categories` group by parent_cat_id";
     $myResults = $this->_custom_query($mysql_query );
     foreach( $myResults->result() as $key => $line ){
@@ -205,7 +206,20 @@ function view( $update_id )
     // fetch item details for pubic page
     $data = $this->fetch_data_from_db( $update_id );
 
-    $data['headline']  = "";
+    // fetch items that belong to this category
+    $mysql_query = "
+    SELECT 
+    store_items.item_title,
+    store_items.item_url,
+    store_items.item_price,
+    store_items.small_pic,    
+    store_items.was_price
+    FROM store_cat_assign INNER JOIN store_items ON store_cat_assign.item_id
+    WHERE store_cat_assign.cat_id = $update_id and store_items.status = 1
+    ";
+
+    $data['query']  = $this->_custom_query($mysql_query);
+    $data['headline'] = "";
     $data['view_module'] = "store_categories";
     $data['view_file'] = "view";
     $data['update_id'] = $update_id;

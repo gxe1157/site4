@@ -43,6 +43,11 @@ function _set_flash_msg($flash_msg)
     $this->session->set_flashdata('item', $value);
 }
 
+function _set_flash_danger_msg($flash_msg)
+{
+    $value = '<div style="border: 2px solid red; padding:10px; background-color: pink; color: #000; font-size: 1.25em;">'.$flash_msg.'</div>';
+    $this->session->set_flashdata('item', $value);
+}
 
 function _render_view(  $arg, $data )
 {

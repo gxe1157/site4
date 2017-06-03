@@ -28,6 +28,7 @@ function __construct() {
 
 function update( $item_id )
 {
+
     $this->_numeric_check( $item_id );
     $this->_security_check();
 
@@ -39,19 +40,20 @@ function update( $item_id )
 
     // get an array of all assigned to item_id from store_cat_assign
     $query = $this->cntlr_name->_get_assigned_categories('item_id', $item_id, $orderby = null);
+
     $data['query'] = $query;
     $data['num_rows'] = $query->num_rows();
+
     foreach ($query->result() as $row) {
        list ($cat_title, $parent_cat_title) = $this->cntlr_name->_get_parent_cat_title($row->cat_id);
        $assigned_categories[$row->cat_id] = $parent_cat_title." > ".$cat_title;
     }
 
-// $this->lib->checkField($item_id,1);
-// $this->lib->checkArray($query->result(),1);
-// $this->lib->checkArray( $assigned_categories,1 );
-
     if(!isset($assigned_categories)){
-        $assign_categories ="";
+       if( empty($sub_categories) ) {
+            $this->_set_flash_danger_msg("Categories have not been created.<br>Go to Manage Categories and add a new catergory.");
+        }
+       $assigned_categories ="";
      } else {
         // Item has been assigned to at least one catergory 
         $sub_categories = array_diff( $sub_categories, $assigned_categories );
@@ -69,7 +71,7 @@ function update( $item_id )
     $data['small_img']= $small_img;   
     $data['item_id']   = $item_id;
     $data['headline']  = $this->headline;
-    $data['flash']     = $this->session->flashdata('item');
+    // $data['flash']     = $this->session->flashdata('item');
     $data['view_file'] = "update";
 
     $this->_render_view('admin', $data);

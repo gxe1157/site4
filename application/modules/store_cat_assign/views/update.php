@@ -3,6 +3,7 @@
 
 <?php
 	if( isset($flash) ) echo $flash;	
+	$this->session->set_flashdata('item', '');	
 	$store_location = base_url().$store_db_table."/submit/".$item_id;
 ?>
 
@@ -24,11 +25,12 @@
 			<p>Choose a new category and hit 'Submit' </p>
 
 			<form class="form-horizontal" method="post"
-				 action="<?= $store_location ?>" >
+				  action="<?= $store_location ?>" >
+
 				<fieldset>
 					<div class="controls">
 						<?php
-						$additional_opt = " id = selectStatus";
+						$additional_opt = array( 'id' => 'selectStatus', 'style' => 'width:300px' );
 						echo form_dropdown('cat_id', $options, $cat_id, $additional_opt);
 						?>
 					</div>
@@ -37,6 +39,7 @@
 						<button type="submit" class="btn" name="submit" value="Finished">Finished</button>
 					</div>
 				</fieldset>
+
 			</form>   
 
 		</div>

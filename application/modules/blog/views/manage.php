@@ -43,10 +43,12 @@
 			    	 	$small_pic_path = $this->blog->_get_thumbnail_path( $image );
 			    ?>
 						<tr>
-						    <td><img src="<?= base_url().$small_pic_path ?>"  class="img-fluid"></td> 
+						    <td>
+	    <img src="<?= base_url().$small_pic_path ?>"  class="img-responsive img-thumbnail">
+	    					</td> 
 						    <td><?= $date_published ?></td>
 						    <td><?= $row->author ?></td>					
-							<td class="right"><?=  $view_page_url ?></td>
+							<td class="right"><?= $view_page_url ?></td>
 							<td class="right"><?= $row->page_title ?></td>
 							<td class="center">
 								<a class="btn btn-success" href="<?= $view_page_url ?>">

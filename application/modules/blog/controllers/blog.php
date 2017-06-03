@@ -304,11 +304,23 @@ function delete_image( $update_id )
 }
 
 function _get_thumbnail_path( $image ){
-     $file_bits = explode(".", $image);
+    $file_bits = explode(".", $image);
     $thumbnail_name = $file_bits[0].'_thumb.'.$file_bits[1];
     $small_pic_path = './public/blog_pics/'.$thumbnail_name;
-    return $small_pic_path; 
+    return $small_pic_path;
 }
+
+function _draw_feed_hp()
+{
+    $this->load->helper('text');
+    $mysql_query = "select * from blog order by date_published desc limit 0,3";
+    $data['query'] = $this->_custom_query($mysql_query);
+    $this->load->view('feed_hp', $data);
+}
+
+
+
+
 
 /* ===============================================
     Call backs go here...
