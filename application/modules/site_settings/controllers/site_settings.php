@@ -23,12 +23,24 @@ function __construct() {
     functions in applications/core/My_Controller.php
   ==================================================== */
 
+function _get_currency_symbol( $money_symbol )
+{
+  if( $money_symbol =='dollar'){
+      return '$';
+  } 
+
+  if( $money_symbol =='pound'){
+      return '&pound';
+  } 
+
+
+}
+
 function _get_item_segments()
 {
   // return segments for store_items page ( product page )
   $segments = "musical/instrument/";
-
-
+  return $segments;
 }
 
 function _get_items_segments()

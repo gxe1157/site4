@@ -23,6 +23,12 @@ function test()
     $this->public_bootstrap($data);
 }
 
+function _draw_breadcrumbs($data)
+{
+    // NOTE: template, current_page_title, breadcrumbs_array are needed
+    $this->load->view('public_bootstrap/breadcrumbs_public_bootstrap', $data);
+
+}
 
 function public_bootstrap($data = null)
 {

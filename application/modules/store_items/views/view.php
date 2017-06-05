@@ -1,3 +1,7 @@
+<?php
+echo Modules::run('templates/_draw_breadcrumbs', $breadcrumbs_data);
+
+?>
 
 <div class="row">
   <div class="col-md-4" style="margin-top: 24px;">

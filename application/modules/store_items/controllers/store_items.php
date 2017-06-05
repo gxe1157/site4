@@ -107,8 +107,14 @@ function view( $update_id )
     // fetch item details for pubic page
     $data = $this->fetch_data_from_db( $update_id );
 
+    // build breadcrumbs_data
+    $breadcrumbs_data['template'] = 'public_bootstrap';
+    $breadcrumbs_data['current_page_title'] = $data['item_title'];    
+    $breadcrumbs_data['breadcrumbs_array'] = $this->_generate_breadcrumbs_array($update_id);    
+    $data['breadcrumbs_data'] = $breadcrumbs_data;  
+
     $data['headline']  = ""; 
-    $data['view_module'] = "store_items";           
+    $data['view_module'] = "store_items";             
     $data['view_file'] = "view";
     $data['update_id'] = $update_id;
 
@@ -307,6 +313,14 @@ function _get_item_id_from_item_url($item_url) {
     return $item_id; 
 }
 
+function _generate_breadcrumbs_array($update_id)
+{
+    $homepage_url = base_url();
+    $breadcrumbs_array[$homepage_url]  = 'Home';
+    $breadcrumbs_array['sub_cat_page']  = 'Sub Cat Page';
+
+    return $breadcrumbs_array;  
+}
 
 /* ===============================================
     Call backs go here...

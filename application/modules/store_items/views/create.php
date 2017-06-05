@@ -47,8 +47,10 @@
 			</div>
 		</div>
 		<div class="box-content">
-			<form class="form-horizontal" method="post"
-				 action="<?= $form_location ?>" >
+			<form class="form-horizontal" method="post" action="<?= $form_location ?>" >
+			  <input type="hidden" name="big_pic" value="<?= $columns['big_pic'] ?>" />
+			  <input type="hidden" name="small_pic" value="<?= $columns['small_pic'] ?>" />			   
+
 			  <fieldset>
 				<div class="control-group">
 				  <label class="control-label" for="typeahead">Item Title </label>

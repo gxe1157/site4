@@ -203,10 +203,59 @@ function _get_cat_id_from_cat_url( $category_url ) {
 function view( $update_id )
 {
     $this->_numeric_check( $update_id );
+    $this->load->module('site_settings');
+    $this->load->module('custom_pagination');    
+
     // fetch item details for pubic page
     $data = $this->fetch_data_from_db( $update_id );
 
+    // count items that belong to this category
+    $use_limit = FALSE;
+    $mysql_query = $this->_generate_mysql_query($update_id, $use_limit);
+    $query = $this->_custom_query($mysql_query);
+    $total_items = $query->num_rows();
+
     // fetch items that belong to this category
+    $use_limit = TRUE;
+    $mysql_query = $this->_generate_mysql_query($update_id, $use_limit);
+
+    $pagination_data['template'] = 'public_bootstrap';
+    $pagination_data['target_base_url'] = $this->_get_target_pagination_base_url();
+    $pagination_data['total_rows'] = $total_items;
+    $pagination_data['offset_segment'] = 4;
+    $pagination_data['limit']  = $this->get_limit();
+    $pagination_data['offset'] = $this->get_offset();
+
+    $data['pagination'] = $this->custom_pagination->_generate_pagination($pagination_data);
+
+    $data['showing_statement'] = $this->custom_pagination->_get_showing_statement($pagination_data);
+
+    $data['item_segments'] = $this->site_settings->_get_item_segments();
+    $data['currency_symbol'] = $this->site_settings->_get_currency_symbol( 'dollar' );
+    $data['query']  = $this->_custom_query($mysql_query);
+    $data['headline'] = "";
+    $data['view_module'] = "store_categories";
+    $data['view_file'] = "view";
+    $data['update_id'] = $update_id;
+
+    $this->_render_view('public_bootstrap', $data);
+}
+
+function _get_target_pagination_base_url()
+{
+    $first_seg  = $this->uri->segment(1);
+    $second_seg = $this->uri->segment(2);
+    $third_seg  = $this->uri->segment(3);           
+    $target_base_url = base_url().$first_seg.'/'.$second_seg.'/'.$third_seg;
+    return $target_base_url;
+
+}
+
+
+function _generate_mysql_query($update_id, $use_limit )
+{
+    // note: $use_limit can be true or false
+
     $mysql_query = "
     SELECT 
     store_items.item_title,
@@ -218,13 +267,44 @@ function view( $update_id )
     WHERE store_cat_assign.cat_id = $update_id and store_items.status = 1
     ";
 
-    $data['query']  = $this->_custom_query($mysql_query);
-    $data['headline'] = "";
-    $data['view_module'] = "store_categories";
-    $data['view_file'] = "view";
-    $data['update_id'] = $update_id;
+    if( $use_limit) {
+        $limit  = $this->get_limit();
+        $offset = $this->get_offset();
+        $mysql_query .= " Limit ".$offset.", ".$limit;     
+    }
+    return $mysql_query;
+}
 
-    $this->_render_view('public_bootstrap', $data);
+function get_limit()
+{
+    $limit = 10;
+    return $limit; 
+}
+
+function get_offset()
+{
+    $offset = $this->uri->segment(4);
+    if(!is_numeric($offset)) $offset = 0;
+    return $offset;
+}
+
+function test($target_array){
+    // $age = array("Peter"=>"35", "Ben"=>"37", "Joe"=>"43");
+    asort($target_array);
+    // $oldest = end($target_array);
+    echo end($target_array);
+}
+
+function test2($target_array)
+{
+   foreach($target_array as $key => $value ){
+        if( !isset($key_with_highest_value ))     {
+            $key_with_highest_value = $key;
+        } elseif ( $value > $target_array[$key_with_highest_value]){
+            $key_with_highest_value = $key;
+        }
+   }
+   return $key_with_highest_value;
 }
 
 /* ===============================================
