@@ -162,25 +162,6 @@ function _count_sub_cats()
     return $sub_cats;
 }
 
-function _draw_top_nav()
-{
-    $mysql_query = "SELECT * FROM store_categories where parent_cat_id = 0 ORDER BY cat_title";
-    $query = $this->db->query($mysql_query);
-    foreach ($query->result() as $row) {
-       $parent_categories[$row->cat_title] = $this->_get_sub_cat($row->id);
-    }
-
-    $this->load->module('site_settings');
-    $items_segments = $this->site_settings->_get_items_segments();
-
-//$this->lib->checkField( $items_segments,1);
-
-    $data['target_url_start'] = base_url().$items_segments;
-
-    $data['parent_categories'] = $parent_categories;
-    $this->load->view('top_nav', $data);
-}
-
 function _get_sub_cat($parent_id)
 {
     $sql  = "SELECT * FROM store_categories where parent_cat_id = $parent_id ORDER BY cat_title";
@@ -198,6 +179,25 @@ function _get_cat_id_from_cat_url( $category_url ) {
 
     $cat_id = $query->result()[0]->id;
     return $cat_id;
+}
+
+function _draw_top_nav()
+{
+    $mysql_query = "SELECT * FROM store_categories where parent_cat_id = 0 ORDER BY cat_title";
+    $query = $this->db->query($mysql_query);
+    foreach ($query->result() as $row) {
+       $parent_categories[$row->cat_title] = $this->_get_sub_cat($row->id);
+    }
+
+    $this->load->module('site_settings');
+    $items_segments = $this->site_settings->_get_items_segments();
+
+//$this->lib->checkField( $items_segments,1);
+
+    $data['target_url_start'] = base_url().$items_segments;
+
+    $data['parent_categories'] = $parent_categories;
+    $this->load->view('top_nav', $data);
 }
 
 function view( $update_id )

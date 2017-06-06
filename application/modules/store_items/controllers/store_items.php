@@ -317,9 +317,45 @@ function _generate_breadcrumbs_array($update_id)
 {
     $homepage_url = base_url();
     $breadcrumbs_array[$homepage_url]  = 'Home';
-    $breadcrumbs_array['sub_cat_page']  = 'Sub Cat Page';
 
+    //get $sub_cat_id for this item
+    $table = 'store_cat_assign';
+    $orderby = null;
+echo 'item_id1 '.$update_id.' table: '.$table.' orderby: '.$orderby; die();    
+    $sub_cat_id = $this->_get_sub_cat_id('item_id', $update_id, $table, $orderby);
+
+    //use $sub_cat to get title and the url
+    $table = 'store_categories';
+    $orderby = null;
+    list($get_sub_title, $sub_cat_url ) = $this->_get_cat_data('id', $sub_cat_id, $table, $orderby);
+    // echo $get_sub_title."<br>".$sub_cat_url."<br>" ;
+
+    $this->load->module('site_settings');
+    $item_segments = $this->site_settings->_get_items_segments();
+    $full_cat_url = base_url().$item_segments.$sub_cat_url;
+  //  echo $full_cat_url; die();    
+
+    $breadcrumbs_array[$full_cat_url]  = $get_sub_title;
+  //  echo $breadcrumbs_array[$sub_cat_url]; die();    
     return $breadcrumbs_array;  
+}
+
+function _get_sub_cat_id( $col, $update_id, $table, $orderby )
+{
+echo 'item_id2 '.$update_id.' table: '.$table.' orderby: '.$orderby; die();
+
+
+  $query = $this->cntlr_name->get_view_data_custom($col, $update_id, $table, $orderby);
+  $sub_cat_id = $query->result()[0]->cat_id;
+  return $sub_cat_id;
+}
+
+function _get_cat_data($col, $update_id, $table, $orderby)
+{
+  $query = $this->cntlr_name->get_view_data_custom($col, $update_id, $table, $orderby);
+  $sub_cat_title = $query->result()[0]->cat_title;
+  $sub_cat_url = $query->result()[0]->category_url;  
+  return array( $sub_cat_title, $sub_cat_url );
 }
 
 /* ===============================================
