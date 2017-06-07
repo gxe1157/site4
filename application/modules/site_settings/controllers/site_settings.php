@@ -33,7 +33,6 @@ function _get_currency_symbol( $money_symbol )
       return '&pound';
   } 
 
-
 }
 
 function _get_item_segments()

@@ -101,26 +101,6 @@ function create()
     $this->_render_view('admin', $data);
 }
 
-function view( $update_id )
-{
-    $this->_numeric_check( $update_id );
-    // fetch item details for pubic page
-    $data = $this->fetch_data_from_db( $update_id );
-
-    // build breadcrumbs_data
-    $breadcrumbs_data['template'] = 'public_bootstrap';
-    $breadcrumbs_data['current_page_title'] = $data['item_title'];    
-    $breadcrumbs_data['breadcrumbs_array'] = $this->_generate_breadcrumbs_array($update_id);    
-    $data['breadcrumbs_data'] = $breadcrumbs_data;  
-
-    $data['headline']  = ""; 
-    $data['view_module'] = "store_items";             
-    $data['view_file'] = "view";
-    $data['update_id'] = $update_id;
-
-    $this->_render_view('public_bootstrap', $data);
-}
-
 
 function delete( $update_id )
 {
@@ -301,6 +281,25 @@ function do_upload( $update_id )
     $this->_render_view('admin', $data);    
 }
 
+function view( $update_id )
+{
+    $this->_numeric_check( $update_id );
+    // fetch item details for pubic page
+    $data = $this->fetch_data_from_db( $update_id );
+
+    // build breadcrumbs_data
+    $breadcrumbs_data['template'] = 'public_bootstrap';
+    $breadcrumbs_data['current_page_title'] = $data['item_title'];    
+    $breadcrumbs_data['breadcrumbs_array'] = $this->_generate_breadcrumbs_array($update_id);    
+    $data['breadcrumbs_data'] = $breadcrumbs_data;  
+
+    $data['headline']  = ""; 
+    $data['view_module'] = "store_items";             
+    $data['view_file'] = "view";
+    $data['update_id'] = $update_id;
+
+    $this->_render_view('public_bootstrap', $data);
+}
 
 function _get_item_id_from_item_url($item_url) {
     $query   = $this->get_where_custom('item_url', $item_url);
@@ -321,30 +320,23 @@ function _generate_breadcrumbs_array($update_id)
     //get $sub_cat_id for this item
     $table = 'store_cat_assign';
     $orderby = null;
-echo 'item_id1 '.$update_id.' table: '.$table.' orderby: '.$orderby; die();    
     $sub_cat_id = $this->_get_sub_cat_id('item_id', $update_id, $table, $orderby);
 
     //use $sub_cat to get title and the url
     $table = 'store_categories';
     $orderby = null;
     list($get_sub_title, $sub_cat_url ) = $this->_get_cat_data('id', $sub_cat_id, $table, $orderby);
-    // echo $get_sub_title."<br>".$sub_cat_url."<br>" ;
-
+ 
     $this->load->module('site_settings');
     $item_segments = $this->site_settings->_get_items_segments();
     $full_cat_url = base_url().$item_segments.$sub_cat_url;
-  //  echo $full_cat_url; die();    
 
     $breadcrumbs_array[$full_cat_url]  = $get_sub_title;
-  //  echo $breadcrumbs_array[$sub_cat_url]; die();    
     return $breadcrumbs_array;  
 }
 
 function _get_sub_cat_id( $col, $update_id, $table, $orderby )
 {
-echo 'item_id2 '.$update_id.' table: '.$table.' orderby: '.$orderby; die();
-
-
   $query = $this->cntlr_name->get_view_data_custom($col, $update_id, $table, $orderby);
   $sub_cat_id = $query->result()[0]->cat_id;
   return $sub_cat_id;

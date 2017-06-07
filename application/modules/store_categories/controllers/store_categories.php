@@ -191,11 +191,7 @@ function _draw_top_nav()
 
     $this->load->module('site_settings');
     $items_segments = $this->site_settings->_get_items_segments();
-
-//$this->lib->checkField( $items_segments,1);
-
     $data['target_url_start'] = base_url().$items_segments;
-
     $data['parent_categories'] = $parent_categories;
     $this->load->view('top_nav', $data);
 }
@@ -227,9 +223,7 @@ function view( $update_id )
     $pagination_data['offset'] = $this->get_offset();
 
     $data['pagination'] = $this->custom_pagination->_generate_pagination($pagination_data);
-
     $data['showing_statement'] = $this->custom_pagination->_get_showing_statement($pagination_data);
-
     $data['item_segments'] = $this->site_settings->_get_item_segments();
     $data['currency_symbol'] = $this->site_settings->_get_currency_symbol( 'dollar' );
     $data['query']  = $this->_custom_query($mysql_query);
@@ -263,8 +257,8 @@ function _generate_mysql_query($update_id, $use_limit )
     store_items.item_price,
     store_items.small_pic,    
     store_items.was_price
-    FROM store_cat_assign INNER JOIN store_items ON store_cat_assign.item_id
-    WHERE store_cat_assign.cat_id = $update_id and store_items.status = 1
+    FROM store_cat_assign INNER JOIN store_items ON store_cat_assign.item_id = store_items.id
+    WHERE store_cat_assign.cat_id = $update_id AND store_items.status = 1
     ";
 
     if( $use_limit) {
@@ -272,6 +266,7 @@ function _generate_mysql_query($update_id, $use_limit )
         $offset = $this->get_offset();
         $mysql_query .= " Limit ".$offset.", ".$limit;     
     }
+
     return $mysql_query;
 }
 

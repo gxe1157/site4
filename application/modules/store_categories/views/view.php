@@ -15,7 +15,7 @@
 
 
 <h1><?= $cat_title ?></h1>
- <p> <?= $showing_statement ?></p>
+ <p><?= $showing_statement ?></p>
  <?= $pagination ?>
 
 <div class="row">
@@ -28,7 +28,8 @@
 		$item_page  = base_url().$item_segments.$row->item_url;
 	?>
 		<div class="col-md-2 img-thumbnail" id="view_small_pic" >
-			<a href="<?= $item_page ?>" ><img src="<?= $small_pic_path ?>"  class="img-responsive" title="<?= $item_title ?>" ></a>
+			<a href="<?= $item_page ?>" ><img src="<?= $small_pic_path ?>"
+				class="img-responsive" title="<?= $item_title ?>" ></a>
 			<br>
 			<h6><a href="<?= $item_page ?>" ><?= $item_title ?></a></h6>
 			<div id="view_price" >
