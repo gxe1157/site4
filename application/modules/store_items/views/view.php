@@ -1,6 +1,5 @@
 <?php
-echo Modules::run('templates/_draw_breadcrumbs', $breadcrumbs_data);
-
+  echo Modules::run('templates/_draw_breadcrumbs', $breadcrumbs_data);
 ?>
 
 <div class="row">
@@ -8,10 +7,10 @@ echo Modules::run('templates/_draw_breadcrumbs', $breadcrumbs_data);
   	<img src="<?= base_url() ?>public/big_pic/<?= $big_pic ?> " class="img-responsive" alt="<?= $item_title ?>">
   </div>
   <div class="col-md-5">
-  		<h1><?= $item_title ?></h1>	
+  		<h1><?= $item_title ?></h1>
   		<div style="clear:both;"></div>
 		<?= nl2br($item_description) ?>
-  </div>  
+  </div>
 
   <!-- Add drop down select options here cart/_draw_add_to_cart  -->
   <div class="col-md-3" style=" background-color: #ddd; margin-top: 24px; border: 3px solid #666; border-radius: 9px;" >

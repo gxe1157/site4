@@ -183,11 +183,13 @@ function _get_cat_id_from_cat_url( $category_url ) {
 
 function _draw_top_nav()
 {
+    $parent_categories = '';
     $mysql_query = "SELECT * FROM store_categories where parent_cat_id = 0 ORDER BY cat_title";
     $query = $this->db->query($mysql_query);
     foreach ($query->result() as $row) {
        $parent_categories[$row->cat_title] = $this->_get_sub_cat($row->id);
     }
+    if( $parent_categories == false ) return;
 
     $this->load->module('site_settings');
     $items_segments = $this->site_settings->_get_items_segments();
@@ -200,7 +202,7 @@ function view( $update_id )
 {
     $this->_numeric_check( $update_id );
     $this->load->module('site_settings');
-    $this->load->module('custom_pagination');    
+    $this->load->module('custom_pagination');
 
     // fetch item details for pubic page
     $data = $this->fetch_data_from_db( $update_id );
@@ -239,7 +241,7 @@ function _get_target_pagination_base_url()
 {
     $first_seg  = $this->uri->segment(1);
     $second_seg = $this->uri->segment(2);
-    $third_seg  = $this->uri->segment(3);           
+    $third_seg  = $this->uri->segment(3);
     $target_base_url = base_url().$first_seg.'/'.$second_seg.'/'.$third_seg;
     return $target_base_url;
 
@@ -251,11 +253,11 @@ function _generate_mysql_query($update_id, $use_limit )
     // note: $use_limit can be true or false
 
     $mysql_query = "
-    SELECT 
+    SELECT
     store_items.item_title,
     store_items.item_url,
     store_items.item_price,
-    store_items.small_pic,    
+    store_items.small_pic,
     store_items.was_price
     FROM store_cat_assign INNER JOIN store_items ON store_cat_assign.item_id = store_items.id
     WHERE store_cat_assign.cat_id = $update_id AND store_items.status = 1
@@ -264,7 +266,7 @@ function _generate_mysql_query($update_id, $use_limit )
     if( $use_limit) {
         $limit  = $this->get_limit();
         $offset = $this->get_offset();
-        $mysql_query .= " Limit ".$offset.", ".$limit;     
+        $mysql_query .= " Limit ".$offset.", ".$limit;
     }
     return $mysql_query;
 }
@@ -272,7 +274,7 @@ function _generate_mysql_query($update_id, $use_limit )
 function get_limit()
 {
     $limit = 10;
-    return $limit; 
+    return $limit;
 }
 
 function get_offset()

@@ -2,7 +2,7 @@
 <?= validation_errors("<p style='color: red;'>", "</p>") ?>
 
 <?php
-	if( isset($flash) ) echo $flash;	
+	if( isset($flash) ) echo $flash;
 	$form_location = base_url()."store_items/create/".$update_id;
 ?>
 
@@ -20,16 +20,16 @@
 			    <?php  if( empty($columns['big_pic']) ) { ?>
 					<a href="<?= base_url() ?>store_items/upload_image/<?= $update_id ?> ">
 					<button type="button" class="btn btn-primary">Upload Item Image</button></a>
-				<?php  } else { ?>	
+				<?php  } else { ?>
 					<a href="<?= base_url() ?>store_items/delete_image/<?= $update_id ?> ">
-					<button type="button" class="btn btn-danger">Delete Item Image</button></a>				
-				<?php  } ?>	
+					<button type="button" class="btn btn-danger">Delete Item Image</button></a>
+				<?php  } ?>
 
 				<a href="<?= base_url() ?>store_item_colors/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Color</button></a>
 				<a href="<?= base_url() ?>store_item_sizes/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Size</button></a>
 				<a href="<?= base_url() ?>store_cat_assign/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Categories</button></a>
 				<a href="<?= base_url() ?>store_items/deleteconf/<?= $update_id ?>"><button type="button" class="btn btn-danger">Delete Item</button></a>
-				<a href="<?= base_url() ?>store_items/view/<?= $update_id ?>"><button type="button" class="btn btn-default">Preview Page</button></a>
+				<a href="<?= base_url() ?>store_items/view/<?= $update_id ?>/preview"><button type="button" class="btn btn-default">Preview Page</button></a>
 			</div>
 
 		</div><!-- end 12 span -->
@@ -49,9 +49,24 @@
 		<div class="box-content">
 			<form class="form-horizontal" method="post" action="<?= $form_location ?>" >
 			  <input type="hidden" name="big_pic" value="<?= $columns['big_pic'] ?>" />
-			  <input type="hidden" name="small_pic" value="<?= $columns['small_pic'] ?>" />			   
+			  <input type="hidden" name="small_pic" value="<?= $columns['small_pic'] ?>" />
 
 			  <fieldset>
+					<div class="control-group">
+						<label class="control-label" for="selectStatus">Item Setup</label>
+						<div class="controls">
+							<?php
+							$additional_opt = " id = selectSetup";
+							$options = array(
+							        '' => 'Please Select....',
+							        '1' => 'Retail',
+							        '0' => 'Commercial Bulk'
+							);
+							echo form_dropdown('status', $options, $columns['status'], $additional_opt);
+							?>
+						</div>
+				</div>
+
 				<div class="control-group">
 				  <label class="control-label" for="typeahead">Item Title </label>
 				  <div class="controls">
@@ -85,7 +100,7 @@
 						echo form_dropdown('status', $options, $columns['status'], $additional_opt);
 						?>
 					</div>
-				  </div>				
+			  </div>
 
 				<div class="control-group hidden-phone">
 				  <label class="control-label" for="textarea2">Item Description</label>
@@ -100,7 +115,7 @@
 				  <button type="submit" class="btn" name="submit" value="Cancel">Cancel</button>
 				</div>
 			  </fieldset>
-			</form>   
+			</form>
 
 		</div>
 	</div><!--/span-->
@@ -121,7 +136,7 @@ if( isset($columns['big_pic']) && $columns['big_pic'] != "" ) { ?>
 			</div>
 			<div class="box-content">
 				<img src="<?= base_url() ?>public/big_pic/<?= $columns['big_pic'] ?>" >
-			</div> 
+			</div>
 		</div><!-- end 12 span -->
 	</div><!-- end row-fluid sortable -->
 <?php
