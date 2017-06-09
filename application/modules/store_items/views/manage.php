@@ -1,13 +1,15 @@
 <?php
-	if( isset($flash) ) echo $flash;	
+	if( isset($flash) ) echo $flash;
+	$this->session->set_flashdata('item', '');	
 ?>
 
 <h1><?= $headline ?></h1>
 
-<p style="margin-top: 30px,">
-	<a href="<?= $redirect_url ?>" ><button type="button" class="btn btn-primary"><?= $add_button ?></button></a>
-</p>
-
+<?php if( $add_items ){ ?>
+	<p style="margin-top: 30px,">
+		<a href="<?= $redirect_url ?>" ><button type="button" class="btn btn-primary"><?= $add_button ?></button></a>
+	</p>
+<?php } ?>
 
 <div class="row-fluid sortable">		
 	<div class="box span12">

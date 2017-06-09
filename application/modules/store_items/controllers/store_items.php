@@ -24,7 +24,6 @@ var  $columns_not_allowed = array( 'create_date' );
 
 function __construct() {
     parent::__construct();
-    $this->load->module('lib');
 }
 
 
@@ -36,8 +35,20 @@ function __construct() {
 function manage()
 {
     $this->_security_check();    
-
+   
     $data['columns']      = $this->get('item_title'); // get form fields structure
+    $data['add_items']    = true;
+
+    if( $data['columns']->num_rows() == 0 ){
+        $num_rows = $this->_custom_query('SELECT COUNT(*) FROM store_categories')->num_rows();            
+        echo $num_rows; die();
+
+        if( $num_rows->result() == 0 ){
+            $data['add_items'] = false;
+            $this-> _set_flash_danger_msg('New Items can not added until at least one Category have been created.<br>Go to Manage Categories and click on "Add New Category".');
+        }
+    }
+     
     $data['redirect_url'] = base_url().$this->uri->segment(1)."/create";        
     $data['add_button']   = "Add New Item";
     $data['headtag']      = "Items Inventory";     
@@ -337,6 +348,8 @@ function _generate_breadcrumbs_array($update_id)
 
 function _get_sub_cat_id( $col, $update_id, $table, $orderby )
 {
+echo $col.' | '.$update_id.' | '.$table.' | '.$orderby.'<hr>';
+
   $query = $this->cntlr_name->get_view_data_custom($col, $update_id, $table, $orderby);
   $sub_cat_id = $query->result()[0]->cat_id;
   return $sub_cat_id;

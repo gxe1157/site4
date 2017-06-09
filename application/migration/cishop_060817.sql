@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2017 at 11:46 AM
+-- Generation Time: Jun 09, 2017 at 02:28 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `store_categories` (
   `cat_title` varchar(255) NOT NULL,
   `parent_cat_id` int(11) DEFAULT NULL,
   `category_url` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `store_categories`
@@ -96,8 +96,9 @@ CREATE TABLE IF NOT EXISTS `store_categories` (
 
 INSERT INTO `store_categories` (`id`, `cat_title`, `parent_cat_id`, `category_url`) VALUES
 (1, 'Category One', 0, 'Category-One'),
-(2, 'Category Two', 1, 'Category-Two'),
-(3, 'Category Three', 0, 'Category-Three');
+(2, 'Category Two', 0, 'Category-Two'),
+(3, 'Category Three', 0, 'Category-Three'),
+(4, 'Boxes', 1, 'Boxes');
 
 -- --------------------------------------------------------
 
@@ -109,14 +110,15 @@ CREATE TABLE IF NOT EXISTS `store_cat_assign` (
   `id` int(11) NOT NULL,
   `cat_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `store_cat_assign`
 --
 
 INSERT INTO `store_cat_assign` (`id`, `cat_id`, `item_id`) VALUES
-(1, 2, 1);
+(3, 4, 1),
+(4, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -142,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `store_items` (
 
 INSERT INTO `store_items` (`id`, `item_title`, `item_url`, `item_price`, `item_description`, `big_pic`, `small_pic`, `was_price`, `status`) VALUES
 (1, 'Galaxy Phone 1', 'Galaxy-Phone-1', '900.00', '                              Galaxy III &nbsp;Phone<div><br></div>                         ', 'Penguins.jpg', 'Penguins.jpg', '1200.00', 1),
-(2, 'Galaxy Phone 2', 'Pen', '2.00', 'This a mighty pen.', 'Hydrangeas.jpg', 'Hydrangeas.jpg', '2.50', 1),
+(2, 'Galaxy Phone 2', 'Galaxy-Phone-2', '2.00', '      This a mighty pen.     ', 'Hydrangeas.jpg', 'Hydrangeas.jpg', '2.50', 1),
 (3, 'Galaxy Phone 3', 'Galaxy-Phone-III', '900.00', '      Galaxy III &nbsp;Phone<div><br></div>     ', 'Chrysanthemum.jpg', 'Chrysanthemum.jpg', '1200.00', 1),
 (4, 'Galaxy Phone 4', 'Galaxy-Phone-4', '2.00', '      This a mighty pen.     ', 'Lighthouse1.jpg', 'Lighthouse1.jpg', '2.50', 1),
 (5, 'Galaxy Phone 5', 'Galaxy-Phone-III', '900.00', '      Galaxy III &nbsp;Phone<div><br></div>     ', 'Chrysanthemum.jpg', 'Chrysanthemum.jpg', '0.00', 1),
@@ -281,12 +283,12 @@ ALTER TABLE `store_accounts`
 -- AUTO_INCREMENT for table `store_categories`
 --
 ALTER TABLE `store_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `store_cat_assign`
 --
 ALTER TABLE `store_cat_assign`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `store_items`
 --

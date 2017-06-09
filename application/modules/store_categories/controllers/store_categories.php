@@ -266,7 +266,6 @@ function _generate_mysql_query($update_id, $use_limit )
         $offset = $this->get_offset();
         $mysql_query .= " Limit ".$offset.", ".$limit;     
     }
-
     return $mysql_query;
 }
 
