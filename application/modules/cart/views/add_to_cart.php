@@ -1,11 +1,47 @@
-<div style="padding: 10px;">
-  	<form class="form-horizontal" action="#">
+ <style>
+    /* cart/view/add_to_cart.php */
+	input{
+		text-align:right;
+	}	
+
+ 	.cart_box{
+ 		padding: 10px;
+ 		background-color: #ddd;
+ 		margin-top: 24px;
+ 		border: 3px solid #666;
+		border-radius: 9px;"
+ 	}	
+
+	.button_submit{
+		padding: 5px;
+		display: block;
+		text-align: center;
+	}
+
+ </style>
+
+ 
+
+<div class="box-content cart_box" >
+
+	<form class="form-horizontal" action="#">
 	    <div class="form-group">
 	      <label class="control-label col-sm-4" for="item_id">Item Id:</label>
 	      <div class="col-sm-4">
-	        <input type="text" style="text-align:right;" class="form-control" id="item_id" name="item_id" value="<?= $item_id ?>">
+	        <input type="text" class="form-control" id="item_id" name="item_id" value="<?= $item_id ?>"  disabled>
 	      </div>
 	    </div>
+
+		<?php if( $num_unit_types>0 ){ ?>
+	    <div class="form-group">
+	      <label class="control-label col-sm-4" for="item_color">Unit:</label>
+	      <div class="col-sm-7">
+			<?php
+			echo form_dropdown('item_color', $unit_type_options, $submitted_unit_type, array('class' =>'form-control' ));
+			?>			
+	      </div>
+	    </div>
+		<?php } ?>
 
 		<?php if( $num_colors>0 ){ ?>
 	    <div class="form-group">
@@ -32,11 +68,16 @@
 	    <div class="form-group">
 	      <label class="control-label col-sm-4" for="qty">Quanity:</label>
 	      <div class="col-sm-4">
-	        <input type="text" style="text-align:right;" class="form-control" id="qty" name="qty" value="">
+	        <input type="text" class="form-control" id="qty" name="qty" value="">
 	      </div>
 	    </div>
-		<div class="form-group col-md-12" style="text-align: center; margin-top: 3px; margin-left: 6px;">
-			<button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" ></span> Add To Basket </button>
+	    <div class = "button_submit">
+			<button class="btn btn-primary" type="submit">
+				<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true" ></span>
+				Add To Basket
+			</button>
 		</div>
+
 	</form>
+
 </div>

@@ -131,7 +131,8 @@ function create()
 
 function _get_dropdown_options( $update_id )
 {
-    if(!is_numeric($update_id)) $update_id = 0;
+    if(!is_numeric($update_id))
+         $update_id = 0;
 
     $options[] = "Please Select .... ";
     // parent category areay
@@ -169,7 +170,6 @@ function _get_sub_cat($parent_id)
     return $sub_categories;
 }
 
-
 function _get_cat_id_from_cat_url( $category_url ) {
     $query   = $this->get_where_custom('category_url', $category_url);
     $num_row = $query->num_rows();
@@ -183,13 +183,15 @@ function _get_cat_id_from_cat_url( $category_url ) {
 
 function _draw_top_nav()
 {
-    $parent_categories = '';
+    $parent_categories = array();
     $mysql_query = "SELECT * FROM store_categories where parent_cat_id = 0 ORDER BY cat_title";
     $query = $this->db->query($mysql_query);
+
     foreach ($query->result() as $row) {
        $parent_categories[$row->cat_title] = $this->_get_sub_cat($row->id);
     }
-    if( $parent_categories == false ) return;
+
+    if( empty($parent_categories) ) return;
 
     $this->load->module('site_settings');
     $items_segments = $this->site_settings->_get_items_segments();

@@ -51,7 +51,7 @@ function update( $item_id )
 
     if(!isset($assigned_categories)){
        if( empty($sub_categories) ) {
-            $this->_set_flash_danger_msg("Categories have not been created.<br>Go to Manage Categories and add a new catergory.");
+            $this->_set_flash_danger_msg("A <b>Sub Category</b> has not been assined.<br>Go to Manage Categories and click on \"Add Sub Category\" button.");
         }
        $assigned_categories ="";
      } else {

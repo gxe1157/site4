@@ -7,7 +7,9 @@
 
 <?php if( $add_items ){ ?>
 	<p style="margin-top: 30px,">
-		<a href="<?= $redirect_url ?>" ><button type="button" class="btn btn-primary"><?= $add_button ?></button></a>
+		<a href="<?= $redirect_url ?>" >
+			<button type="button" class="btn btn-primary"><?= $add_button ?></button>
+		</a>
 	</p>
 <?php } ?>
 

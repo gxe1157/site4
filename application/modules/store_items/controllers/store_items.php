@@ -16,7 +16,8 @@ var $column_rules = array(
         array('field' => 'big_pic', 'label' => 'Image', 'rules' => ''),
         array('field' => 'small_pic', 'label' => 'Thumbnail Img', 'rules' => ''),
         array('field' => 'was_price', 'label' => 'Was Price', 'rules' => ''),
-        array('field' => 'status', 'label' => 'Status', 'rules' => '')
+        array('field' => 'status', 'label' => 'Status', 'rules' => 'required'),
+        array('field' => 'item_setup', 'label' => 'Item Setup', 'rules' => 'required')        
 );
 
 //// use like this.. in_array($key, $columns_not_allowed ) === false )
@@ -31,6 +32,14 @@ function __construct() {
     Controller functions goes here. Put all DRY
     functions in applications/core/My_Controller.php
    =================================================== */
+function ajaxPost(){
+    $data['item_setup']   = $this->input->post('item_setup', TRUE);
+    $update_id   = $this->input->post('update_id', TRUE);    
+    $this->_update( $update_id, $data);
+
+    echo "Id: ".$update_id." Selected: ".$data['item_setup'];
+    return;
+}
 
 function manage()
 {
@@ -42,7 +51,7 @@ function manage()
         $num_rows = $this->_custom_query('SELECT * FROM store_categories');
         if( $num_rows->num_rows() == 0 ){
             $data['add_items'] = false;
-            $this-> _set_flash_danger_msg('New Items can not added until at least one Category have been created.<br>Go to Manage Categories and click on "Add New Category".');
+            $this-> _set_flash_danger_msg('New Items can not be added until at least one Category have been created.<br>Go to Manage Categories and click on "Add New Category".');
         }
     }
 

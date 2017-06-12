@@ -1,9 +1,11 @@
+
 <h1><?= $headline ?></h1>
 <?= validation_errors("<p style='color: red;'>", "</p>") ?>
 
 <?php
 	if( isset($flash) ) echo $flash;
 	$form_location = base_url()."store_items/create/".$update_id;
+	// $this->lib->checkArray($columns,1);
 ?>
 
 <?php if( is_numeric($update_id) ) { ?>
@@ -24,6 +26,10 @@
 					<a href="<?= base_url() ?>store_items/delete_image/<?= $update_id ?> ">
 					<button type="button" class="btn btn-danger">Delete Item Image</button></a>
 				<?php  } ?>
+
+
+				<a href="<?= base_url() ?>store_items_commercial/update/<?= $update_id ?> ">
+				<button type="button" class="btn btn-primary" id="button_BP">Bulk Pricing</button></a>
 
 				<a href="<?= base_url() ?>store_item_colors/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Color</button></a>
 				<a href="<?= base_url() ?>store_item_sizes/update/<?= $update_id ?>"><button type="button" class="btn btn-primary">Update Item Size</button></a>
@@ -53,16 +59,18 @@
 
 			  <fieldset>
 					<div class="control-group">
-						<label class="control-label" for="selectStatus">Item Setup</label>
+						<label class="control-label" for="selectSetup">Item Pricing</label>
 						<div class="controls">
 							<?php
-							$additional_opt = " id = selectSetup";
+							$additional_opt = ' id ="selectSetup"
+								 onChange ="javascript: selSetup();"';
+
 							$options = array(
-							        '' => 'Please Select....',
+							        '0' => 'Please Select....',
 							        '1' => 'Retail',
-							        '0' => 'Commercial Bulk'
+							        '2' => 'Bulk Pricing'
 							);
-							echo form_dropdown('status', $options, $columns['status'], $additional_opt);
+							echo form_dropdown('item_setup', $options, $columns['item_setup'], $additional_opt	);
 							?>
 						</div>
 				</div>
@@ -73,6 +81,7 @@
 					<input type="text" class="span6" name = "item_title" value="<?= $columns['item_title'] ?>">
 				  </div>
 				</div>
+
 
 				<div class="control-group">
 				  <label class="control-label" for="typeahead">Item Price </label>
@@ -87,6 +96,7 @@
 					<input type="text" class="span2" name = "was_price" value="<?= $columns['was_price']  ?>">
 				  </div>
 				</div>
+
 				<div class="control-group">
 					<label class="control-label" for="selectStatus">Status</label>
 					<div class="controls">
@@ -142,3 +152,52 @@ if( isset($columns['big_pic']) && $columns['big_pic'] != "" ) { ?>
 <?php
 }
 ?>
+
+<script langauge="javascript">
+	var update_id = "<?= $update_id ?>";
+
+	var _ = function( id ){
+		return document.getElementById(id);
+	}
+
+	function selSetup( arg ){
+		var x = _('selectSetup').value;
+		if( x == 0 ) {
+			alert('Error on selection... Please re-enter....')
+			return;
+		}
+
+		_('button_BP').style.backgroundColor = x == 2 ? "#578EBE" : "#ccc";       	
+		_('button_BP').disabled = x == 2 ? false : true;
+
+		if( arg == undefined ){
+			sendData = "item_setup="+_('selectSetup').value;
+			sendData += "&update_id="+update_id;		
+	    	ajaxPost(sendData);
+    	}		
+	}
+
+	var ajaxPost = function(sendData){
+	   // alert( 'sendData: '+sendData );
+
+       var hr = new XMLHttpRequest();
+       hr.open("POST", "http://localhost/site4/store_items/ajaxPost", true);
+       hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+       hr.onreadystatechange = function() {
+        if(hr.readyState == 4 && hr.status == 200) {
+		  //alert( hr.readyState+" <=> "+hr.status );
+		  var data = hr.responseText;
+		  alert( 'Item Pricing has been updated...... ' );		  
+        } // End hr.readyState == 4 && hr.status == 200
+       } // End hr.onreadystatechange
+      hr.send(sendData);
+    }
+
+    if( update_id ){
+    	// update must conatin an item number
+    	selSetup( 'init' );
+	}
+
+</script>
+
