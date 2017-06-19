@@ -175,7 +175,7 @@ function __construct() {
 
   function item_check($str) {
       $item_url = url_title($str);
-      $mysql_query = "select * from webpages where page_title='$str' and page_url='$page_url'";
+      $mysql_query = "select * from webpages where page_title='$str' and page_url='$item_url'";
 
       $update_id = $this->uri->segment(3);
       if(is_numeric($update_id)) {
