@@ -26,7 +26,7 @@ function _get_assigned_id($id){
     $data = $this->db->get_where('store_cat_assign', array('id' => $id) )->result()[0];
     $item_id = $data->item_id;
     return $item_id ;
-}   
+}
 
 
 function _get_assigned_categories($col, $value, $orderby)
@@ -39,7 +39,7 @@ function _get_assigned_categories($col, $value, $orderby)
 }
 
 
-// table store_items  
+// table store_items
 function _get_item_title_byid($id)
 {
     $data = $this->db->get_where('store_items', array('id' => $id) )->result()[0];
@@ -52,9 +52,9 @@ function _get_item_title_byid($id)
 // table store store_cat_categories
 function _get_all_sub_cats_for_dropdown()
 {
-    $sub_categories = array();    
+    $sub_categories = array();
     $mysql_query = "SELECT * FROM store_categories
-                    where parent_cat_id != 0 
+                    where parent_cat_id != 0
                     ORDER BY parent_cat_id, cat_title";
     $query = $this->db->query($mysql_query);
 
@@ -68,7 +68,7 @@ function _get_all_sub_cats_for_dropdown()
 function _get_parent_cat_title( $id )
 {
 
-// $this->lib->checkField($id,0);   
+// $this->lib->checkField($id,0);
     $data = $this->_exec_get_title_query( $id );
     $cat_title = $data->cat_title;
     $parent_cat_id = $data->parent_cat_id;
@@ -77,7 +77,7 @@ function _get_parent_cat_title( $id )
 }
 
 function _get_cat_title( $id )
-{ 
+{
     $data = $this->_exec_get_title_query( $id );
     $cat_title = $data->cat_title;
     return $cat_title;

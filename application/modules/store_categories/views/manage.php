@@ -6,7 +6,7 @@
 <p style="margin-top: 30px,">
 
 	<?php
-    	$this->load->module('store_categories');
+    $this->load->module($site_controller);
 
 		echo '<a href="'.$add_button_url.'" >
 		<button type="button" class="btn btn-primary">'.$add_button.'</button></a> ';
@@ -19,8 +19,8 @@
 			if( count($columns->result()) > 0 ){
 				// Lookup Parent Id for subcategory listing
 				$parent_id = $columns->result()[0]->parent_cat_id;
-				$parent_cat_title = $this->store_categories->_get_cat_title( $parent_id );
-			}	
+				$parent_cat_title = $this->$site_controller->_get_cat_title( $parent_id );
+			}
 		}
     ?>
 </p>
@@ -47,7 +47,7 @@
 
 			    <?php
 			    	foreach( $columns->result() as $row ){
-					  	$num_sub_cats = isset($sub_cats[$row->id]) ? $sub_cats[$row->id] : 0;	
+					  	$num_sub_cats = isset($sub_cats[$row->id]) ? $sub_cats[$row->id] : 0;
 					  	//$this->lib->checkField($num_sub_cats, 0);
 			    	 	$edit_item_url = $redirect_base."/create/".$row->id;
 			    	 	$view_item_url = $redirect_base."/create/".$row->id;
@@ -55,7 +55,7 @@
 			    	 	if($row->parent_cat_id==0) {
 			    	 	 	$parent_cat_title='--';
 			    	 	} else {
-							if( $parent_cat_title =='' ) $parent_cat_title = $row->cat_title;			    	 
+							if( $parent_cat_title =='' ) $parent_cat_title = $row->cat_title;
 				    	}
 
 				        $entity = $num_sub_cats == 1 ? "Category" : "Catagories";

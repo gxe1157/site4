@@ -6,7 +6,12 @@ class Store_categories extends MY_Controller
 
 /* model name goes here */
 var $mdl_name = 'mdl_store_categories';
-var $store_controller = 'store_categories';
+var $site_controller = 'store_categories';
+/* set store items mysql table name here */
+var $items_mysql_table = 'store_items';
+/* set assign category mysql table name here  */
+var $cat_assign_mysql_table = 'store_cat_assign';
+
 
 var $column_rules = array(
         array('field' => 'cat_title', 'label' => 'Category Title', 'rules' => 'required'),
@@ -15,16 +20,8 @@ var $column_rules = array(
 
 var $columns_not_allowed = array();
 
-const MY_VERSION = 'Evelio';  
-
 function __construct() {
     parent::__construct();
-
-echo 'CodeIgniter Version <strong>'.constants::MY_VERSION.'</strong>';
-die('.......................');
-
-
-
 }
 
 
@@ -46,6 +43,7 @@ function manage()
     $redirect_base =  base_url().$this->uri->segment(1);
     $mode = $this->uri->segment(4);
     $data['mode'] = $mode;
+    $data['site_controller'] = $this->site_controller;
 
     //get form fields structure
     $data['columns']      = $this->get_where_custom('parent_cat_id', $parent_cat_id);
@@ -73,10 +71,10 @@ function create()
     $update_id = $this->uri->segment(3);
     $submit = $this->input->post('submit', TRUE);
     $posted_mode   = $this->input->post('mode', true);
-    $redirect_posted_mode = $this->store_controller.'/manage/'.$this->input->post('parent_cat_id', TRUE).'/sub-category';
+    $redirect_posted_mode = $this->site_controller.'/manage/'.$this->input->post('parent_cat_id', TRUE).'/sub-category';
 
     if( $submit == "Cancel" )
-        redirect($this->store_controller.'/manage');
+        redirect($this->site_controller.'/manage');
 
     if( $submit == "Finish" || $submit == "Return")
         redirect( $redirect_posted_mode );
@@ -108,7 +106,7 @@ function create()
             if( $posted_mode == 'add_sub-category'){
                 redirect( $redirect_posted_mode );
             } else {
-                redirect($this->store_controller.'/manage');
+                redirect($this->site_controller.'/manage');
             }
         }
 
@@ -120,7 +118,7 @@ function create()
         $data['columns'] = $this->fetch_data_from_post();
     }
 
-
+    $data['site_controller'] = $this->site_controller;
     $data['redirect_base']= base_url().$this->uri->segment(1);
     $data['options'] = $this->_get_dropdown_options($update_id);
     $data['num_dropdown_options'] = count( $data['options'] );
@@ -143,7 +141,7 @@ function _get_dropdown_options( $update_id )
 
     $options[] = "Please Select .... ";
     // parent category areay
-    $mysql_query =  "SELECT * From ".$this->store_controller." where parent_cat_id=0 and id!=$update_id";
+    $mysql_query =  "SELECT * From ".$this->site_controller." where parent_cat_id=0 and id!=$update_id";
     $query = $this->_custom_query($mysql_query);
     foreach($query->result() as $row){
        $options[ $row->id ] = $row->cat_title;
@@ -152,17 +150,10 @@ function _get_dropdown_options( $update_id )
 
 }
 
-function _get_cat_title( $update_id )
-{
-    $data = $this->fetch_data_from_db( $update_id );
-    $cat_title = $data['cat_title'];
-    return $cat_title;
-}
-
 function _count_sub_cats()
 {
     $sub_cats = '';
-    $mysql_query  =  "SELECT *, count(*) as parent_id FROM ".$this->store_controller." group by parent_cat_id";
+    $mysql_query  =  "SELECT *, count(*) as parent_id FROM ".$this->site_controller." group by parent_cat_id";
     $myResults = $this->_custom_query($mysql_query );
     foreach( $myResults->result() as $key => $line ){
         $sub_cats[ $line->parent_cat_id ] = $line->parent_id;
@@ -172,7 +163,7 @@ function _count_sub_cats()
 
 function _get_sub_cat($parent_id)
 {
-    $sql  = "SELECT * FROM ".$this->store_controller." where parent_cat_id = $parent_id ORDER BY cat_title";
+    $sql  = "SELECT * FROM ".$this->site_controller." where parent_cat_id = $parent_id ORDER BY cat_title";
     $sub_categories = $this->db->query($sql)->result();
     return $sub_categories;
 }
@@ -191,7 +182,7 @@ function _get_cat_id_from_cat_url( $category_url ) {
 function _draw_top_nav()
 {
     $parent_categories = array();
-    $mysql_query = "SELECT * FROM ".$this->store_controller." where parent_cat_id = 0 ORDER BY cat_title";
+    $mysql_query = "SELECT * FROM ".$this->site_controller." where parent_cat_id = 0 ORDER BY cat_title";
     $query = $this->db->query($mysql_query);
 
     foreach ($query->result() as $row) {
@@ -239,7 +230,7 @@ function view( $update_id )
     $data['currency_symbol'] = $this->site_settings->_get_currency_symbol( 'dollar' );
     $data['query']  = $this->_custom_query($mysql_query);
     $data['headline'] = "";
-    $data['view_module'] = $this->store_controller;
+    $data['view_module'] = $this->site_controller;
     $data['view_file'] = "view";
     $data['update_id'] = $update_id;
 
@@ -261,16 +252,25 @@ function _generate_mysql_query($update_id, $use_limit )
 {
     // note: $use_limit can be true or false
 
+    // $mysql_query = "
+    // SELECT
+    // store_items.item_title,
+    // store_items.item_url,
+    // store_items.item_price,
+    // store_items.small_pic,
+    // store_items.was_price
+    // FROM store_cat_assign INNER JOIN store_items ON store_cat_assign.item_id = store_items.id
+    // WHERE store_cat_assign.cat_id = $update_id AND store_items.status = 1
+    // ";
+
     $mysql_query = "
-    SELECT
-    store_items.item_title,
-    store_items.item_url,
-    store_items.item_price,
-    store_items.small_pic,
-    store_items.was_price
-    FROM store_cat_assign INNER JOIN store_items ON store_cat_assign.item_id = store_items.id
-    WHERE store_cat_assign.cat_id = $update_id AND store_items.status = 1
-    ";
+    SELECT ".$this->items_mysql_table.".item_title,
+    ".$this->items_mysql_table.".item_url,
+    ".$this->items_mysql_table.".item_price,
+    ".$this->items_mysql_table.".small_pic,
+    ".$this->items_mysql_table.".was_price
+    FROM ".$this->cat_assign_mysql_table." INNER JOIN ".$this->items_mysql_table." ON ".$this->cat_assign_mysql_table.".item_id=".$this->items_mysql_table.".id
+    WHERE ".$this->cat_assign_mysql_table.".cat_id='".$update_id."' AND ".$this->items_mysql_table.".status=1";
 
     if( $use_limit) {
         $limit  = $this->get_limit();

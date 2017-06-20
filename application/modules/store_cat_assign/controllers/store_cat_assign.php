@@ -14,7 +14,7 @@ var $column_rules = array(
 
 /* fill in these variable names */
 var $headline = "Category Assign";
-var $options_hdr = 'Assign New Categories '; // should read "New 
+var $options_hdr = 'Assign New Categories '; // should read "New
 var $options_dtls = 'Assigned categories for this item';
 var $store_redirect = 'store_cat_assign';
 var $store_db_table = 'store_cat_assign';
@@ -55,9 +55,9 @@ function update( $item_id )
         }
        $assigned_categories ="";
      } else {
-        // Item has been assigned to at least one catergory 
+        // Item has been assigned to at least one catergory
         $sub_categories = array_diff( $sub_categories, $assigned_categories );
-     }   
+     }
 
     $data['assigned_categories'] = $assigned_categories;
     $data['options']         = $sub_categories;
@@ -67,8 +67,8 @@ function update( $item_id )
     $data['options_hdr']     = $this->options_hdr;
     $data['options_dtls']    = $this->options_dtls;
 
-    $data['item_title']= $item_title; 
-    $data['small_img']= $small_img;   
+    $data['item_title']= $item_title;
+    $data['small_img']= $small_img;
     $data['item_id']   = $item_id;
     $data['headline']  = $this->headline;
     // $data['flash']     = $this->session->flashdata('item');
@@ -80,15 +80,15 @@ function update( $item_id )
 
 function delete( $update_id )
 {
-    $this->_numeric_check($update_id);    
-    $this->_security_check();    
+    $this->_numeric_check($update_id);
+    $this->_security_check();
 
     $item_id = $this->cntlr_name->_get_assigned_id($update_id);
     $this->_delete($update_id);
     $this->_set_flash_msg("The item was successfully removed.");
 
     // redirect($this->store_redirect.'/update/'.$item_id);
-    $this->update( $item_id );       
+    $this->update( $item_id );
 }
 
 function submit( $item_id )
@@ -114,7 +114,7 @@ function submit( $item_id )
         }
     }
     // redirect( $this->store_redirect.'/update/'.$item_id);
-    $this->update( $item_id );    
+    $this->update( $item_id );
 }
 
 /* ===================================================

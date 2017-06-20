@@ -93,6 +93,12 @@ function fetch_data_from_db($update_id)
     return $data;
 }
 
+function _get_cat_title( $update_id )
+{
+    $data = $this->fetch_data_from_db( $update_id );
+    $cat_title = $data['cat_title'];
+    return $cat_title;
+}
 
 
 

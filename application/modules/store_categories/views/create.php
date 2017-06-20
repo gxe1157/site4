@@ -3,12 +3,15 @@
 
 <?php
 	if( isset($flash) ) echo $flash;
+
 	$data['form_location'] = $redirect_base."/create/".$update_id;
+	$data['site_controller'] = $site_controller;
+
 	if( $mode == ''){
-		$data['parent_cat_id'] = 0;	
+		$data['parent_cat_id'] = 0;
 	} else {
-	    $data['parent_cat_id'] = !is_numeric($parent_cat_id) ? 0 : $parent_cat_id;	
-	    $data['mode'] = $mode;	
+	    $data['parent_cat_id'] = !is_numeric($parent_cat_id) ? 0 : $parent_cat_id;
+	    $data['mode'] = $mode;
 	}
 ?>
 
