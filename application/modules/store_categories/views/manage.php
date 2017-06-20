@@ -48,7 +48,7 @@
 			    <?php
 			    	foreach( $columns->result() as $row ){
 					  	$num_sub_cats = isset($sub_cats[$row->id]) ? $sub_cats[$row->id] : 0;	
-					  	// $this->lib->checkField($redirect_base, 0)				;
+					  	//$this->lib->checkField($num_sub_cats, 0);
 			    	 	$edit_item_url = $redirect_base."/create/".$row->id;
 			    	 	$view_item_url = $redirect_base."/create/".$row->id;
 

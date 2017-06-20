@@ -15,8 +15,15 @@ var $column_rules = array(
 
 var $columns_not_allowed = array();
 
+const MY_VERSION = 'Evelio';  
+
 function __construct() {
     parent::__construct();
+
+echo 'CodeIgniter Version <strong>'.constants::MY_VERSION.'</strong>';
+die('.......................');
+
+
 
 }
 
@@ -136,7 +143,7 @@ function _get_dropdown_options( $update_id )
 
     $options[] = "Please Select .... ";
     // parent category areay
-    $mysql_query =  "SELECT * From store_categories where parent_cat_id=0 and id!=$update_id";
+    $mysql_query =  "SELECT * From ".$this->store_controller." where parent_cat_id=0 and id!=$update_id";
     $query = $this->_custom_query($mysql_query);
     foreach($query->result() as $row){
        $options[ $row->id ] = $row->cat_title;
@@ -155,7 +162,7 @@ function _get_cat_title( $update_id )
 function _count_sub_cats()
 {
     $sub_cats = '';
-    $mysql_query  =  "SELECT *, count(*) as parent_id FROM `store_categories` group by parent_cat_id";
+    $mysql_query  =  "SELECT *, count(*) as parent_id FROM ".$this->store_controller." group by parent_cat_id";
     $myResults = $this->_custom_query($mysql_query );
     foreach( $myResults->result() as $key => $line ){
         $sub_cats[ $line->parent_cat_id ] = $line->parent_id;
@@ -165,7 +172,7 @@ function _count_sub_cats()
 
 function _get_sub_cat($parent_id)
 {
-    $sql  = "SELECT * FROM store_categories where parent_cat_id = $parent_id ORDER BY cat_title";
+    $sql  = "SELECT * FROM ".$this->store_controller." where parent_cat_id = $parent_id ORDER BY cat_title";
     $sub_categories = $this->db->query($sql)->result();
     return $sub_categories;
 }
@@ -184,7 +191,7 @@ function _get_cat_id_from_cat_url( $category_url ) {
 function _draw_top_nav()
 {
     $parent_categories = array();
-    $mysql_query = "SELECT * FROM store_categories where parent_cat_id = 0 ORDER BY cat_title";
+    $mysql_query = "SELECT * FROM ".$this->store_controller." where parent_cat_id = 0 ORDER BY cat_title";
     $query = $this->db->query($mysql_query);
 
     foreach ($query->result() as $row) {
@@ -232,7 +239,7 @@ function view( $update_id )
     $data['currency_symbol'] = $this->site_settings->_get_currency_symbol( 'dollar' );
     $data['query']  = $this->_custom_query($mysql_query);
     $data['headline'] = "";
-    $data['view_module'] = "store_categories";
+    $data['view_module'] = $this->store_controller;
     $data['view_file'] = "view";
     $data['update_id'] = $update_id;
 
